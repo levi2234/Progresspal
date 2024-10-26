@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Flask App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
     <h1>Progress Tracker</h1>
@@ -13,6 +14,6 @@
     <form action="/shutdown" method="post">
         <button type="submit">Shutdown Server</button>
     </form>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
 </body>
 </html>
