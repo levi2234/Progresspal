@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
+/* ColorPalette:
+    #1C58A6
+    #32A9D9
+    #52E2F2
+    #C2F2AC
+    #0D0D0D
+
+*/
+
 :root {
   --app-container: #f3f6fd;
   --main-color: #1f1c2e;
@@ -150,6 +159,14 @@ button, a {
   box-shadow: none;
 }
 
+.tile-completed {
+    outline: 3px solid #32A9D9;
+}
+
+.tile-in-progress {
+    outline: 3px solid #C2F2AC;
+}
+
 .search-input {
   border: none;
   flex: 1;
@@ -187,6 +204,10 @@ button, a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dark .shutdown-btn {
+  color: var(--secondary-color);
 }
 
 .profile-btn {
@@ -249,7 +270,7 @@ button, a {
   flex: 2;
   background-color: var(--projects-section);
   border-radius: 32px;
-  padding: 32px 32px 0 32px;
+  padding: 20px 32px 0 32px;
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -259,13 +280,13 @@ button, a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 32px;
+  padding-bottom: 1px;
 }
 .projects-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   color: var(--main-color);
 }
 .projects-section-header p {
@@ -295,12 +316,20 @@ button, a {
   right: 8px;
   top: 50%;
   transform: translatey(-50%);
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 1px solid var(--secondary-color);
+  /*border: 1px solid var(--secondary-color);*/
+  /* background-color: green; */
 }
 
+.status-type-progress:after{
+    background-color: #C2F2AC;
+
+}
+.status-type-completed:after{
+    background-color: #32A9D9;
+}
 .status-number {
   font-size: 24px;
   line-height: 32px;
@@ -591,6 +620,7 @@ button, a {
   display: block;
   height: 4px;
   border-radius: 6px;
+  transition: width 0.2s ease;
 }
 .box-progress-bar {
   width: 100%;

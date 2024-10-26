@@ -15,7 +15,6 @@ function shutdown() {
 
 //this function updates the stats in the tiles based on their I
 function updateTiles() {
-
     // get the json progress data from the server
     fetch('/progress')
         .then(response => response.json())
@@ -36,9 +35,17 @@ function updateTiles() {
                 tile.querySelector('.box-progress').style.width = `${item.progress}%`;
                 tile.querySelector('.box-progress-percentage').innerHTML = `${item.progress}%`;
                 tile.querySelector('.days-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
+
+                // Add or remove outline based on progress
+                if (item.progress === 100) {
+                    tile.classList.add('tile-completed');
+                    tile.classList.remove('tile-in-progress');
+                } else {
+                    tile.classList.add('tile-in-progress');
+                    tile.classList.remove('tile-completed');
+                }
             });
         });
-
 }
     
 function trackerstats() {
@@ -112,6 +119,9 @@ function loadTiles() {
             });
         });
 }
+
+
+
 
 //this function updates the total tasks, active tasks and completed tasks
 function trackerstats() {

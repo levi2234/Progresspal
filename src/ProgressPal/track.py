@@ -30,9 +30,9 @@ def update_progress(task_id, category, iteration, total, percentage,elapsed_time
     
     response = requests.post(url, json=data)
     if response.status_code == 200:
-        print(f"Updated progress: {percentage}%")
-    else:
-        print("Failed to update progress")
+        return None
+    # else:
+    #     print("Failed to update progress")
     
 
 
