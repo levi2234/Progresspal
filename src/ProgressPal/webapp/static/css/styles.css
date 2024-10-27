@@ -30,11 +30,18 @@
   --button-bg: #1f1c24;
   --search-area-bg: #fff;
   --star: #1ff1c2e;
-  --message-btn: #fff;
+  --tile-color: #fff;
+  --tile-in-progress-color: #C2F2AC;
+  --tile-completed-color: #32A9D9;
+  --tile-badge-background-color: rgba(165, 165, 165, 0.6);
+  --tile-badge-text-color: #0D0D0D;
+  
+  
+  
 }
 
 .dark:root {
-  --app-container: #1f1d2b;
+ 
   --app-container: #111827;
   --main-color: #fff;
   --secondary-color: rgba(255,255,255,.8);
@@ -52,6 +59,9 @@
   --more-list-bg-hover: rgba(195, 207, 244, 0.1);
   --more-list-shadow: rgba(195, 207, 244, 0.1);
   --message-btn: rgba(195, 207, 244, 0.1);
+  --tile-color: #111827;
+  --tile-badge-background-color: var(--projects-section);
+  --tile-badge-text-color: var(--main-color);
 }
 
 html, body {
@@ -160,11 +170,11 @@ button, a {
 }
 
 .tile-completed {
-    outline: 3px solid #32A9D9;
+    outline: 3px solid var(--tile-completed-color);
 }
 
 .tile-in-progress {
-    outline: 3px solid #C2F2AC;
+    outline: 3px solid var(--tile-in-progress-color);
 }
 
 .search-input {
@@ -561,10 +571,10 @@ button, a {
 }
 
 .project-box {
-  --main-color-card: #dbf6fd;
+  --main-color-card: var(--tile-color);
   border-radius: 30px;
   padding: 13px;
-  background-color: var(--main-color-card);
+  background-color: var(--tile-color);
   box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   overflow: visible;
   z-index: 1;
@@ -593,7 +603,6 @@ button, a {
   color: var(--main-color);
 }
 .project-box-header span {
-  color: #4A4A4A;
   opacity: 0.7;
   font-size: 14px;
   line-height: 16px;
@@ -697,6 +706,10 @@ button, a {
   height: 1px;
 }
 
+.tile-text-color {
+  color: var(--main-color);
+}
+
 .participants {
   display: flex;
   align-items: center;
@@ -725,25 +738,18 @@ button, a {
   padding: 0;
 }
 
-.time-left {
-  background-color: rgba(255, 255, 255, 0.6);
+.tile-badge {
+  background-color: var(--tile-badge-background-color);
   font-size: 12px;
   border-radius: 20px;
   flex-shrink: 0;
   padding: 6px 16px;
+  margin-bottom: 10px;
   font-weight: 700;
+  color: var(--tile-badge-text-color)
 }
 
 
-.iterations-per-second{
-  background-color: rgba(255, 255, 255, 0.6);
-  font-size: 12px;
-  border-radius: 20px;
-  flex-shrink: 0;
-  padding: 6px 16px;
-  padding-top: 4px;
-  font-weight: 700;
-}
 
 
 .mode-switch.active .moon {

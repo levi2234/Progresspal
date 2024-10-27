@@ -105,35 +105,27 @@ function loadTiles() {
 
                 tile.classList.add('project-box-wrapper');
                 tile.innerHTML = `
-                    <div class="project-box" ID="${key}" style="background-color: #e9e7fd;">
+                    <div class="project-box" ID="${key}">
                         <div class="project-box-header">
-                            <span>${item.start_time}</span>
-                            <div class="more-wrapper">
-                                <button class="project-btn-more">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
-                                        <circle cx="12" cy="12" r="1" />
-                                        <circle cx="12" cy="5" r="1" />
-                                        <circle cx="12" cy="19" r="1" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <span class = "tile-text">${item.start_time}</span>
+                           
                         </div>
                         <div class="project-box-content-header">
-                            <p class="box-content-header">${key}</p>
-                            <p class="box-content-subheader">Category: ${item.category}</p>
+                            <p class="box-content-header tile-text-color">${key}</p>
+                            <p class="box-content-subheader tile-text-color ">Category: ${item.category}</p>
                         </div>
                         <div class="box-progress-wrapper">
-                            <p class="box-progress-header">Progress</p>
+                            <p class="box-progress-header tile-text-color">Progress</p>
                             <div class="box-progress-bar">
-                                <span class="box-progress" style="width: ${item.progress}%; background-color: #4f3ff0"></span>
+                                <span class="box-progress tile-text" style="width: ${item.progress}%; background-color: #4f3ff0"></span>
                             </div>
-                            <p class="box-progress-percentage">${item.progress}%</p>
+                            <p class="box-progress-percentage tile-text-color ">${item.progress}%</p>
                         </div>
                         <div class="project-box-footer">
-                            <div class="time-left" style="color: #4f3ff0;">
+                            <div class="time-left tile-badge" ">
                                 ${days}d ${hours}h ${minutes}m ${seconds}s Left
                             </div>
-                            <div class="iterations-per-second" style="color: #4f3ff0;">
+                            <div class="iterations-per-second tile-badge" ">
                                 It/s: ${item.iterations_per_second}
                             </div>
                         </div>
