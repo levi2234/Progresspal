@@ -13,6 +13,8 @@ function shutdown() {
 
 
 
+
+
 //this function updates the stats in the tiles based on their I
 function updateTiles() {
     // get the json progress data from the server
@@ -30,11 +32,27 @@ function updateTiles() {
                 const minutes = Math.floor(((item.time_remaining % 86400) % 3600) / 60);
                 const seconds = Math.floor(((item.time_remaining % 86400) % 3600) % 60);
 
+
+
+                //UPDATING HTML ELEMENTS
+
                 // update the html elements with the new values
                 const tile = document.getElementById(key);
                 tile.querySelector('.box-progress').style.width = `${item.progress}%`;
                 tile.querySelector('.box-progress-percentage').innerHTML = `${item.progress}%`;
-                tile.querySelector('.days-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
+                tile.querySelector('.time-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
+
+                //convert seconds per iteration to iterations per second if neccessary
+                if (item.iterations_per_second < 1) {
+                    item.iterations_per_second = 1 / item.iterations_per_second;
+                    tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} s/It`;
+
+                } else {
+                    tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} It/s`;
+                }
+       
+
+
 
                 // Add or remove outline based on progress
                 if (item.progress === 100) {
@@ -82,6 +100,9 @@ function loadTiles() {
                 const minutes = Math.floor(((item.time_remaining % 86400) % 3600) / 60);
                 const seconds = Math.floor(((item.time_remaining % 86400) % 3600) % 60);
                 const tile = document.createElement('div');
+
+
+
                 tile.classList.add('project-box-wrapper');
                 tile.innerHTML = `
                     <div class="project-box" ID="${key}" style="background-color: #e9e7fd;">
@@ -109,8 +130,11 @@ function loadTiles() {
                             <p class="box-progress-percentage">${item.progress}%</p>
                         </div>
                         <div class="project-box-footer">
-                            <div class="days-left" style="color: #4f3ff0;">
+                            <div class="time-left" style="color: #4f3ff0;">
                                 ${days}d ${hours}h ${minutes}m ${seconds}s Left
+                            </div>
+                            <div class="iterations-per-second" style="color: #4f3ff0;">
+                                It/s: ${item.iterations_per_second}
                             </div>
                         </div>
                     </div>

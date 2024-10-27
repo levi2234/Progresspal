@@ -206,8 +206,8 @@ button, a {
   align-items: center;
 }
 
-.dark .shutdown-btn {
-  color: var(--secondary-color);
+.dark .shutdown-btn svg{
+  stroke: white;
 }
 
 .profile-btn {
@@ -260,11 +260,28 @@ button, a {
 .app-sidebar-link:hover {
   background-color: var(--link-color-hover);
   color: var(--link-color-active);
+  
 }
 .app-sidebar-link.active {
   background-color: var(--link-color-active-bg);
   color: var(--link-color-active);
 }
+
+.app-sidebar-link.active svg{
+  fill: white; 
+}
+
+.app-sidebar-link svg {
+  fill: black; 
+}
+
+/* add dark mode support */
+.dark .app-sidebar-link svg {
+  fill: var(--secondary-color);
+}
+
+
+
 
 .projects-section {
   flex: 2;
@@ -546,9 +563,28 @@ button, a {
 .project-box {
   --main-color-card: #dbf6fd;
   border-radius: 30px;
-  padding: 16px;
+  padding: 13px;
   background-color: var(--main-color-card);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  overflow: visible;
+  z-index: 1;
 }
+
+/* Ensure all parent containers allow overflow to be visible needed for box shadow FROM HERE*/
+.project-boxes {
+  overflow: visible;
+}
+
+.projects-section {
+  overflow: visible;
+}
+
+.app-content {
+  overflow: visible;
+}
+/* To here */
+
+
 .project-box-header {
   display: flex;
   align-items: center;
@@ -572,7 +608,8 @@ button, a {
 .project-box-wrapper {
   padding: 8px;
   transition: 0.2s;
-}
+  overflow: visible;
+  }
 
 .project-btn-more {
   padding: 0;
@@ -688,7 +725,7 @@ button, a {
   padding: 0;
 }
 
-.days-left {
+.time-left {
   background-color: rgba(255, 255, 255, 0.6);
   font-size: 12px;
   border-radius: 20px;
@@ -696,6 +733,18 @@ button, a {
   padding: 6px 16px;
   font-weight: 700;
 }
+
+
+.iterations-per-second{
+  background-color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  padding-top: 4px;
+  font-weight: 700;
+}
+
 
 .mode-switch.active .moon {
   fill: var(--main-color);
@@ -836,11 +885,18 @@ button, a {
   .box-progress-percentage {
     font-size: 10px;
   }
-  .days-left {
+  .time-left {
     font-size: 8px;
     padding: 6px 6px;
     text-align: center;
   }
+  .iterations-per-second {
+    font-size: 8px;
+    padding: 6px 6px;
+    padding-top: 4px;
+    text-align: center;
+  }
+
   .project-boxes.jsListView .project-box > * {
     margin-right: 10px;
   }
