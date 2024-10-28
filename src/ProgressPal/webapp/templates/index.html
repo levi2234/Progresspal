@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" , class ="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProgressPal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pagestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/looptilestyle.css') }}">
+    <script src="{{ url_for('static', filename='js/pageUI.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/looptiles.js') }}"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
@@ -26,7 +28,7 @@
             </div>
           </div>
           <div class="app-header-right">
-            <button class="mode-switch" title="Switch Theme",>
+            <button class="mode-switch active" title="Switch Theme",>
               <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
                 <defs></defs>
                 <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>

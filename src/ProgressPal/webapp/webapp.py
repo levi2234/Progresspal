@@ -6,6 +6,7 @@ import os
 import signal
 import argparse
 from flask import jsonify
+from collections import deque
 from webapp_online_check import webapp_online_check
 
 
@@ -46,6 +47,7 @@ def run_app(webapp, host, port, debug):
 def create_flask_app():
     webapp = Flask(__name__)
     progress_data = {}
+    function_data = {}
     
 
     @webapp.route('/')
@@ -95,7 +97,53 @@ def create_flask_app():
     def get_progress():
         return jsonify(progress_data)
     
+    @webapp.route('/update_function_status', methods=['POST'])
+    def update_function_status():
+        data = request.json
+        task_id = data.get("task_id")
+        category = data.get("category")
+        call_count = data.get("call_count")
+        last_execution_time = data.get("last_execution_time")
+        function_name = data.get("function_name")
+        exec_hist = data.get("exec_hist")
+
+        
+        # Ensure task_id is valid
+        if task_id is not None:
+            # If task_id doesn't exist, create a new dictionary for it
+            if task_id not in function_data:
+                function_data[task_id] = {}
+            # Update progress_data with the new values
+            if function_data[task_id].get("call_count") is not None:
+                function_data[task_id]["call_count"] += call_count
+            else:
+                function_data[task_id]["call_count"] = call_count
+            function_data[task_id]["category"] = category
+            function_data[task_id]["last_execution_time"] = last_execution_time
+            function_data[task_id]["function_name"] = function_name
+            if "exec_hist" in function_data[task_id]:
+                function_data[task_id]["exec_hist"].extend(exec_hist)
+            else:
+                function_data[task_id]["exec_hist"] = exec_hist
+
+            
+            
+            return jsonify({"status": "success"}), 200
+        else:
+            return jsonify({"status": "error", "message": "Invalid data"}), 400
+
+    @webapp.route('/function_status', methods=['GET'])
+    def get_function_status():
+        return jsonify(function_data)
+    
+
+    
+    
+    
     return webapp
+
+
+
     
     
 #parse the arguments

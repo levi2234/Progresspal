@@ -40,7 +40,7 @@ def update_progress(task_id, category, iteration, total, percentage,elapsed_time
     # else:
     #     print("Failed to update progress")
     
-def track(iterable, port=5000, taskid=None, debug=False, weblog=False, web=True, command_line=False, tickrate=1, startweb=False, **kwargs):
+def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, debug=False, weblog=False, web=True, command_line=False, tickrate=1, startweb=False, **kwargs):
       
     """
     Tracks the progress of an iterable and optionally updates a web application and/or command line with the progress.
@@ -90,7 +90,7 @@ def track(iterable, port=5000, taskid=None, debug=False, weblog=False, web=True,
             start_time_human = time.ctime(start_time)   # Convert start time to human-readable format
 
             try:
-                update_progress(rand_task_id, 0, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, start_time_human)
+                update_progress(rand_task_id, 0, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, start_time_human, host=host, port=port)
                 next_update += tickrate
             except Exception as e:
                 pass

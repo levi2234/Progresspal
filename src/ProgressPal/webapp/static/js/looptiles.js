@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Hello from JavaScript!");
-    setInterval(loadTiles, 1000);
-    setInterval(updateTiles, 100);
+    
+    setInterval(loadLoopTiles, 1000);
+    setInterval(updateLoopTiles, 100);
     setInterval(trackerstats, 100);
 });
 
@@ -12,11 +12,8 @@ function shutdown() {
 }
 
 
-
-
-
 //this function updates the stats in the tiles based on their I
-function updateTiles() {
+function updateLoopTiles() {
     // get the json progress data from the server
     fetch('/progress')
         .then(response => response.json())
@@ -38,8 +35,8 @@ function updateTiles() {
 
                 // update the html elements with the new values
                 const tile = document.getElementById(key);
-                tile.querySelector('.box-progress').style.width = `${item.progress}%`;
-                tile.querySelector('.box-progress-percentage').innerHTML = `${item.progress}%`;
+                tile.querySelector('.loop-tile-progress').style.width = `${item.progress}%`;
+                tile.querySelector('.loop-tile-progress-percentage').innerHTML = `${item.progress}%`;
                 tile.querySelector('.time-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
 
                 //convert seconds per iteration to iterations per second if neccessary
@@ -76,7 +73,7 @@ function shutdown() {
         .then(data => alert(data.message));
 }
 
-function loadTiles() {
+function loadLoopTiles() {
     // use the json data to create tiles in the html under the class "project-boxes"
 
     fetch('/progress')
@@ -103,25 +100,25 @@ function loadTiles() {
 
 
 
-                tile.classList.add('project-box-wrapper');
+                tile.classList.add('tile-wrapper');
                 tile.innerHTML = `
-                    <div class="project-box" ID="${key}">
-                        <div class="project-box-header">
-                            <span class = "tile-text">${item.start_time}</span>
+                    <div class="loop-tile" ID="${key}">
+                        <div class="loop-tile-header">
+                            <span class = "tile-text-color">${item.start_time}</span>
                            
                         </div>
-                        <div class="project-box-content-header">
-                            <p class="box-content-header tile-text-color">${key}</p>
-                            <p class="box-content-subheader tile-text-color ">Category: ${item.category}</p>
+                        <div class="loop-tile-content-header">
+                            <p class="loop-tile-content-header-text tile-text-color">${key}</p>
+                            <p class="loop-tile-content-subheader-text tile-text-color ">Category: ${item.category}</p>
                         </div>
-                        <div class="box-progress-wrapper">
-                            <p class="box-progress-header tile-text-color">Progress</p>
-                            <div class="box-progress-bar">
-                                <span class="box-progress tile-text" style="width: ${item.progress}%; background-color: #4f3ff0"></span>
+                        <div class="loop-tile-progress-wrapper">
+                            <p class="loop-tile-progress-header tile-text-color">Progress</p>
+                            <div class="loop-tile-progress-bar">
+                                <span class="loop-tile-progress tile-text" style="width: ${item.progress}%; background-color: #4f3ff0"></span>
                             </div>
-                            <p class="box-progress-percentage tile-text-color ">${item.progress}%</p>
+                            <p class="loop-tile-progress-percentage tile-text-color ">${item.progress}%</p>
                         </div>
-                        <div class="project-box-footer">
+                        <div class="loop-tile-footer">
                             <div class="time-left tile-badge" ">
                                 ${days}d ${hours}h ${minutes}m ${seconds}s Left
                             </div>
@@ -178,34 +175,3 @@ function trackerstats() {
                 document.querySelector('.completed-tasks-number').innerHTML = completedTasks; // completed tasks
             });
 }
-
-
-document.addEventListener('DOMContentLoaded', function () {
-            var modeSwitch = document.querySelector('.mode-switch');
-          
-            modeSwitch.addEventListener('click', function () {                     document.documentElement.classList.toggle('dark');
-              modeSwitch.classList.toggle('active');
-            });
-            
-            var listView = document.querySelector('.list-view');
-            var gridView = document.querySelector('.grid-view');
-            var projectsList = document.querySelector('.project-boxes');
-            
-            listView.addEventListener('click', function () {
-              gridView.classList.remove('active');
-              listView.classList.add('active');
-              projectsList.classList.remove('jsGridView');
-              projectsList.classList.add('jsListView');
-            });
-            
-            gridView.addEventListener('click', function () {
-              gridView.classList.add('active');
-              listView.classList.remove('active');
-              projectsList.classList.remove('jsListView');
-              projectsList.classList.add('jsGridView');
-            });
-
-
-
-          });
-

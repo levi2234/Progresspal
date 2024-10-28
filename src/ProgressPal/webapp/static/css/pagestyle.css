@@ -192,18 +192,6 @@ button, a {
   opacity: 0.6;
 }
 
-.add-btn {
-  color: #fff;
-  background-color: var(--button-bg);
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .shutdown-btn {
   color: var(--main-color);
@@ -220,28 +208,6 @@ button, a {
   stroke: white;
 }
 
-.profile-btn {
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  border-left: 2px solid #ddd;
-}
-.profile-btn img {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 4px;
-}
-.profile-btn span {
-  color: var(--main-color);
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 700;
-}
 
 .page-content  {
   flex: 1;
@@ -518,67 +484,14 @@ button, a {
   display: flex;
   flex-wrap: wrap;
 }
-.project-boxes.jsGridView .project-box-wrapper {
-  width: 33.3%;
-}
-.project-boxes.jsListView .project-box {
-  display: flex;
-  border-radius: 10px;
-  position: relative;
-}
-.project-boxes.jsListView .project-box > * {
-  margin-right: 24px;
-}
+
+
 .project-boxes.jsListView .more-wrapper {
   position: absolute;
   right: 16px;
   top: 16px;
 }
-.project-boxes.jsListView .project-box-content-header {
-  order: 1;
-  max-width: 120px;
-}
-.project-boxes.jsListView .project-box-header {
-  order: 2;
-}
-.project-boxes.jsListView .project-box-footer {
-  order: 3;
-  padding-top: 0;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.project-boxes.jsListView .project-box-footer:after {
-  display: none;
-}
-.project-boxes.jsListView .participants {
-  margin-bottom: 8px;
-}
-.project-boxes.jsListView .project-box-content-header p {
-  text-align: left;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.project-boxes.jsListView .project-box-header > span {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  font-size: 12px;
-}
-.project-boxes.jsListView .box-progress-wrapper {
-  order: 3;
-  flex: 1;
-}
 
-.project-box {
-  --main-color-card: var(--tile-color);
-  border-radius: 30px;
-  padding: 13px;
-  background-color: var(--tile-color);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-  overflow: visible;
-  z-index: 1;
-}
 
 /* Ensure all parent containers allow overflow to be visible needed for box shadow FROM HERE*/
 .project-boxes {
@@ -595,186 +508,14 @@ button, a {
 /* To here */
 
 
-.project-box-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  color: var(--main-color);
-}
-.project-box-header span {
-  opacity: 0.7;
-  font-size: 14px;
-  line-height: 16px;
-}
-.project-box-content-header {
-  text-align: center;
-  margin-bottom: 16px;
-}
-.project-box-content-header p {
-  margin: 0;
-}
-.project-box-wrapper {
-  padding: 8px;
-  transition: 0.2s;
-  overflow: visible;
-  }
-
-.project-btn-more {
-  padding: 0;
-  height: 14px;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  background-color: transparent;
-  border: none;
-  flex-shrink: 0;
-  /*&:after, &:before {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--main-color);
-    opacity: .8;
-    left: 50%;
-    transform: translatex(-50%);
-  }
-
-  &:before { top: 0;}
-  &:after { bottom: 0; }*/
-}
-
-.more-wrapper {
-  position: relative;
-}
-
-.box-content-header {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 700;
-  opacity: 0.7;
-}
-
-.box-content-subheader {
-  font-size: 14px;
-  line-height: 24px;
-  opacity: 0.7;
-}
-
-.box-progress {
-  display: block;
-  height: 4px;
-  border-radius: 6px;
-  transition: width 0.2s ease;
-}
-.box-progress-bar {
-  width: 100%;
-  height: 4px;
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: #fff;
-  margin: 8px 0;
-}
-.box-progress-header {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
-  margin: 0;
-}
-.box-progress-percentage {
-  text-align: right;
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16px;
-}
-
-.project-box-footer {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 16px;
-  position: relative;
-}
-.project-box-footer:after {
-  content: "";
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
-  width: calc(100% + 32px);
-  top: 0;
-  left: -16px;
-  height: 1px;
-}
-
-.tile-text-color {
-  color: var(--main-color);
-}
-
-.participants {
-  display: flex;
-  align-items: center;
-}
-.participants img {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  overflow: hidden;
-  object-fit: cover;
-}
-.participants img:not(:first-child) {
-  margin-left: -8px;
-}
-
-.add-participant {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.6);
-  margin-left: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.tile-badge {
-  background-color: var(--tile-badge-background-color);
-  font-size: 12px;
-  border-radius: 20px;
-  flex-shrink: 0;
-  padding: 6px 16px;
-  margin-bottom: 10px;
-  font-weight: 700;
-  color: var(--tile-badge-text-color)
-}
-
-
-
 
 .mode-switch.active .moon {
   fill: var(--main-color);
 }
 
-.messages-btn {
-  border-radius: 4px 0 0 4px;
-  position: absolute;
-  right: 0;
-  top: 58px;
-  background-color: var(--message-btn);
-  border: none;
-  color: var(--main-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px;
-  display: none;
-}
 
 @media screen and (max-width: 980px) {
-  .project-boxes.jsGridView .project-box-wrapper {
-    width: 50%;
-  }
+
   .status-number, .status-type {
     font-size: 14px;
   }
@@ -845,9 +586,7 @@ button, a {
   .search-input {
     max-width: 120px;
   }
-  .project-boxes.jsGridView .project-box-wrapper {
-    width: 100%;
-  }
+
   .projects-section {
     padding: 24px 16px 0 16px;
   }
@@ -877,34 +616,6 @@ button, a {
   .box-content-header {
     font-size: 12px;
     line-height: 16px;
-  }
-  .box-content-subheader {
-    font-size: 12px;
-    line-height: 16px;
-  }
-  .project-boxes.jsListView .project-box-header > span {
-    font-size: 10px;
-  }
-  .box-progress-header {
-    font-size: 12px;
-  }
-  .box-progress-percentage {
-    font-size: 10px;
-  }
-  .time-left {
-    font-size: 8px;
-    padding: 6px 6px;
-    text-align: center;
-  }
-  .iterations-per-second {
-    font-size: 8px;
-    padding: 6px 6px;
-    padding-top: 4px;
-    text-align: center;
-  }
-
-  .project-boxes.jsListView .project-box > * {
-    margin-right: 10px;
   }
   .project-boxes.jsListView .more-wrapper {
     right: 2px;

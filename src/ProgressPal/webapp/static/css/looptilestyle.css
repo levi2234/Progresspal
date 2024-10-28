@@ -1,0 +1,214 @@
+
+
+.project-boxes.jsGridView .tile-wrapper {
+  width: 33.3%;
+}
+
+.tile-wrapper {
+  padding: 8px;
+  transition: 0.2s;
+  overflow: visible;
+  }
+
+  @media screen and (max-width: 520px) {
+    .project-boxes.jsGridView .tile-wrapper {
+      width: 50%;
+    }
+
+    .project-boxes.jsGridView .tile-wrapper {
+      width: 100%;
+    }
+
+  }
+
+
+
+.project-boxes.jsListView .loop-tile{
+  display: flex;
+  border-radius: 10px;
+  position: relative;
+}
+.project-boxes.jsListView .loop-tile> * {
+  margin-right: 24px;
+}
+
+.loop-tile{
+  --main-color-card: var(--tile-color);
+  border-radius: 30px;
+  padding: 13px;
+  background-color: var(--tile-color);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  overflow: visible;
+  z-index: 1;
+}
+
+.project-boxes.jsListView .loop-tile> * {
+  margin-right: 10px;
+}
+
+.project-boxes.jsListView .loop-tile-header {
+  order: 2;
+}
+
+.project-boxes.jsListView .loop-tile-header > span {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  font-size: 12px;
+}
+
+.loop-tile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  color: var(--main-color);
+}
+
+.loop-tile-header span {
+  opacity: 0.7;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.project-boxes.jsListView .loop-tile-header > span {
+  font-size: 10px;
+}
+
+.tile-text-color {
+  color: var(--main-color);
+}
+
+
+.project-boxes.jsListView .loop-tile-content-header {
+  order: 1;
+  max-width: 120px;
+}
+
+.project-boxes.jsListView .loop-tile-content-header p {
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+}
+
+.loop-tile-content-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.loop-tile-content-header p {
+  margin: 0;
+}
+
+.loop-tile-content-header-text {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+/* .loop-tile-content-subheader-text {
+  font-size: 14px;
+  line-height: 24px;
+  opacity: 0.7;
+} */
+
+.loop-tile-content-subheader-text {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.project-boxes.jsListView .loop-tile-progress-wrapper {
+  order: 3;
+  flex: 1;
+}
+
+
+.loop-tile-progress-header {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+  margin: 0;
+}
+
+.loop-tile-progress-header {
+  font-size: 12px;
+}
+
+.loop-tile-progress-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
+  margin: 8px 0;
+}
+
+
+.loop-tile-progress {
+  display: block;
+  height: 4px;
+  border-radius: 6px;
+  transition: width 0.2s ease;
+}
+
+.loop-tile-progress-percentage {
+  text-align: right;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+
+.loop-tile-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  position: relative;
+}
+.loop-tile-footer:after {
+  content: "";
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: calc(100% + 32px);
+  top: 0;
+  left: -16px;
+  height: 1px;
+}
+
+
+.time-left {
+  font-size: 8px;
+  padding: 6px 6px;
+  text-align: center;
+}
+.iterations-per-second {
+  font-size: 8px;
+  padding: 6px 6px;
+  padding-top: 4px;
+  text-align: center;
+}
+
+.project-boxes.jsListView .loop-tile-footer {
+  order: 3;
+  padding-top: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.project-boxes.jsListView .loop-tile-footer:after {
+  display: none;
+}
+
+
+.tile-badge {
+  background-color: var(--tile-badge-background-color);
+  font-size: 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  padding: 6px 16px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--tile-badge-text-color)
+}
