@@ -28,6 +28,7 @@
             </div>
           </div>
           <div class="app-header-right">
+            <div id="clock" class="clock"></div>
             <button class="mode-switch active" title="Switch Theme",>
               <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
                 <defs></defs>
@@ -73,23 +74,27 @@
           </div>
           <div class="projects-section">
             <div class="projects-section-header">
-              <p>Trackers</p>
-             
+              <div class="projects-section-header-left">
+                
+               
+                <div class="projects-status">
+                  <p>Iterables</p>
+                  <div class="item-status">
+                    <span class="status-number in-progress-tasks-number">0</span>
+                    <span class="status-type status-type-progress">In Progress</span>
+                  </div>
+                  <div class="item-status">
+                    <span class="status-number completed-tasks-number">0</span>
+                    <span class="status-type status-type-completed">Completed</span>
+                  </div>
+                  <div class="item-status">
+                    <span class="status-number total-tasks-number">0</span>
+                    <span class="status-type ">Total Trackers</span>
+                  </div>
+              </div>
             </div>
             <div class="projects-section-line">
-              <div class="projects-status">
-                <div class="item-status">
-                  <span class="status-number in-progress-tasks-number">0</span>
-                  <span class="status-type status-type-progress">In Progress</span>
-                </div>
-                <div class="item-status">
-                  <span class="status-number completed-tasks-number">0</span>
-                  <span class="status-type status-type-completed">Completed</span>
-                </div>
-                <div class="item-status">
-                  <span class="status-number total-tasks-number">0</span>
-                  <span class="status-type ">Total Trackers</span>
-                </div>
+              
               </div>
               <div class="view-actions">
                 <button class="view-btn list-view" title="List View">

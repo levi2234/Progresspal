@@ -122,7 +122,7 @@ def create_flask_app():
             function_data[task_id]["last_execution_time"] = last_execution_time
             function_data[task_id]["function_name"] = function_name
             if "exec_hist" in function_data[task_id]:
-                function_data[task_id]["exec_hist"].extend(exec_hist)
+                function_data[task_id]["exec_hist"].extend(exec_hist) #TODO : make it so that this cannot be more than a certain length 
             else:
                 function_data[task_id]["exec_hist"] = exec_hist
 

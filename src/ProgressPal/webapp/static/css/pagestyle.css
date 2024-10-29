@@ -13,6 +13,7 @@
 
 */
 
+
 :root {
   --app-container: #f3f6fd;
   --main-color: #1f1c2e;
@@ -21,7 +22,7 @@
   --link-color-hover: #c3cff4;
   --link-color-active: #fff;
   --link-color-active-bg: #1f1c2e;
-  --projects-section: #fff;
+  --projects-section:rgba(165, 165, 165, 0.6);
   --message-box-hover: #fafcff;
   --message-box-border: #e9ebf0;
   --more-list-bg: #fff;
@@ -30,9 +31,9 @@
   --button-bg: #1f1c24;
   --search-area-bg: #fff;
   --star: #1ff1c2e;
-  --tile-color: #fff;
-  --tile-in-progress-color: #C2F2AC;
-  --tile-completed-color: #32A9D9;
+  --tile-color:  #f3f6fd;
+  --tile-in-progress-color: rgba(194, 242, 172, 0.5);
+  --tile-completed-color: rgba(50, 169, 217, 0.5);
   --tile-badge-background-color: rgba(165, 165, 165, 0.6);
   --tile-badge-text-color: #0D0D0D;
   
@@ -169,13 +170,6 @@ button, a {
   box-shadow: none;
 }
 
-.tile-completed {
-    outline: 3px solid var(--tile-completed-color);
-}
-
-.tile-in-progress {
-    outline: 3px solid var(--tile-in-progress-color);
-}
 
 .search-input {
   border: none;
@@ -268,6 +262,9 @@ button, a {
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+  rgba(0, 0, 0, 0.1) 0px 10px 10px 0px, 
+  rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
 }
 .projects-section-line {
   display: flex;
@@ -296,12 +293,14 @@ button, a {
 
 .projects-status {
   display: flex;
+  align-items: center;
 }
 
 .item-status {
+  
   display: flex;
   flex-direction: column;
-  margin-right: 16px;
+  margin-left: 20px;
 }
 .item-status:not(:last-child) .status-type:after {
   content: "";
@@ -364,121 +363,14 @@ button, a {
   color: var(--link-color-active);
 }
 
-.messages-section {
-  flex-shrink: 0;
-  padding-bottom: 32px;
-  background-color: var(--projects-section);
-  margin-left: 24px;
-  flex: 1;
-  width: 100%;
-  border-radius: 30px;
-  position: relative;
-  overflow: auto;
-  transition: all 300ms cubic-bezier(0.19, 1, 0.56, 1);
-}
-.messages-section .messages-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 3;
-  border: none;
-  background-color: transparent;
-  color: var(--main-color);
-  display: none;
-}
-.messages-section.show {
-  transform: translateX(0);
-  opacity: 1;
-  margin-left: 0;
-}
-.messages-section .projects-section-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 32px 24px 0 24px;
-  background-color: var(--projects-section);
-}
 
-.message-box {
-  border-top: 1px solid var(--message-box-border);
-  padding: 16px;
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-}
-.message-box:hover {
-  background-color: var(--message-box-hover);
-  border-top-color: var(--link-color-hover);
-}
-.message-box:hover + .message-box {
-  border-top-color: var(--link-color-hover);
-}
-.message-box img {
-  border-radius: 50%;
-  object-fit: cover;
-  width: 40px;
-  height: 40px;
-}
 
-.message-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.message-header .name {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 700;
-  color: var(--main-color);
-  margin: 0;
-}
 
-.message-content {
-  padding-left: 16px;
-  width: 100%;
-}
-
-.star-checkbox input {
-  opacity: 0;
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-.star-checkbox label {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-.dark .star-checkbox {
-  color: var(--secondary-color);
-}
-.dark .star-checkbox input:checked + label {
-  color: var(--star);
-}
-.star-checkbox input:checked + label svg {
-  fill: var(--star);
-  transition: 0.2s;
-}
-
-.message-line {
-  font-size: 14px;
-  line-height: 20px;
-  margin: 8px 0;
-  color: var(--secondary-color);
-  opacity: 0.7;
-}
-.message-line.time {
-  text-align: right;
-  margin-bottom: 0;
-}
 
 .project-boxes {
   margin: 0 -8px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .project-boxes.jsGridView {
   display: flex;
@@ -495,7 +387,10 @@ button, a {
 
 /* Ensure all parent containers allow overflow to be visible needed for box shadow FROM HERE*/
 .project-boxes {
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: visible;
+  
+
 }
 
 .projects-section {
@@ -507,7 +402,11 @@ button, a {
 }
 /* To here */
 
-
+.clock {
+  font-size: 16px;
+  color: var(--main-color);
+  margin-right: 10px;
+}
 
 .mode-switch.active .moon {
   fill: var(--main-color);
@@ -526,23 +425,14 @@ button, a {
   .item-status {
     margin-right: 0;
   }
+
+  .clock {
+    display: none;
+  }
 }
 @media screen and (max-width: 880px) {
-  .messages-section {
-    transform: translateX(100%);
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    z-index: 2;
-    height: 100%;
-    width: 100%;
-  }
-  .messages-section .messages-close {
-    display: block;
-  }
-  .messages-btn {
-    display: flex;
-  }
+
+  
 }
 @media screen and (max-width: 720px) {
   .app-name, .profile-btn span {
@@ -559,6 +449,9 @@ button, a {
   .app-header-right button {
     margin-left: 4px;
   }
+
+  
+
 }
 @media screen and (max-width: 520px) {
   .projects-section {
@@ -590,10 +483,7 @@ button, a {
   .projects-section {
     padding: 24px 16px 0 16px;
   }
-  .profile-btn img {
-    width: 24px;
-    height: 24px;
-  }
+
   .app-header {
     padding: 10px;
   }
@@ -609,10 +499,7 @@ button, a {
   }
   .search-input {
     font-size: 14px;
-  }
-  .messages-btn {
-    top: 48px;
-  }
+
   .box-content-header {
     font-size: 12px;
     line-height: 16px;
@@ -620,5 +507,8 @@ button, a {
   .project-boxes.jsListView .more-wrapper {
     right: 2px;
     top: 10px;
+  }
+  .clock {
+    display: none;
   }
 }

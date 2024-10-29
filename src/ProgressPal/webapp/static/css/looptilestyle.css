@@ -1,11 +1,11 @@
 
 
 .project-boxes.jsGridView .tile-wrapper {
-  width: 33.3%;
+  width: 33.3%; /*original 33.3% */
 }
 
 .tile-wrapper {
-  padding: 8px;
+  padding: 10px;
   transition: 0.2s;
   overflow: visible;
   }
@@ -32,15 +32,38 @@
   margin-right: 24px;
 }
 
-.loop-tile{
+
+/* Tile border color and transition */
+.loop-tile {
   --main-color-card: var(--tile-color);
   border-radius: 30px;
   padding: 13px;
   background-color: var(--tile-color);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+              rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+              rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   overflow: visible;
   z-index: 1;
+  transition: box-shadow 0.75s ease; /* Transition for smooth color change */
 }
+
+
+
+/* Additional box-shadow for border effect */
+.loop-tile.tile-completed {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+              rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+              rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, 
+              0 0 5px 2px var(--tile-completed-color); /* Border fade-out effect */
+}
+
+.loop-tile.tile-in-progress {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+              rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+              rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, 
+              0 0 10px 3px var(--tile-in-progress-color); /* Border fade-out effect */
+}
+/* -------------------------------------- */
 
 .project-boxes.jsListView .loop-tile> * {
   margin-right: 10px;
@@ -171,10 +194,10 @@
 .loop-tile-footer:after {
   content: "";
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.6);
-  width: calc(100% + 32px);
-  top: 0;
-  left: -16px;
+  /* background-color: rgba(255, 255, 255, 0.6); */
+  width: calc(100% + 24px);
+  top: 4px;
+  left: -12px;
   height: 1px;
 }
 
