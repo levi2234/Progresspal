@@ -33,6 +33,8 @@
 }
 
 
+
+
 /* Tile border color and transition */
 .loop-tile {
   --main-color-card: var(--tile-color);
