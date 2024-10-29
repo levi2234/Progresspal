@@ -44,11 +44,34 @@ def run_app(webapp, host, port, debug):
     webapp.run(host=host, port=port, debug=debug, use_reloader=False)
     
     
+def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
+    n = exec_time_stats["n"]
+    mean = exec_time_stats["mean"]
+    std = exec_time_stats["std"]
+    
+    n += 1
+    
+    if n == 1:
+        mean = new_exec_time
+        std = 0
+    else:
+        old_mean = mean
+        mean = old_mean + (new_exec_time - old_mean) / n
+        # Update the variance
+        std = ((std ** 2 * (n - 1)) + (new_exec_time - old_mean) * (new_exec_time - mean)) / n
+    
+    exec_time_stats["n"] = n
+    exec_time_stats["mean"] = mean
+    exec_time_stats["std"] = std ** 0.5  # Return the standard deviation instead of variance
+    return exec_time_stats
+    
+    
+    
 def create_flask_app():
     webapp = Flask(__name__)
     progress_data = {}
     function_data = {}
-    
+    exec_time_stats = {"n": 0, "mean": 0, "std": 0}
 
     @webapp.route('/')
     def home():
@@ -72,6 +95,11 @@ def create_flask_app():
         time_remaining = data.get("time_remaining")
         iterations_per_second = data.get("iterations_per_second")
         start_time = data.get("start_time")
+        track_overhead = data.get("track_overhead")
+        execution_duration = data.get("execution_duration")
+        nonlocal exec_time_stats
+        exec_time_stats = calculate_mean_std_execution_time(exec_time_stats, execution_duration)
+
         
         # Ensure task_id is valid
         if task_id is not None:
@@ -88,6 +116,9 @@ def create_flask_app():
             progress_data[task_id]["time_remaining"] = time_remaining
             progress_data[task_id]["iterations_per_second"] = iterations_per_second
             progress_data[task_id]["start_time"] = start_time
+            progress_data[task_id]["track_overhead"] = track_overhead
+            progress_data[task_id]["execution_duration"] = execution_duration
+            progress_data[task_id]["execution_stats"] = exec_time_stats
             
             return jsonify({"status": "success"}), 200
         else:

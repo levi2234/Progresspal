@@ -36,7 +36,7 @@ function updateLoopTiles() {
                 // update the html elements with the new values
                 const tile = document.getElementById(key);
                 tile.querySelector('.loop-tile-progress').style.width = `${item.progress}%`;
-                tile.querySelector('.loop-tile-progress-percentage').innerHTML = `${item.progress}%`;
+                tile.querySelector('.loop-tile-progress-percentage').innerHTML = `${item.iteration}/${item.total} - ${(item.iteration / item.total * 100).toFixed(2)}%`;
                 tile.querySelector('.time-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
 
                 //convert seconds per iteration to iterations per second if neccessary
@@ -48,9 +48,24 @@ function updateLoopTiles() {
                     tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} It/s`;
                 }
        
+                // Add an existing svg image to the class loop-tile-content-header-right depending on the category
+                if (item.category === 'builtins') {
+                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/python.svg" alt="Training" class="loop-type-icon">`;
+                }
 
+                if (item.category === 'numpy') { 
+                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/numpy.svg" alt="Numpy" class="loop-type-icon">`;
+                }
 
+                if (item.category.includes('pandas')) {
+                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/pandas.svg" alt="Pandas" class="loop-type-icon">`;
+                }
 
+                if (item.category.includes("polars")) {
+                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/polars.svg" alt="Polars" class="loop-type-icon">`;
+                }
+
+                
                 // Add or remove outline based on progress
                 if (item.progress === 100) {
                     tile.classList.add('tile-completed');
@@ -103,20 +118,24 @@ function loadLoopTiles() {
                 tile.classList.add('tile-wrapper');
                 tile.innerHTML = `
                     <div class="loop-tile" ID="${key}">
-                        <div class="loop-tile-header">
-                            <span class = "tile-text-color">${item.start_time}</span>
-                           
-                        </div>
+
                         <div class="loop-tile-content-header">
-                            <p class="loop-tile-content-header-text tile-text-color">${key}</p>
-                            <p class="loop-tile-content-subheader-text tile-text-color ">Category: ${item.category}</p>
+                            <div class="loop-tile-content-header-left">
+                                <p class="loop-tile-content-header-text tile-text-color">${key}</p>
+                                <p class="loop-tile-content-subheader-text tile-text-color ">Category: ${item.category}</p>
+                            </div>
+                            <div class="loop-tile-content-header-right">
+
+
+                                <!-- <span class = "tile-text-color">${item.start_time}</span> -->
+                            </div>
                         </div>
                         <div class="loop-tile-progress-wrapper">
                             <p class="loop-tile-progress-header tile-text-color">Progress</p>
                             <div class="loop-tile-progress-bar">
                                 <span class="loop-tile-progress tile-text" style="width: ${item.progress}%; background-color: #4f3ff0"></span>
                             </div>
-                            <p class="loop-tile-progress-percentage tile-text-color ">${item.progress}%</p>
+                            <p class="loop-tile-progress-percentage tile-text-color ">${item.iteration}/${item.total} (${(item.iteration / item.total * 100).toFixed(2)}%)</p>
                         </div>
                         <div class="loop-tile-footer">
                             <div class="time-left tile-badge" ">

@@ -119,18 +119,57 @@
 }
 
 .loop-tile-content-header {
-  text-align: center;
+  text-align: left top;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
-.loop-tile-content-header p {
+.loop-tile-content-header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.loop-tile-content-header-left p {
   margin: 0;
+}
+
+.loop-tile-content-header-right {
+  align-self: flex-start;
+}
+.loop-type-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.project-boxes.jsListView .loop-type-icon {
+  width: 100%; /* Adjust width to match .tile-wrapper */
+  height: 100%; /* Adjust height to match .tile-wrapper */
+  margin-right: 4px;
+  position: absolute;
+  align-self: right;
+  right: 0; /* Align to the right */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Center vertically */
+  overflow: hidden;
+  opacity: 0.3;
+  z-index: -1; /* Ensure it is above other elements */
+}
+
+.project-boxes.jsListView .loop-tile-content-header-right {
+  visibility: 
+}
+
+.loop-tile-content-header-right .project-boxes.jsListView{
+  align-self: flex-start;
+  
 }
 
 .loop-tile-content-header-text {
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
-  opacity: 0.7;
+  
 }
 
 /* .loop-tile-content-subheader-text {

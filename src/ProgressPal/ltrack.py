@@ -5,7 +5,7 @@ import numpy as np
 import time
 
 
-def update_progress(task_id, category, iteration, total, percentage,elapsed_time, time_remaining, iterations_per_second, start_time, host="127.0.0.1", port=5000):
+def update_progress(task_id, category, iteration, total, percentage ,elapsed_time, time_remaining, iterations_per_second, execution_duration, start_time, track_overhead, host="127.0.0.1", port=5000):
     
     """
         Update the progress of a task by sending a POST request to a specified server.
@@ -32,7 +32,9 @@ def update_progress(task_id, category, iteration, total, percentage,elapsed_time
             "elapsed_time": elapsed_time, 
             "time_remaining": time_remaining,
             "iterations_per_second": iterations_per_second, 
-            "start_time": start_time}
+            "start_time": start_time,
+            "execution_duration": execution_duration,
+            "track_overhead": track_overhead}
     
     response = requests.post(url, json=data)
     if response.status_code == 200:
@@ -40,7 +42,7 @@ def update_progress(task_id, category, iteration, total, percentage,elapsed_time
     # else:
     #     print("Failed to update progress")
     
-def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, total=None, debug=False, weblog=False, web=True, command_line=False, tickrate=1, startweb=False): 
+def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, total=None, debug=False, weblog=False, web=True, tickrate=1): 
     """
     Tracks the progress of an iterable and optionally updates a web application and/or command line with the progress.
     Args:
@@ -57,12 +59,6 @@ def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, total=None, deb
     Raises:
         Exception: If there is an error updating the progress on the web application.
     """
-    # Check and start web server if needed
-    
-    if startweb:
-        if not webapp_online_check(f"http://127.0.0.1:{port}"):
-            start_server(port=port, debug=debug, weblog=weblog)
-
     # Progress tracking setup
     rand_task_id = taskid if taskid is not None else np.random.randint(10000)
     
@@ -75,44 +71,35 @@ def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, total=None, deb
     start_time = time.time()
     next_update = start_time + tickrate
     iterable_type_origin = type(iterable).__module__
-    category = 0
-
+    track_overhead = 0
+    
     
     for i, item in enumerate(iterable):
         # Debugging extra time taken for each iteration
-        # start_time_loop = time.perf_counter_ns()
+        start_time_loop = time.perf_counter_ns()
         yield item
-        
         # Debugging extra time taken for each iteration
-        # end_time_loop = time.perf_counter_ns()
+        end_time_loop_item = time.perf_counter_ns()
         
         iteration = i + 1
         percentage = round((iteration / total * 100), 2) if total > 0 else 0
 
-        
         if web and time.time() >= next_update: # Update progress on web app if tickrate interval has passed
             elapsed_time = time.time() - start_time # Calculate elapsed time
             iterations_per_second = iteration / elapsed_time if elapsed_time > 0 else float('inf') # Calculate iterations per second
             time_remaining = (total - iteration) / iterations_per_second if iterations_per_second > 0 else 0 # Calculate remaining time
             start_time_human = time.ctime(start_time)   # Convert start time to human-readable format
-            #identify the type of iterable (numpy, pandas, list, etc) and save the type in the category variable
-            
-            
+            execution_duration = end_time_loop_item - start_time_loop
 
-            #iden
             try:
-                update_progress(rand_task_id, iterable_type_origin, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, start_time_human, host=host, port=port)
+                update_progress(rand_task_id, iterable_type_origin, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, execution_duration, start_time_human, track_overhead, host=host, port=port)
                 next_update += tickrate
             except Exception as e:
                 pass
+        
+        track_overhead = time.perf_counter_ns() - end_time_loop_item 
+    
 
-        # Command-line progress update
-        if command_line:
-            elapsed_time = time.time() - start_time
-            time_remaining = (total - iteration) / (iteration / elapsed_time) if iteration > 0 else 0
-            print(f"\r\033[K Progress: {percentage}% - Elapsed time: {elapsed_time:.2f}s - Remaining time: {time_remaining:.2f}s", end="")
-            
-        # Debugging extra time taken for each iteration    
-        end_time_loop2 = time.perf_counter_ns()
+
         
         # print(f"Yield: {end_time_loop - start_time_loop} Functionality:  {end_time_loop2 - end_time_loop}") # Debugging extra time taken for each iteration
