@@ -40,8 +40,7 @@ def update_progress(task_id, category, iteration, total, percentage,elapsed_time
     # else:
     #     print("Failed to update progress")
     
-def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, debug=False, weblog=False, web=True, command_line=False, tickrate=1, startweb=False, **kwargs):
-      
+def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, total=None, debug=False, weblog=False, web=True, command_line=False, tickrate=1, startweb=False): 
     """
     Tracks the progress of an iterable and optionally updates a web application and/or command line with the progress.
     Args:
@@ -62,13 +61,21 @@ def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, debug=False, we
     
     if startweb:
         if not webapp_online_check(f"http://127.0.0.1:{port}"):
-            start_server(port=port, debug=debug, weblog=weblog, **kwargs)
+            start_server(port=port, debug=debug, weblog=weblog)
 
     # Progress tracking setup
     rand_task_id = taskid if taskid is not None else np.random.randint(10000)
-    total = len(iterable)
+    
+    if total is None:
+        if hasattr(iterable, '__len__'):
+            total = len(iterable)
+        else:
+            raise ValueError("Total length must be provided for generator functions")
+
     start_time = time.time()
     next_update = start_time + tickrate
+    iterable_type_origin = type(iterable).__module__
+    category = 0
 
     
     for i, item in enumerate(iterable):
@@ -88,9 +95,13 @@ def ltrack(iterable, port=5000, host= "127.0.0.1",  taskid=None, debug=False, we
             iterations_per_second = iteration / elapsed_time if elapsed_time > 0 else float('inf') # Calculate iterations per second
             time_remaining = (total - iteration) / iterations_per_second if iterations_per_second > 0 else 0 # Calculate remaining time
             start_time_human = time.ctime(start_time)   # Convert start time to human-readable format
+            #identify the type of iterable (numpy, pandas, list, etc) and save the type in the category variable
+            
+            
 
+            #iden
             try:
-                update_progress(rand_task_id, 0, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, start_time_human, host=host, port=port)
+                update_progress(rand_task_id, iterable_type_origin, iteration, total, percentage, elapsed_time, time_remaining, iterations_per_second, start_time_human, host=host, port=port)
                 next_update += tickrate
             except Exception as e:
                 pass
