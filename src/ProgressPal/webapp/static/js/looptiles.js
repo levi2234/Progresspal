@@ -67,7 +67,7 @@ function updateLoopTiles() {
                 }
        
                 // Add an existing svg image to the class loop-tile-content-header-right depending on the category
-                if (item.category === 'builtins') {
+                if (item.category === 'builtins' || item.category.includes('collections') || item.category.includes('itertools')) {
                     tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/python.svg" alt="Training" class="loop-type-icon">`;
                 }
 

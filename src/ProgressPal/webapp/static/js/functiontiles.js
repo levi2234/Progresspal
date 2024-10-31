@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     //first clear the project-boxes div
     const projectsList = document.querySelector('.project-boxes');

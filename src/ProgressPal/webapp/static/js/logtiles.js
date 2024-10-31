@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initialize() {
     //Set the page title
-    document.querySelector('.pagetitle').innerHTML = 'Function Tracker';
+    document.querySelector('.pagetitle').innerHTML = 'Log Tracker';
 
     //first clear the project-boxes div
     const projectsList = document.querySelector('.project-boxes');

@@ -363,9 +363,9 @@ button, a {
   color: var(--link-color-active);
 }
 
-
-
-
+.hide {
+  display: none;
+}
 
 .project-boxes {
   margin: 0 -8px;
