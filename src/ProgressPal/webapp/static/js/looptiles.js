@@ -1,9 +1,32 @@
+window.intervals = []; // or simply use var intervals = [];
+
 document.addEventListener('DOMContentLoaded', () => {
-    setInterval(loadLoopTiles, 1000);
-    setInterval(updateLoopTiles, 100);
-    setInterval(trackerstats, 100);
-    
+    initialize();
+    // updateClock();
+
 });
+
+function initialize() {
+    loadLoopTilesHeader();
+
+
+    //first clear the project-boxes div
+    const projectsList = document.querySelector('.project-boxes');
+    //set the title of the page
+
+    projectsList.innerHTML = '';
+
+    let loadtilesinterval = setInterval(loadLoopTiles, 1000);
+    let updatetilesinterval = setInterval(updateLoopTiles, 100);
+    let trackerstatsinterval = setInterval(trackerstats, 100);
+    window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+};
+
+
+function loadLoopTilesHeader() {
+    document.querySelector('.pagetitle').innerHTML = 'Iterable Tracker';
+    //populate the header with the correct elements
+} 
 
 
 //this function updates the stats in the tiles based on their I
@@ -152,9 +175,6 @@ function loadLoopTiles() {
             
         });
 }
-
-
-
 
 
 //this function updates the total tasks, active tasks and completed tasks

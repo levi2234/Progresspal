@@ -34,6 +34,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setInterval(() => updateClock(is24HourFormat), 1000);
     updateClock(is24HourFormat); // Initial call to display clock immediately
+
+    const resources = {"looptracker": {"stylesheet": "/static/css/looptilestyle.css", "script": "/static/js/looptiles.js"},
+                       "functiontracker": {"stylesheet": "/static/css/functiontilestyle.css", "script": "/static/js/functiontiles.js"},
+                       "logtracker": {"stylesheet": "/static/css/logtilestyle.css", "script": "/static/js/logtiles.js"},
+                       "settings": {"stylesheet": "/static/css/settingstilestyle.css", "script": "/static/js/settings.js"}};
+
+    //detect menu button press and change resources
+    const menuButtons = document.querySelectorAll('.app-sidebar-link');
+    menuButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const resourceKey = button.dataset.resource;
+            changeResources(resources[resourceKey].stylesheet, resources[resourceKey].script);
+            //set the active class
+            menuButtons.forEach(menuButton => menuButton.classList.remove('active'));
+            button.classList.add('active');
+        });
+    });
 });
 
 
@@ -67,48 +84,43 @@ function updateClock(is24HourFormat = true) {
     clockElement.textContent = `${hours}:${minutes}:${seconds} ${period}`;
 }
 
-/**
- * Dynamically loads a CSS stylesheet into the document.
- * Used to load the css for when we switch to another page.
- * @param {string} filename - The path to the CSS file to be loaded.
- */
-function loadStyleSheet(filename) {
-    const head = document.head;
-    const link = document.createElement('link');
 
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-}
+// This handles the changing of resources (CSS and JS) when a menu button is clicked
+function changeResources(newStylesheet, newScript) {
 
-function loadScript(filename) {
-    const script = document.createElement("script");
-    script.src = filename;
-    document.head.appendChild(script);
-  }
+    //clear intervals loaded on domload
+    function terminateAllIntervals() {
+        intervals.forEach(intervalId => {
+            clearInterval(intervalId);
+        });
+        // Clear the intervals array if needed
+        intervals = [];
+    }
 
-function unloadResource(filename, type) {
-    const elements = document.querySelectorAll(type === 'css' ? "link" : "script");
-    elements.forEach(element => {
-      if (element.href === filename || element.src === filename) {
-        element.remove();
-      }
-    });
-  }
+    // Clear all intervals to make sure the new script starts fresh
+    terminateAllIntervals();
 
-function loadResourcesForMenu(menuItem) {
-    // Clear existing conditional resources
-    console.log('Unloading resources...');
-    unloadResource("{{ url_for('static', filename='css/looptilestyle.css') }}", 'css');
-    unloadResource("{{ url_for('static', filename='js/looptiles.js') }}", 'js');
-    unloadResource("{{ url_for('static', filename='css/funtiontilestyle.css') }}", 'css');
-    unloadResource("{{ url_for('static', filename='js/funtiontiles.js') }}", 'js');
+    // Change the stylesheet
+    const stylesheetLink = document.getElementById('tilesstylesheetlink');
+    stylesheetLink.href = newStylesheet;
 
-    // // Load based on menu item selection
-    // if (menuItem === 'looptracker') {
-    //     loadStyleSheet("{{ url_for('static', filename='css/looptilestyle.css') }}");
-    //     loadScript("{{ url_for('static', filename='js/looptiles.js') }}");
-    // } else if (menuItem === 'functiontracker') {
-    //     loadStyleSheet("{{ url_for('static', filename='css/looptilestyle.css') }}");
-    //     loadScript("{{ url_for('static', filename='js/looptiles.js') }}");
-    // }
+    // Change the JavaScript script
+    const existingScript = document.getElementById('tilejavascriptlink');
+    existingScript.src = newScript;
+
+    // Create a new script element to load the new script
+    const newScriptElement = document.createElement('script');
+    newScriptElement.src = newScript;
+    newScriptElement.id = 'tilejavascriptlink'; // Optional: set an ID for the new script
+
+    // Optional: Remove the old script after loading the new one
+    newScriptElement.onload = function() {
+        existingScript.remove(); // Remove the old script
+
+    initialize(); // Initialize the new script (it doesnt do this based on DOMContentLoaded)
+        
+
+    };
+
+    document.head.appendChild(newScriptElement);
 }

@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     //first clear the project-boxes div
     const projectsList = document.querySelector('.project-boxes');
@@ -19,19 +17,5 @@ function initialize() {
     //first clear the project-boxes div
     const projectsList = document.querySelector('.project-boxes');
     projectsList.innerHTML = '';
-
-}
-
-
-function loadFunctionTiles() {
-
-
-}
-
-function updateFunctionTiles() {
-
-}
-
-function trackerstats() {
 
 }
