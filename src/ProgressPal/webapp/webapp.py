@@ -71,7 +71,7 @@ def create_flask_app():
     webapp = Flask(__name__)
     progress_data = {}
     function_data = {}
-    exec_time_stats = {"n": 0, "mean": 0, "std": 0}
+    
 
     @webapp.route('/')
     def home():
@@ -97,8 +97,6 @@ def create_flask_app():
         start_time = data.get("start_time")
         track_overhead = data.get("track_overhead")
         execution_duration = data.get("execution_duration")
-        nonlocal exec_time_stats
-        exec_time_stats = calculate_mean_std_execution_time(exec_time_stats, execution_duration)
 
         
         # Ensure task_id is valid
@@ -118,8 +116,9 @@ def create_flask_app():
             progress_data[task_id]["start_time"] = start_time
             progress_data[task_id]["track_overhead"] = track_overhead
             progress_data[task_id]["execution_duration"] = execution_duration
-            progress_data[task_id]["execution_stats"] = exec_time_stats
             
+            progress_data[task_id]["exec_time_stats"] = calculate_mean_std_execution_time(progress_data[task_id].get("exec_time_stats", {"n": 0, "mean": 0, "std": 0}), execution_duration)
+
             return jsonify({"status": "success"}), 200
         else:
             return jsonify({"status": "error", "message": "Invalid data"}), 400

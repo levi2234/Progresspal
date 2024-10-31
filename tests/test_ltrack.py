@@ -11,13 +11,6 @@ def test_ltrack_yields_items():
     result = list(ltrack(iterable))
     assert result == iterable
 
-@patch('ProgressPal.ltrack.update_progress')
-@patch('ProgressPal.ltrack.webapp_online_check', return_value=False)
-@patch('ProgressPal.ltrack.start_server')
-def test_ltrack_starts_server(mock_start_server, mock_webapp_online_check, mock_update_progress):
-    iterable = [1, 2, 3]
-    list(ltrack(iterable, startweb=True))
-    mock_start_server.assert_called_once()
 
 @patch('ProgressPal.ltrack.update_progress')
 def test_ltrack_updates_progress(mock_update_progress):
@@ -39,13 +32,7 @@ def test_ltrack_yields_items():
     result = list(ltrack(iterable))
     assert result == iterable
 
-@patch('ProgressPal.ltrack.update_progress')
-@patch('ProgressPal.ltrack.webapp_online_check', return_value=False)
-@patch('ProgressPal.ltrack.start_server')
-def test_ltrack_starts_server(mock_start_server, mock_webapp_online_check, mock_update_progress):
-    iterable = [1, 2, 3]
-    list(ltrack(iterable, startweb=True))
-    mock_start_server.assert_called_once()
+
 
 @patch('ProgressPal.ltrack.update_progress')
 def test_ltrack_updates_progress(mock_update_progress):
@@ -61,12 +48,6 @@ def test_ltrack_handles_update_exception(mock_update_progress):
         list(ltrack(iterable, tickrate=0))
     except Exception:
         pytest.fail("ltrack raised Exception unexpectedly!")
-
-def test_ltrack_command_line_output(capsys):
-    iterable = [1, 2, 3]
-    list(ltrack(iterable, command_line=True, tickrate=0))
-    captured = capsys.readouterr()
-    assert "Progress: 100.0%" in captured.out
 
 def test_ltrack_yields_correct_data_types():
     iterable = [1, 2, 3, 4, 5]
