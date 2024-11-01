@@ -2,18 +2,18 @@ window.intervals = []; // or simply use var intervals = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
-    // updateClock();
+
+
+    
 
 });
 
 function initialize() {
     loadLoopTilesHeader();
-
-
     //first clear the project-boxes div
     const projectsList = document.querySelector('.project-boxes');
-    //set the title of the page
 
+    //set the title of the page
     projectsList.innerHTML = '';
 
     let loadtilesinterval = setInterval(loadLoopTiles, 1000);
@@ -21,6 +21,7 @@ function initialize() {
     let trackerstatsinterval = setInterval(trackerstats, 100);
     window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
 };
+
 
 
 function loadLoopTilesHeader() {
@@ -35,7 +36,7 @@ function updateLoopTiles() {
     fetch('/progress')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            
 
             // loop through the data and create a tile for each item
             Object.keys(data).forEach(key => {
@@ -112,7 +113,7 @@ function loadLoopTiles() {
     fetch('/progress')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            
             const projectsList = document.querySelector('.project-boxes'); // get the project-boxes div
 
             // loop through the data and create a tile for each item
@@ -185,7 +186,7 @@ function trackerstats() {
     fetch('/progress')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            
 
             
             // find the total number of tasks
@@ -205,10 +206,6 @@ function trackerstats() {
                   completedTasks++;
                 }
               });
-
-              console.log(`Active Tasks: ${activeTasks}`);
-              console.log(`Completed Tasks: ${completedTasks}`);
-                
 
                 // update the html elements with the new values (class in-progress-number)
                 document.querySelector('.total-tasks-number').innerHTML = totalTasks; // total tasks
@@ -414,4 +411,3 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     
 }
-
