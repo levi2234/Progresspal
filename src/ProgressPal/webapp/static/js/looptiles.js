@@ -2,10 +2,6 @@ window.intervals = []; // or simply use var intervals = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
-
-
-    
-
 });
 
 function initialize() {
@@ -36,76 +32,80 @@ function updateLoopTiles() {
     fetch('/progress')
         .then(response => response.json())
         .then(data => {
-            
-
             // loop through the data and create a tile for each item
             Object.keys(data).forEach(key => {
                 const item = data[key];
-                // convert time_remaining to correct time format days:hours:minutes:seconds from seconds
-                const days = Math.floor(item.time_remaining / 86400);
-                const hours = Math.floor((item.time_remaining % 86400) / 3600);
-                const minutes = Math.floor(((item.time_remaining % 86400) % 3600) / 60);
-                const seconds = Math.floor(((item.time_remaining % 86400) % 3600) % 60);
-                const overhead_percentage = (item.track_overhead / item.exec_time_stats.mean * 100).toFixed(3);
-
-
-
-                //UPDATING HTML ELEMENTS
-
-                // update the html elements with the new values
                 const tile = document.getElementById(key);
-                tile.querySelector('.loop-tile-progress').style.width = `${item.progress}%`;
-                tile.querySelector('.loop-tile-progress-percentage').innerHTML = `${item.iteration}/${item.total} - ${(item.iteration / item.total * 100).toFixed(2)}%`;
-                tile.querySelector('.time-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
 
-                //convert seconds per iteration to iterations per second if neccessary
-                if (item.iterations_per_second < 1) {
-                    item.iterations_per_second = 1 / item.iterations_per_second;
-                    tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} s/It`;
+                // Check if the tile is visible in the viewport
+                if (tile && isElementInViewport(tile)) {
+                    // convert time_remaining to correct time format days:hours:minutes:seconds from seconds
+                    const days = Math.floor(item.time_remaining / 86400);
+                    const hours = Math.floor((item.time_remaining % 86400) / 3600);
+                    const minutes = Math.floor(((item.time_remaining % 86400) % 3600) / 60);
+                    const seconds = Math.floor(((item.time_remaining % 86400) % 3600) % 60);
+                    const overhead_percentage = (item.track_overhead / item.exec_time_stats.mean * 100).toFixed(3);
 
-                } else {
-                    tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} It/s`;
-                }
-       
-                // Add an existing svg image to the class loop-tile-content-header-right depending on the category
-                if (item.category === 'builtins' || item.category.includes('collections') || item.category.includes('itertools')) {
-                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/python.svg" alt="Training" class="loop-type-icon">`;
-                }
+                    // update the html elements with the new values
+                    tile.querySelector('.loop-tile-progress').style.width = `${item.progress}%`;
+                    tile.querySelector('.loop-tile-progress-percentage').innerHTML = `${item.iteration}/${item.total} - ${(item.iteration / item.total * 100).toFixed(2)}%`;
+                    tile.querySelector('.time-left').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s Left`;
 
-                if (item.category === 'numpy') { 
-                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/numpy.svg" alt="Numpy" class="loop-type-icon">`;
-                }
+                    // convert seconds per iteration to iterations per second if necessary
+                    if (item.iterations_per_second < 1) {
+                        item.iterations_per_second = 1 / item.iterations_per_second;
+                        tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} s/It`;
+                    } else {
+                        tile.querySelector('.iterations-per-second').innerHTML = `${item.iterations_per_second.toFixed(2)} It/s`;
+                    }
 
-                if (item.category.includes('pandas')) {
-                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/pandas.svg" alt="Pandas" class="loop-type-icon">`;
-                }
+                    // Add an existing svg image to the class loop-tile-content-header-right depending on the category
+                    if (item.category === 'builtins' || item.category.includes('collections') || item.category.includes('itertools')) {
+                        tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/python.svg" alt="Training" class="loop-type-icon">`;
+                    }
 
-                if (item.category.includes("polars")) {
-                    tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/polars.svg" alt="Polars" class="loop-type-icon">`;
-                }
+                    if (item.category === 'numpy') {
+                        tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/numpy.svg" alt="Numpy" class="loop-type-icon">`;
+                    }
 
-                //log overhead percentage
-                tile.querySelector('.overhead-percentage').innerHTML = `${overhead_percentage}% OH`;
-                
-                // Add or remove outline based on progress
-                if (item.progress === 100) {
-                    tile.classList.add('tile-completed');
-                    tile.classList.remove('tile-in-progress');
-                } else {
-                    tile.classList.add('tile-in-progress');
-                    tile.classList.remove('tile-completed');
-                }
+                    if (item.category.includes('pandas')) {
+                        tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/pandas.svg" alt="Pandas" class="loop-type-icon">`;
+                    }
 
-                // CANVAS SELECTION AND UPDATING
+                    if (item.category.includes("polars")) {
+                        tile.querySelector('.loop-tile-content-header-right').innerHTML = `<img src="/static/media/modulelogos/polars.svg" alt="Polars" class="loop-type-icon">`;
+                    }
+
+                    // log overhead percentage
+                    tile.querySelector('.overhead-percentage').innerHTML = `${overhead_percentage}% OH`;
+
+                    // Add or remove outline based on progress
+                    if (item.progress === 100) {
+                        tile.classList.add('tile-completed');
+                        tile.classList.remove('tile-in-progress');
+                    } else {
+                        tile.classList.add('tile-in-progress');
+                        tile.classList.remove('tile-completed');
+                    }
+
+                    // CANVAS SELECTION AND UPDATING
                     // Select all canvas elements
-
-              plotGaussian(`gaussianCanvas-${key}`, item.exec_time_stats.mean, item.exec_time_stats.std, item.execution_duration);
-
-
-
+                    plotGaussian(`gaussianCanvas-${key}`, item.exec_time_stats.mean, item.exec_time_stats.std, item.execution_duration);
+                }
             });
-            
         });
+}
+
+// Helper function to check if an element is in the viewport
+// Helper function to check if an element is in the viewport with a margin
+function isElementInViewport(el, margin = 400) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= -margin &&
+        rect.left >= -margin &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + margin &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) + margin
+    );
 }
 function loadLoopTiles() {
     // use the json data to create tiles in the html under the class "project-boxes"
