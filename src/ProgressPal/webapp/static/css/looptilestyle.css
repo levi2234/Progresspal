@@ -1,6 +1,19 @@
+
+/* Dynamically change the number of tiles for size of screen*/
 .project-boxes.jsGridView .tile-wrapper {
-  width: 33.3%; /*original 33.3% */
-  
+  width: 25%; /*original 33.3% */
+}
+
+@media screen and (max-width: 1900px) {
+  .project-boxes.jsGridView .tile-wrapper {
+    width: 33.3%;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .project-boxes.jsGridView .tile-wrapper {
+    width: 50%;
+  }
 }
 
 .tile-wrapper {

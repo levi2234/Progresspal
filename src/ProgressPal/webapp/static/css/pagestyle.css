@@ -87,10 +87,10 @@ button, a {
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 90%;
   background-color: var(--app-container);
   transition: 0.2s;
-  max-width: 1800px;
+  /* max-width: 1800px; */
 }
 .app-container button, .app-container input, .app-container optgroup, .app-container select, .app-container textarea {
   font-family: "DM Sans", sans-serif;
@@ -510,4 +510,5 @@ button, a {
   .clock {
     display: none;
   }
+}
 }

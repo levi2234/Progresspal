@@ -98,7 +98,7 @@ function updateLoopTiles() {
 
 // Helper function to check if an element is in the viewport
 // Helper function to check if an element is in the viewport with a margin
-function isElementInViewport(el, margin = 400) {
+function isElementInViewport(el, margin = 700) {
     const rect = el.getBoundingClientRect();
     return (
         rect.top >= -margin &&
