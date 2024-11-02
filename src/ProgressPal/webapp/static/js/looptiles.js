@@ -1,16 +1,22 @@
-window.intervals = []; // or simply use var intervals = [];
+
 
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
 
 function initialize() {
+
+
+
+
     loadLoopTilesHeader();
     //first clear the project-boxes div
-    const projectsList = document.querySelector('.project-boxes');
+    window.intervals = []; // or simply use var intervals = [];
+
+    document.querySelector('.project-boxes').innerHTML = '';
 
     //set the title of the page
-    projectsList.innerHTML = '';
+    
 
     let loadtilesinterval = setInterval(loadLoopTiles, 1000);
     let updatetilesinterval = setInterval(updateLoopTiles, 100);
@@ -23,7 +29,11 @@ function initialize() {
 function loadLoopTilesHeader() {
     document.querySelector('.pagetitle').innerHTML = 'Iterable Tracker';
     //populate the header with the correct elements
-} 
+    document.querySelector('.in-progress-tasks-section').style.display = 'block';
+    document.querySelector('.completed-tasks-section').style.display = 'block';
+    document.querySelector('.total-tasks-section').style.display = 'block';
+}
+
 
 
 //this function updates the stats in the tiles based on their I
@@ -254,10 +264,7 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
     const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
     const tilecontainerColor = getComputedStyle(document.documentElement).getPropertyValue('--projects-section');
     const textColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
-    
-    
 
-    
     //convert mean type to float
     mean = parseFloat(mean);
     std = parseFloat(std);

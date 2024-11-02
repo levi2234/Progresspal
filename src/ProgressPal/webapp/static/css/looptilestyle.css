@@ -33,8 +33,6 @@
 
   }
 
-
-
 .project-boxes.jsListView .loop-tile{
   display: flex;
   border-radius: 10px;
@@ -130,6 +128,9 @@
 
 }
 
+
+
+
 .loop-tile-content-header {
   text-align: left top;
   display: flex;
@@ -151,6 +152,14 @@
   overflow: hidden;           /* Hides overflow text */
   text-overflow: ellipsis;    /* Adds ellipsis (...) to overflow */
   width: 100%;
+  transition: all 0.3s ease;  /* Smooth transition for hover effect */
+}
+
+.loop-tile-content-header-left p:hover {
+  white-space: normal;        /* Allows text to wrap */
+  overflow: visible;          /* Shows overflow text */
+  text-overflow: clip;        /* Removes ellipsis (...) */
+  word-break: break-all;
 
 }
 
@@ -231,6 +240,8 @@
   font-weight: 700;
   
 }
+
+
 
 /* .loop-tile-content-subheader-text {
   font-size: 14px;

@@ -98,6 +98,7 @@ def create_flask_app():
         track_overhead = data.get("track_overhead")
         execution_duration = data.get("execution_duration")
 
+
         
         # Ensure task_id is valid
         if task_id is not None:
@@ -116,6 +117,7 @@ def create_flask_app():
             progress_data[task_id]["start_time"] = start_time
             progress_data[task_id]["track_overhead"] = track_overhead
             progress_data[task_id]["execution_duration"] = execution_duration
+
             
             progress_data[task_id]["exec_time_stats"] = calculate_mean_std_execution_time(progress_data[task_id].get("exec_time_stats", {"n": 0, "mean": 0, "std": 0}), execution_duration)
 
@@ -133,9 +135,13 @@ def create_flask_app():
         task_id = data.get("task_id")
         category = data.get("category")
         call_count = data.get("call_count")
+        error_count = data.get("error_count")
         last_execution_time = data.get("last_execution_time")
         function_name = data.get("function_name")
         exec_hist = data.get("exec_hist")
+        filename = data.get("filename")
+        calls_per_second = data.get("calls_per_second")
+        
 
         
         # Ensure task_id is valid
@@ -145,18 +151,16 @@ def create_flask_app():
                 function_data[task_id] = {}
             # Update progress_data with the new values
             if function_data[task_id].get("call_count") is not None:
-                function_data[task_id]["call_count"] += call_count
+                function_data[task_id]["call_count"] = call_count
             else:
                 function_data[task_id]["call_count"] = call_count
             function_data[task_id]["category"] = category
             function_data[task_id]["last_execution_time"] = last_execution_time
             function_data[task_id]["function_name"] = function_name
-            if "exec_hist" in function_data[task_id]:
-                function_data[task_id]["exec_hist"].extend(exec_hist) #TODO : make it so that this cannot be more than a certain length 
-            else:
-                function_data[task_id]["exec_hist"] = exec_hist
-
-            
+            function_data[task_id]["exec_hist"] = exec_hist
+            function_data[task_id]["filename"] = filename
+            function_data[task_id]["error_count"] = error_count
+            function_data[task_id]["calls_per_second"] = calls_per_second
             
             return jsonify({"status": "success"}), 200
         else:

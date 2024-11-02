@@ -1,87 +1,91 @@
 
-import requests 
-from functools import wraps
 import time
 from collections import deque
-from numpy import random as np
+from functools import wraps
 import os
+import asyncio
+import aiohttp
 
-
-def update_function_progress(task_id, category, call_count,last_execution_time,function_name,exec_hist,host,port):
-
+async def update_function_progress(task_id, category, call_count, last_execution_time, function_name, exec_hist, error_count, filename, calls_per_second, host, port):
     url = f"http://{host}:{port}/update_function_status"
     
-    data = {"task_id": task_id,
-            "category": category,
-            "call_count": call_count,
-            "last_execution_time": last_execution_time,
-            "function_name": function_name,
-            "exec_hist": exec_hist if exec_hist else None,
-            }
-    
-    response = requests.post(url, json=data)
-    if response.status_code == 200:
-        return None
+    data = {
+        "task_id": task_id,
+        "category": category,
+        "call_count": call_count,
+        "error_count": error_count,
+        "last_execution_time": last_execution_time,
+        "function_name": function_name,
+        "exec_hist": exec_hist if exec_hist else None,
+        "filename": filename,   
+        "calls_per_second": calls_per_second
+    }
+    try: 
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=data) as response:
+                if response.status == 200:
+                    return None
+    except:
+        pass
+class ftrack:
+    def __init__(self, port=5000, host="127.0.0.1", taskid=None, category=0, web=True, command_line=False, tickrate=1, exec_hist=100, **kwargs):
+        self.port = port
+        self.host = host
+        self.taskid = taskid
+        self.category = category
+        self.web = web
+        self.command_line = command_line
+        self.tickrate = tickrate
+        self.exec_hist = deque(maxlen=exec_hist)
+        self.first_call_time = time.perf_counter()
+        self.kwargs = kwargs
+        self.latest_call = None
+        self.call_count = 0
+        self.error_count = 0
+        self.file_name = os.path.basename(__file__)
+        
+        
 
-
-
-
-def ftrack(port=5000, host="127.0.0.1", taskid=None, category=0, web=True, command_line=False, tickrate=1, startweb=False, exec_hist=False, **kwargs):
-    def decorator(func):
+    def __call__(self, func):
         @wraps(func)
-        
         def wrapper(*args, **kwargs):
+            self.call_count += 1
+            start_time_execution = time.perf_counter_ns() # Start the timer for the function execution
             
-            if not hasattr(wrapper, 'exec_history') and exec_hist:  # Initialize the execution history
-                wrapper.exec_history = deque(maxlen=exec_hist)
-                
-                
-            start_time_execution = time.perf_counter_ns()
-            function = func(*args, **kwargs)
-            execution_duration = time.perf_counter_ns() - start_time_execution
-            if web or command_line:  # Calculate the function information
-                wrapper.call_count = 1
-                latest_call = time.ctime()
-                function_name = func.__name__
-                if exec_hist:
-                    wrapper.exec_history.appendleft(execution_duration)
-                
+            try:
+            # Execute the function
+                function = func(*args, **kwargs)
+            except Exception as e:
+                self.error_count += 1
+                raise e
 
-                #Send the progress update
-                
-                if web:
-                    update_function_progress(task_id=taskid if taskid is not None else os.path.basename(__file__),
-                                             category=category,
-                                             call_count=wrapper.call_count,
-                                             last_execution_time=latest_call,
-                                             function_name=function_name,
-                                             exec_hist=list(wrapper.exec_history) if exec_hist else None,
-                                             host=host,
-                                             port=port)
-                    print(wrapper.exec_history, wrapper.call_count)
-                    
-                    
-                else: 
-                    wrapper.call_count += 1
+            execution_duration = time.perf_counter_ns() - start_time_execution  # Calculate the execution duration
+                            
+            self.latest_call = time.ctime()
+       
+            self.exec_hist.append(execution_duration)
             
+            # Send the progress update
+            if self.web:
+                asyncio.run(self.run_update(func, execution_duration))
+
             return function
-        
-        
-        
-        
-        # Initialize the call count attribute
-        wrapper.call_count = 0
-        wrapper.first_call_time = time.time()
-        wrapper.last_execution_time = time.time()
+
         return wrapper
-        
-    return decorator
 
-
-# Using the decorator
-@ftrack(exec_hist=10, taskid= str(os.path.basename(__file__)))
-def example_function():
-    return None
+    async def run_update(self, func,  execution_duration):
+        await update_function_progress(
+            task_id= self.taskid if self.taskid is not None else func.__name__,
+            category=self.category,
+            call_count=self.call_count,
+            last_execution_time=self.latest_call,
+            function_name=func.__name__,
+            exec_hist=list(self.exec_hist),
+            error_count=self.error_count, 
+            filename = self.file_name,
+            calls_per_second=self.call_count / (time.perf_counter() - self.first_call_time),
+            host=self.host,
+            port=self.port
+        )
     
-example_function()
-example_function()
+

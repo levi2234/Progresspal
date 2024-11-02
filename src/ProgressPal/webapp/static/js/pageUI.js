@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
             //set the active class
             menuButtons.forEach(menuButton => menuButton.classList.remove('active'));
             button.classList.add('active');
+
+            
+            
         });
     });
 });
@@ -89,44 +92,58 @@ function updateClock(is24HourFormat = true) {
 
 
 // This handles the changing of resources (CSS and JS) when a menu button is clicked
+// This function changes resources (CSS and JS) when a menu button is clicked
 function changeResources(newStylesheet, newScript) {
 
-    //clear intervals loaded on domload
-    function terminateAllIntervals() {
-        intervals.forEach(intervalId => {
-            clearInterval(intervalId);
-        });
-        // Clear the intervals array if needed
-        intervals = [];
+    // Initialize window.intervals if it doesn't exist
+    if (!window.intervals) {
+        window.intervals = [];
     }
 
-    // Clear all intervals to make sure the new script starts fresh
-    terminateAllIntervals();
+    // Clear all stored intervals and other loaded functions
+    function terminateAllResources() {
+        // Clear all stored intervals
+        window.intervals.forEach(intervalId => clearInterval(intervalId));
+        window.intervals = []; // Reset intervals array
+
+        // Remove any event listeners or globally defined functions
+        if (typeof cleanup === 'function') {
+            cleanup(); // Use a cleanup function if defined in the old script
+        }
+    }
+
+    // Terminate all active resources before changing scripts
+    terminateAllResources();
 
     // Change the stylesheet
     const stylesheetLink = document.getElementById('tilesstylesheetlink');
-    stylesheetLink.href = newStylesheet;
+    if (stylesheetLink) {
+        stylesheetLink.href = newStylesheet;
+    }
 
-    // Change the JavaScript script
+    // Remove the old script if it exists
     const existingScript = document.getElementById('tilejavascriptlink');
-    existingScript.src = newScript;
+    if (existingScript) {
+        existingScript.remove();
+    }
 
-    // Create a new script element to load the new script
+    // Create and load the new script element
     const newScriptElement = document.createElement('script');
     newScriptElement.src = newScript;
-    newScriptElement.id = 'tilejavascriptlink'; // Optional: set an ID for the new script
+    newScriptElement.id = 'tilejavascriptlink';
 
-    // Optional: Remove the old script after loading the new one
+    // After loading, initialize new script intervals
     newScriptElement.onload = function() {
-        existingScript.remove(); // Remove the old script
-
-    initialize(); // Initialize the new script (it doesnt do this based on DOMContentLoaded)
-        
-
+        if (typeof initialize === 'function') {
+            initialize(); // Run the new script’s initialization
+        }
     };
 
     document.head.appendChild(newScriptElement);
 }
+
+
+
 
 // This function initializes the searchbar functionality
 function startSearchbar() {
