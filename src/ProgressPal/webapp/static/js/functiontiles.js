@@ -25,6 +25,12 @@ function loadFunctionTilesHeader() {
     document.querySelector('.in-progress-tasks-section').style.display = 'none';
     document.querySelector('.completed-tasks-section').style.display = 'none';
     document.querySelector('.total-tasks-section').style.display = 'block';
+    document.querySelector('.list-view').style.display = 'none';
+
+    //force grid view
+    document.querySelector('.grid-view').classList.add('active');
+    document.querySelector('.project-boxes').classList.remove('jsListView');
+    document.querySelector('.project-boxes').classList.add('jsGridView');
 }
 
 

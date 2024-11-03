@@ -11,37 +11,37 @@ import pandas as pd
 ip = "127.0.0.1"
 
 def nested_loops_1():
-    for j in ltrack(range(1000), taskid="Thread1_Main", total=1000, host=ip):
-        time.sleep(random.uniform(1, 3))
-        for i in ltrack(itertools.cycle([1, 2, 3, 4, 5]), taskid="Thread1_Secondary", total=1000, host=ip):
-            time.sleep(random.uniform(1, 3))
-            for k in ltrack(np.arange(0, 1000, 0.5), taskid="Thread1_Tertiary", total=len(np.arange(0, 1000, 0.5)), host=ip):
-                time.sleep(random.uniform(1, 3))
+    for j in ltrack(range(10), taskid="Thread1_Main", total=10, host=ip):
+        time.sleep(random.uniform(0.1, 0.3))
+        for i in ltrack(itertools.cycle([1, 2, 3, 4, 5]), taskid="Thread1_Secondary", total=10, host=ip):
+            time.sleep(random.uniform(0.1, 0.3))
+            for k in ltrack(np.arange(0, 10, 0.5), taskid="Thread1_Tertiary", total=len(np.arange(0, 10, 0.5)), host=ip):
+                time.sleep(random.uniform(0.1, 0.3))
 
 def nested_loops_2():
-    for j in ltrack(range(1000), taskid="Thread2_Main", total=1000, host=ip):
-        time.sleep(random.uniform(1, 3))
-        for i in ltrack(deque([1, 2, 3, 4, 5]), taskid="Thread2_Secondary", host=ip, total=1000):
-            time.sleep(random.uniform(1, 3))
-            for k in ltrack(np.arange(0, 1000, 0.5), taskid="Thread2_Tertiary", host=ip, total=len(np.arange(0, 1000, 0.5))):
-                time.sleep(random.uniform(1, 3))
+    for j in ltrack(range(10), taskid="Thread2_Main", total=10, host=ip):
+        time.sleep(random.uniform(0.1, 0.3))
+        for i in ltrack(deque([1, 2, 3, 4, 5]), taskid="Thread2_Secondary", host=ip, total=10):
+            time.sleep(random.uniform(0.1, 0.3))
+            for k in ltrack(np.arange(0, 10, 0.5), taskid="Thread2_Tertiary", host=ip, total=len(np.arange(0, 10, 0.5))):
+                time.sleep(random.uniform(0.1, 0.3))
 
 def nested_loops_3():
-    df = pd.DataFrame({'A': range(1000)})
+    df = pd.DataFrame({'A': range(10)})
     for j in ltrack(df['A'], taskid="Process1_Main", total=len(df['A']), host=ip):
-        time.sleep(random.uniform(1, 3))
-        for i in ltrack(itertools.repeat(1, 1000), taskid="Process1_Secondary", total=1000, host=ip):
-            time.sleep(random.uniform(1, 3))
-            for k in ltrack(np.arange(0, 1000, 0.5), taskid="Process1_Tertiary", total=len(np.arange(0, 1000, 0.5)), host=ip):
-                time.sleep(random.uniform(1, 3))
+        time.sleep(random.uniform(0.1, 0.3))
+        for i in ltrack(itertools.repeat(1, 10), taskid="Process1_Secondary", total=10, host=ip):
+            time.sleep(random.uniform(0.1, 0.3))
+            for k in ltrack(np.arange(0, 10, 0.5), taskid="Process1_Tertiary", total=len(np.arange(0, 10, 0.5)), host=ip):
+                time.sleep(random.uniform(0.1, 0.3))
 
 def nested_loops_4():
-    for j in ltrack(range(1000), taskid="Process2_Main", total=1000, host=ip):
-        time.sleep(random.uniform(1, 3))
-        for i in ltrack(itertools.chain([1, 2], [3, 4, 5]), taskid="Process2_Secondary", total=1000, host=ip):
-            time.sleep(random.uniform(1, 3))
-            for k in ltrack(np.arange(0, 1000, 0.5), taskid="Process2_Tertiary", total=len(np.arange(0, 1000, 0.5)), host=ip):
-                time.sleep(random.uniform(1, 3))
+    for j in ltrack(range(10), taskid="Process2_Main", total=10, host=ip):
+        time.sleep(random.uniform(0.1, 0.3))
+        for i in ltrack(itertools.chain([1, 2], [3, 4, 5]), taskid="Process2_Secondary", total=10, host=ip):
+            time.sleep(random.uniform(0.1, 0.3))
+            for k in ltrack(np.arange(0, 10, 0.5), taskid="Process2_Tertiary", total=len(np.arange(0, 10, 0.5)), host=ip):
+                time.sleep(random.uniform(0.1, 0.3))
 
 if __name__ == "__main__":
     # Create threads

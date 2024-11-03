@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var gridView = document.querySelector('.grid-view');
     var projectsList = document.querySelector('.project-boxes');
     
+
+
     listView.addEventListener('click', function () {
         gridView.classList.remove('active');
         listView.classList.add('active');
@@ -23,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
         projectsList.classList.remove('jsListView');
         projectsList.classList.add('jsGridView');
     });
+
+
+    
+    
+
 
     let is24HourFormat = true; // Initial format is 24-hour
 

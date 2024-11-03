@@ -6,9 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initialize() {
 
-
-
-
     loadLoopTilesHeader();
     //first clear the project-boxes div
     window.intervals = []; // or simply use var intervals = [];
@@ -32,12 +29,22 @@ function loadLoopTilesHeader() {
     document.querySelector('.in-progress-tasks-section').style.display = 'block';
     document.querySelector('.completed-tasks-section').style.display = 'block';
     document.querySelector('.total-tasks-section').style.display = 'block';
+    document.querySelector('.list-view').style.display = 'flex';
+
+    //force the grid view to be active
+    document.querySelector('.grid-view').classList.add('active');
+    document.querySelector('.list-view').classList.remove('active');
+    
+
+
 }
 
 
 
 //this function updates the stats in the tiles based on their I
 function updateLoopTiles() {
+
+
     // get the json progress data from the server
     fetch('/progress')
         .then(response => response.json())
@@ -101,7 +108,9 @@ function updateLoopTiles() {
                     // CANVAS SELECTION AND UPDATING
                     // Select all canvas elements
                     plotGaussian(`gaussianCanvas-${key}`, item.exec_time_stats.mean, item.exec_time_stats.std, item.execution_duration);
+                
                 }
+                
             });
         });
 }
@@ -186,7 +195,6 @@ function loadLoopTiles() {
             
         });
 }
-
 
 //this function updates the total tasks, active tasks and completed tasks
 function trackerstats() {
@@ -418,3 +426,5 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     
 }
+
+    // Listen for changes in the checkbox state
