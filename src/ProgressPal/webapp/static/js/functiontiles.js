@@ -47,19 +47,20 @@ function updateFunctionTiles() {
 
                 // Check if the tile is visible in the viewport
                 if (tile && isElementInViewport(tile)) {
-                    // convert time_remaining to correct time format days:hours:minutes:seconds from seconds
- 
+
 
                     // convert seconds per iteration to iterations per second if necessary
                     if (item.calls_per_second < 1) {
                         item.calls_per_second = 1 / item.calls_per_second;
-                        tile.querySelector('.calls_per_second').innerHTML = `${item.calls_per_second.toFixed(2)} s/Call`;
+                        tile.querySelector('.calls_per_second_value').innerHTML = `${item.calls_per_second.toFixed(2)}`;
+                        tile.querySelector('.calls_per_second_text').innerHTML = "s/Call";
                     } else {
-                        tile.querySelector('.calls_per_second').innerHTML = `${item.calls_per_second.toFixed(2)} Calls/s`;
+                        tile.querySelector('.calls_per_second_value').innerHTML = `${item.calls_per_second.toFixed(2)} `;
+                        tile.querySelector('.calls_per_second_text').innerHTML = "Calls/s";
                     }
 
-                    tile.querySelector('.call_count').innerHTML = `Calls: ${item.call_count}`;
-                    tile.querySelector('.error_count').innerHTML = `Errors: ${item.error_count}`;
+                    tile.querySelector('.call_count_value').innerHTML = `${item.call_count}`;
+                    tile.querySelector('.error_count_value').innerHTML = `${item.error_count}`;
 
 
                     // log overhead percentage
@@ -69,16 +70,19 @@ function updateFunctionTiles() {
                         tile.querySelector('.overhead-percentage').innerHTML = `- % OH`;
                     }
 
-                    //Calculate mean and std from item.exec_hist
-                    const { mean, std } = CalcuMeanStd(item.exec_hist);
-
-    
-                    // CANVAS SELECTION AND UPDATIN
-                    // Select all canvas elements
-
-
-
-                    plotGaussian(`gaussianCanvas-${key}`, mean, std, item.exec_hist[item.exec_hist.length - 1]);
+                    // plotGaussian(`gaussianCanvas-${key}`, mean, std, item.exec_hist[item.exec_hist.length - 1]);
+                    plotExecutionTimeline(`gaussianCanvas-${key}`, item.exec_hist);
+                    
+                    // check if the error count is greater than 0 and change the color of the error count value
+                    if (item.error_count ===  1) {
+                        tile.style.backgroundColor = 'orange';
+                    }
+                    else if (item.error_count > 1) {
+                        tile.style.backgroundColor = 'red';
+                    }
+                    else {
+                        tile.style.backgroundColor = 'var(--tile-color)';
+                    }
                 }
             });
         });
@@ -134,22 +138,26 @@ function loadFunctionTiles() {
 
                         <div class="function-tile-content">
 
-                                <div class="call_count tile-badge" ">
-                                Calls: ${item.call_count}
+                                <div class="call_count tile-stats-box" ">
+                                    <div class="call_count_value"> ${item.call_count}</div>
+                                    <div class ="call_count_text"> Calls</div>
                                 </div>
 
-                                <div class="error_count tile-badge" ">
-                                Errors: ${item.error_count}
+                                <div class="error_count tile-stats-box" ">
+                                    <div class="error_count_value">${item.error_count}</div>
+                                    <div class="error_count_text"> Errors</div>
                                 </div>
 
-                                <div class="calls_per_second tile-badge" ">
-                                Calls/s: ${item.calls_per_second.toFixed(2)}
+                                <div class="calls_per_second tile-stats-box" ">
+                                    <div class="calls_per_second_value"> ${item.calls_per_second.toFixed(2)} </div>
+                                    <div class="calls_per_second_text"> Calls/s </div>
                                 </div>
                         </div>
 
                         <div class="function-tile-footer">
-                             <canvas class="function-tile-content-header-canvas hidden" id = "gaussianCanvas-${key}"></canvas>
-                             <svg viewBox="0 0 24 24" class="tile-dropdown-arrow"  xmlns="http://www.w3.org/2000/svg"><path  d="M12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L6.29289 9.70711C5.90237 9.31658 5.90237 8.68342 6.29289 8.29289C6.68342 7.90237 7.31658 7.90237 7.70711 8.29289L12 12.5858L16.2929 8.29289C16.6834 7.90237 17.3166 7.90237 17.7071 8.29289C18.0976 8.68342 18.0976 9.31658 17.7071 9.70711L12.7071 14.7071Z"/></svg>
+                            <p class="">Execution Duration</p>
+                             <canvas class="function-tile-content-header-canvas" id = "gaussianCanvas-${key}"></canvas>
+
                         </div>
                     </div>
                 `;
@@ -181,20 +189,7 @@ function trackerstats() {
 }
 
 //listen to event when the dropdown arrow is clicked and hide the canvas and show the plot
-document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('tile-dropdown-arrow')) {
-        const canvas = event.target.parentElement.parentElement.querySelector('canvas');
-        if (canvas.style.display === 'none') {
-            canvas.style.display = 'block';
-            event.target.classList.add('active');
-        } else {
-            canvas.style.display = 'none';
-            event.target.classList.remove('active');
-        }
-    }
-});
-
-
+// Debounce function to limit the rate of event handler execution
 
 
 function plotGaussian(canvasId, mean, std, latest_execution_time) {
@@ -362,7 +357,103 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     
 }
+function plotExecutionTimeline(canvasId, executionDurations) {
+    // Set up the canvas dimensions
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = 100;
 
+    // Get the CSS variables for colors
+    const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
+    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
+
+    const ctx = canvas.getContext("2d");
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Draw Y axis
+    ctx.beginPath();
+    ctx.moveTo(85, 0); // Moved to the right
+    ctx.lineTo(85, canvas.height); // Moved to the right
+    ctx.strokeStyle = textColor;
+    ctx.stroke();
+
+    // Calculate the mean and standard deviation
+    const { mean, std } = CalcuMeanStd(executionDurations);
+
+    // Calculate the scaling factors within 4 sigma range
+    const maxDuration = Math.min(Math.max(...executionDurations), mean + 4 * std);
+    const minDuration = Math.max(Math.min(...executionDurations), mean - 4 * std);
+    const xScale = (canvas.width - 85) / (executionDurations.length - 1);
+    const yScale = (canvas.height - 40) / (maxDuration - minDuration);
+
+    // Plot the execution durations
+    ctx.beginPath();
+    ctx.moveTo(85, canvas.height - 20 - (executionDurations[0] - minDuration) * yScale);
+    for (let i = 1; i < executionDurations.length; i++) {
+        const x = 85 + i * xScale;
+        const y = canvas.height - 20 - (executionDurations[i] - minDuration) * yScale;
+        ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(79, 63, 240, 0.8)';
+    ctx.stroke();
+
+    // Optionally, add grid lines and labels
+    ctx.globalAlpha = 0.1;
+    for (let i = 0; i < 10; i++) {
+        const y = i * (canvas.height / 9);
+        ctx.beginPath();
+        ctx.moveTo(80, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.strokeStyle = textColor;
+        ctx.stroke();
+    }
+    ctx.globalAlpha = 1.0;
+
+    // Add labels for the Y axis
+    ctx.strokeStyle = textColor;
+    ctx.stroke();
+    ctx.globalAlpha = 1.0;
+
+    const values = [
+        mean,
+        mean + 2 * std,
+        mean - 2 * std
+    ];
+
+    const converted_vals_mean = identify_largest_time_unit(mean);
+    const converted_vals_std = identify_largest_time_unit(std);
+    const labels = [
+        `${converted_vals_mean.time.toFixed(2)} ${converted_vals_mean.time_unit}`,
+        `+${2 * converted_vals_std.time.toFixed(2)} ${converted_vals_std.time_unit}`,
+        `-${2 * converted_vals_std.time.toFixed(2)} ${converted_vals_std.time_unit}`
+    ];
+
+    values.forEach((value, index) => {
+        const y = canvas.height - 20 - (value - minDuration) * (canvas.height - 40) / (maxDuration - minDuration);
+        const label = labels[index];
+    
+        // Set the font size
+        ctx.font = "14px Arial";
+        ctx.fillStyle = textColor;
+    
+        // Measure the width of the text
+        const textWidth = ctx.measureText(label).width;
+    
+        // Adjust the x-coordinate so the right side of the text is at x=75
+        const x = 75 - textWidth;
+    
+        ctx.fillText(label, x, y + 3);
+    
+        // Draw ticks on the y-axis
+        ctx.beginPath();
+        ctx.moveTo(85, y);
+        ctx.lineTo(90, y);
+        ctx.strokeStyle = textColor;
+        ctx.stroke();
+    });
+}
 
 // Helper function to check if an element is in the viewport
 // Helper function to check if an element is in the viewport with a margin

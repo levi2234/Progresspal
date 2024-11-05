@@ -3,6 +3,7 @@ import time
 from collections import deque
 from functools import wraps
 import os
+import inspect
 import asyncio
 import aiohttp
 
@@ -42,35 +43,32 @@ class ftrack:
         self.latest_call = None
         self.call_count = 0
         self.error_count = 0
-        self.file_name = os.path.basename(__file__)
+        self.file_name = os.path.basename(inspect.stack()[1].filename)
         
-        
-
+    
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             self.call_count += 1
-            start_time_execution = time.perf_counter_ns() # Start the timer for the function execution
+            start_time_execution = time.perf_counter_ns()  # Start the timer for the function execution
             
             try:
-            # Execute the function
+                # Execute the function
                 function = func(*args, **kwargs)
             except Exception as e:
                 self.error_count += 1
                 raise e
-
-            execution_duration = time.perf_counter_ns() - start_time_execution  # Calculate the execution duration
-                            
-            self.latest_call = time.ctime()
-       
-            self.exec_hist.append(execution_duration)
-            
-            # Send the progress update
-            if self.web:
-                asyncio.run(self.run_update(func, execution_duration))
-
+            finally:
+                execution_duration = time.perf_counter_ns() - start_time_execution  # Calculate the execution duration
+                self.latest_call = time.ctime()
+                self.exec_hist.append(execution_duration)
+                
+                # Send the progress update
+                if self.web:
+                    asyncio.run(self.run_update(func, execution_duration))
+    
             return function
-
+    
         return wrapper
 
     async def run_update(self, func,  execution_duration):

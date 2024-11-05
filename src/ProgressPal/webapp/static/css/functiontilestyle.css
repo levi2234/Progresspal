@@ -138,29 +138,34 @@
     padding-top: 0px;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    min-height: auto;
 }
 
 .function-tile-content > div {
     flex: 1;
     text-align: center;
+    min-height: auto;
 }
   
   
   
   .function-tile-content-header {
-    text-align: left top;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0px;
-    flex-shrink: 0;
-  }
-  .function-tile-content-header-left {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    height: auto; /* Adjusts height to the content */
+    padding: 0; /* Removes any default padding */
+    margin: 0; /* Removes any default margin */
+}
+.function-tile-content-header-left,
+.function-tile-content-header-right {
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
     max-width: 50%;
     min-width: 50%;
-  }
+    margin-left: auto; 
+    margin-right: 0;
+}
+
 
   
   
@@ -225,14 +230,14 @@
   .function-tile-content-header-canvas {
     position: relative;
     align-self: center;
-    background-color: var(--main-color);
+    background-color: var(--projects-section);
     border-color: var(--main-color-card);
     margin-right: 8px;
     border-radius: 10px;
     transition-duration: 0.5s;
     transition-behavior: ease;
     width: 100%; /* Make the canvas fill its flexbox container in width */
-    height: 100%; /* Ensure the canvas inherits the flexbox height */
+    height: 100px; /* Ensure the canvas inherits the flexbox height */
     flex-shrink: 0;
   }
   
@@ -257,18 +262,22 @@
     opacity: 0.3;
     z-index: -1; /* Ensure it is above other elements */
   }
-.project-boxes.jsListView .function-tile-content-header-right {
-    text-align: right;
+.project-boxes.jsListView .function-tile-content-header-right p{
+    align-self: right;
 }
   .function-tile-content-header-right .project-boxes.jsListView{
     align-self: flex-end ;
-    
+  
   }
+
+
   
   .function-tile-content-header-text {
     font-size: 22px;
     line-height: 24px;
     font-weight: 700;
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
     
   }
   
@@ -277,13 +286,72 @@
     line-height: 24px;
     font-weight: 700;
     color: var(--main-color);
-    margin-top: 0px;
-    padding-top: 0px;
+    padding: 0; /* Removes any default padding */
+    margin: 0; /* Removes any default margin */
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
 
   }
+  .function-tile-content-subheader-text,
+  .overhead-percentage {
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+  }
+
+/* Tile stats function value counters */
+.call_count {
+    display: flex;
+    align-items: baseline;
+}
+
+.call_count_value {
+    font-size: 3em; /* Large number */
+    margin-right: 0.2em; /* Small space between number and text */
+    min-height: auto;
+    
+}
+
+.call_count_text {
+    font-size: 1.2em; /* Smaller text */
+    min-height: auto;
+}
+
+.error_count {
+  display: flex;
+  align-items: baseline;
+  min-height: auto;
+}
+
+.error_count_value {
+  font-size: 3em; /* Large number */
+  margin-right: 0.2em; /* Small space between number and text */
+  min-height: auto;
+}
+
+.error_count_text {
+  font-size: 1.2em; /* Smaller text */
+  min-height: auto;
+}
+  
+
+.calls_per_second {
+  display: flex;
+  min-height: auto;
+  align-items: baseline;
+}
+
+.calls_per_second_value {
+  font-size: 3em; /* Large number */
+  margin-right: 0.2em; /* Small space between number and text */
+  min-height: auto;
+}
+
+.calls_per_second_text {
+  font-size: 1.2em; /* Smaller text */
+  min-height: auto;
+}
   
   .project-boxes.jsListView .function-tile-progress-wrapper {
     order: 3;
@@ -331,7 +399,7 @@
   .function-tile-footer {
     /* display: flex;
     justify-content: space-between; */
-    padding-top: 16px;
+
     position: relative;
   }
   .function-tile-footer:after {
@@ -339,7 +407,7 @@
     position: absolute;
     /* background-color: rgba(255, 255, 255, 0.6); */
     width: calc(100% + 24px);
-    top: 4px;
+    /* top: 4px; */
     left: -12px;
     height: 1px;
   }
@@ -366,13 +434,13 @@
 
   
   
-  .tile-badge {
-    background-color: var(--tile-badge-background-color);
+  .tile-stats-box {
+    /* background-color: var(--tile-badge-background-color); */
     font-size: 12px;
     border-radius: 20px;
     flex-shrink: 0;
-    padding: 6px 16px;
-    margin-bottom: 10px;
+    /* padding: 6px 16px; */
+    /* margin-bottom: 10px; */
     font-weight: 700;
     color: var(--tile-badge-text-color)
   }
