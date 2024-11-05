@@ -60,6 +60,11 @@
     transition: box-shadow 0.75s ease; /* Transition for smooth color change */
   }
   
+  .function-tile.jsListView{
+
+    display: flex;
+    
+  }
   
   
   /* Additional box-shadow for border effect */
@@ -240,6 +245,14 @@
     height: 100px; /* Ensure the canvas inherits the flexbox height */
     flex-shrink: 0;
   }
+
+  .canvas-title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--main-color);
+  }
   
   .project-boxes.jsListView .function-tile-content-header-center {
     visibility: hidden;
@@ -264,6 +277,15 @@
   }
 .project-boxes.jsListView .function-tile-content-header-right p{
     align-self: right;
+}
+
+.function-tile-content-header-right p:hover {
+    align-self: right;
+    white-space: normal;        /* Allows text to wrap */
+    overflow: visible;          /* Shows overflow text */
+    text-overflow: clip;        /* Removes ellipsis (...) */
+    word-break: break-all;
+
 }
   .function-tile-content-header-right .project-boxes.jsListView{
     align-self: flex-end ;

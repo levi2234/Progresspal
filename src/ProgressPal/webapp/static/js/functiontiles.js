@@ -25,9 +25,10 @@ function loadFunctionTilesHeader() {
     document.querySelector('.in-progress-tasks-section').style.display = 'none';
     document.querySelector('.completed-tasks-section').style.display = 'none';
     document.querySelector('.total-tasks-section').style.display = 'block';
-    document.querySelector('.list-view').style.display = 'none';
+   
 
     //force grid view
+    document.querySelector('.list-view').style.display = 'none';
     document.querySelector('.grid-view').classList.add('active');
     document.querySelector('.project-boxes').classList.remove('jsListView');
     document.querySelector('.project-boxes').classList.add('jsGridView');
@@ -155,7 +156,7 @@ function loadFunctionTiles() {
                         </div>
 
                         <div class="function-tile-footer">
-                            <p class="">Execution Duration</p>
+                            <p class="canvas-title">Latest execution duration:                            ${ identify_largest_time_unit(item.exec_hist[item.exec_hist.length - 1]).time.toFixed(4) } ${ identify_largest_time_unit(item.exec_hist[item.exec_hist.length - 1]).time_unit } </p>
                              <canvas class="function-tile-content-header-canvas" id = "gaussianCanvas-${key}"></canvas>
 
                         </div>
@@ -187,10 +188,6 @@ function trackerstats() {
 
         });
 }
-
-//listen to event when the dropdown arrow is clicked and hide the canvas and show the plot
-// Debounce function to limit the rate of event handler execution
-
 
 function plotGaussian(canvasId, mean, std, latest_execution_time) {
     
