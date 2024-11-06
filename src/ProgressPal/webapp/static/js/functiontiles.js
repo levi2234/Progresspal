@@ -18,7 +18,6 @@ function initialize() {
     window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
 };
 
-
 function loadFunctionTilesHeader() {
     document.querySelector('.pagetitle').innerHTML = 'Function Tracker';
     //populate the header with the correct elements
@@ -33,7 +32,6 @@ function loadFunctionTilesHeader() {
     document.querySelector('.project-boxes').classList.remove('jsListView');
     document.querySelector('.project-boxes').classList.add('jsGridView');
 }
-
 
 //this function updates the stats in the tiles based on their I
 function updateFunctionTiles() {
@@ -88,7 +86,6 @@ function updateFunctionTiles() {
             });
         });
 }
-
 
 function loadFunctionTiles() {
     // use the json data to create tiles in the html under the class "project-boxes"
@@ -167,7 +164,6 @@ function loadFunctionTiles() {
             
         });
 }
-
 
 //this function updates the total tasks, active tasks and completed tasks
 function trackerstats() {
@@ -453,7 +449,6 @@ function plotExecutionTimeline(canvasId, executionDurations) {
 }
 
 // Helper function to check if an element is in the viewport
-// Helper function to check if an element is in the viewport with a margin
 function isElementInViewport(el, margin = 700) {
     const rect = el.getBoundingClientRect();
     return (

@@ -71,6 +71,7 @@ def create_flask_app():
     webapp = Flask(__name__)
     progress_data = {}
     function_data = {}
+    log_data = {}
     
 
     @webapp.route('/')
@@ -170,8 +171,32 @@ def create_flask_app():
     def get_function_status():
         return jsonify(function_data)
     
-
+    @webapp.route('/update_logs', methods=['POST'])
+    def update_logs():
+        data = request.json
+        message = data.get("message")
+        level = data.get("level")
+        timestamp = data.get("timestamp")
+        filename = data.get("filename")
+        lineno = data.get("lineno")
+        
+        # add log to the log json
+        log = {
+            "message": message,
+            "level": level,
+            "timestamp": timestamp,
+            "filename": filename,
+            "lineno": lineno
+        }
+        if "logs" not in log_data:
+            log_data["logs"] = []
+        log_data["logs"].append(log)
+        # Save the log to a file
+        return jsonify({"status": "success"}), 200
     
+    @webapp.route('/logs', methods=['GET'])
+    def get_logs():
+        return jsonify(log_data)
     
     
     return webapp

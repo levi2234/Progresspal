@@ -1,6 +1,3 @@
-from .webapp.start_server import start_server
-from .webapp.webapp_online_check import webapp_online_check
-import requests 
 import numpy as np
 import time
 import aiohttp
@@ -42,11 +39,6 @@ async def update_progress(task_id, category, iteration, total, percentage, elaps
         async with session.post(url, json=data) as response:
             if response.status == 200:
                 return None
-
-    
-import time
-import numpy as np
-
 class ltrack:
     def __init__(self, iterable, port=5000, host="127.0.0.1", taskid=None, total=None, debug=False, weblog=False, web=True, tickrate=1):
         """
