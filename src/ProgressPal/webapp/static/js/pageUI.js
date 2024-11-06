@@ -47,9 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
                        "logtracker": {"stylesheet": "/static/css/logtilestyle.css", "script": "/static/js/logtiles.js"},
                        "settings": {"stylesheet": "/static/css/settingstilestyle.css", "script": "/static/js/settings.js"}};
 
-    // Initialize the searchbar functionality
-    startSearchbar();
-
     //detect menu button press and change resources
     const menuButtons = document.querySelectorAll('.app-sidebar-link');
     menuButtons.forEach(button => {
@@ -152,25 +149,4 @@ function changeResources(newStylesheet, newScript) {
 
 
 
-// This function initializes the searchbar functionality
-function startSearchbar() {
 
-    const searchBox = document.getElementById('search-input');
-    console.log(searchBox);
-    if (searchBox) {
-        searchBox.addEventListener('input', function() {
-            const searchText = this.value.toLowerCase();
-            const tiles = document.querySelectorAll('.tile-wrapper');
-
-            tiles.forEach(tile => {
-                const content = tile.textContent.toLowerCase();
-                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
-                    tile.classList.remove('hidden');
-                } else {
-                    tile.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-};

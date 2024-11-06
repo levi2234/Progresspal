@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
@@ -19,6 +17,7 @@ function initialize() {
     let updatetilesinterval = setInterval(updateLoopTiles, 100);
     let trackerstatsinterval = setInterval(trackerstats, 100);
     window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+    startSearchbar();
 };
 
 
@@ -30,6 +29,7 @@ function loadLoopTilesHeader() {
     document.querySelector('.completed-tasks-section').style.display = 'block';
     document.querySelector('.total-tasks-section').style.display = 'block';
     document.querySelector('.list-view').style.display = 'flex';
+    document.querySelector('.grid-view').style.display = 'flex';
 
     //force the grid view to be active
     document.querySelector('.grid-view').classList.add('active');
@@ -428,3 +428,25 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 }
 
     // Listen for changes in the checkbox state
+// This function initializes the searchbar functionality
+function startSearchbar() {
+
+    const searchBox = document.getElementById('search-input');
+    console.log(searchBox);
+    if (searchBox) {
+        searchBox.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const tiles = document.querySelectorAll('.tile-wrapper');
+
+            tiles.forEach(tile => {
+                const content = tile.textContent.toLowerCase();
+                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
+                    tile.classList.remove('hidden');
+                } else {
+                    tile.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+};

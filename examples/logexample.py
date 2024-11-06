@@ -11,4 +11,4 @@ for i in range(40):
     logger.DEBUG(f"Dit is een voorbeeldDEBUGbericht ")
 
     
-    time.sleep(0.1)
+    time.sleep(1)

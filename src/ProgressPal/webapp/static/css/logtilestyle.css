@@ -9,6 +9,8 @@
     align-items: center; /* Align items vertically in the center */
     padding: 2px; /* Add padding around the container */
     border-bottom: 1px solid #ccc; /* Add a bottom border for separation */
+    overflow-y: auto; /* Make the container scrollable in the y-direction */
+
 }
 
 .log-tile-level,

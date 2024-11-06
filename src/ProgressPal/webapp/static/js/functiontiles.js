@@ -8,7 +8,6 @@ function initialize() {
     loadFunctionTilesHeader();
     //first clear the project-boxes div
     
-
     window.intervals = []; // or simply use var intervals = [];
     document.querySelector('.project-boxes').innerHTML = '';
 
@@ -16,6 +15,7 @@ function initialize() {
     let updatetilesinterval = setInterval(updateFunctionTiles, 100);
     let trackerstatsinterval = setInterval(trackerstats, 100);
     window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+    startSearchbar();
 };
 
 function loadFunctionTilesHeader() {
@@ -28,6 +28,7 @@ function loadFunctionTilesHeader() {
 
     //force grid view
     document.querySelector('.list-view').style.display = 'none';
+    document.querySelector('.grid-view').style.display = 'flex';
     document.querySelector('.grid-view').classList.add('active');
     document.querySelector('.project-boxes').classList.remove('jsListView');
     document.querySelector('.project-boxes').classList.add('jsGridView');
@@ -108,8 +109,6 @@ function loadFunctionTiles() {
                 // convert time_remaining to correct time format days:hours:minutes:seconds from seconds
 
                 const tile = document.createElement('div');
-
-
 
                 tile.classList.add('tile-wrapper');
                 tile.innerHTML = `
@@ -498,3 +497,26 @@ function identify_largest_time_unit(ns) {
         time_unit: time_unit
     };
 }
+
+// This function initializes the searchbar functionality
+function startSearchbar() {
+
+    const searchBox = document.getElementById('search-input');
+    console.log(searchBox);
+    if (searchBox) {
+        searchBox.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const tiles = document.querySelectorAll('.tile-wrapper');
+
+            tiles.forEach(tile => {
+                const content = tile.textContent.toLowerCase();
+                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
+                    tile.classList.remove('hidden');
+                } else {
+                    tile.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+};
