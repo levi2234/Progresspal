@@ -1,8 +1,5 @@
 aiohttp==3.10.10
 Flask==3.0.3
-pandas==1.5.2
-pytest==8.3.3
 Requests==2.32.3
-tqdm==4.64.1
 numpy
 waitress
