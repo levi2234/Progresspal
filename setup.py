@@ -16,7 +16,7 @@ setup(
     url='https://github.com/levi2234/Progresspal',  # URL to your project's repository
     packages=find_packages(where='src'),  # Automatically find packages in the src directory
     package_dir={'': 'src'},            # Source code is under src
-    python_requires='>=3.8',            # Minimum Python version required
+    python_requires='>=3.7',            # Minimum Python version required
     install_requires=required,
     extras_require={                    # Optional dependencies
         'dev': [
