@@ -8,26 +8,31 @@ import argparse
 from flask import jsonify
 from collections import deque
 from webapp_online_check import webapp_online_check
+from waitress import serve
 
 
-def start_web_server(host="127.0.0.1", port=5000, debug=False, weblog=False, **kwargs):
-    
+
+def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **kwargs):
     # Check if the web app is already running
     if webapp_online_check(f"http://{host}:{port}"):
-        if weblog:
+        if verbose:
             print("Website is already running.")
         return
 
     # Disable logging if weblog is False
-    if not weblog:
+    if ~verbose:
         disable_logging()
 
     # Create the Flask application
     webapp = create_flask_app()
 
     # Start the Flask app
-    print(f"Starting the web server on port {port}...")
-    run_app(webapp, host, port, debug)
+    if debug:
+        print(f"Starting the DEBUG web server on http://{host}:{port}...")
+        run_app(webapp, host, port, debug)
+    else:
+        print(f"Starting the PRODUCTION web server on http://{host}:{port}...")
+        serve(webapp, host=host, port=port)
 
 def disable_logging():
     log = logging.getLogger('werkzeug')
@@ -202,19 +207,22 @@ def create_flask_app():
     return webapp
 
 
-
-    
-    
 #parse the arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--host', type=str, default="127.0.0.1", help='Host name for the web server')
 parser.add_argument('--port', type=int, default=5000, help='Port number for the web server')
-parser.add_argument('--debug', type=bool, default=False, help='Enable debug mode')
-parser.add_argument('--weblog', type=bool, default=True, help='Enable web log')
+parser.add_argument('--debug', type=str, default="False", help='Enable debug mode')
+parser.add_argument('--weblog', type=str, default="False", help='Enable web log')
+parser.add_argument('--verbose', type=str, default="False", help='Enable verbose output')
+
+
 args = parser.parse_args()
 
+# Convert string arguments to boolean
+debug = args.debug.lower() in ['true', '1', 't', 'y', 'yes']
+weblog = args.weblog.lower() in ['true', '1', 't', 'y', 'yes']
+verbose = args.verbose.lower() in ['true', '1', 't', 'y', 'yes']
+
 # Start the web server
-start_web_server(host= args.host, port=args.port, debug=args.debug, weblog=args.weblog)
-
-
+start_web_server(host=args.host, port=args.port, debug=debug, weblog=weblog, verbose=verbose)
 

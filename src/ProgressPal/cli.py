@@ -14,12 +14,12 @@ def CLI():
     
     parser.add_argument('--host', type=str, default="127.0.0.1", help='Host name for the web server')
     parser.add_argument('--port', type=int, default=5000, help='Port number for the web server')
-    parser.add_argument('--debug', type=bool, default=False, help='Enable debug mode')
-    parser.add_argument('--weblog', type=bool, default=True, help='Enable web log')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode')
+    parser.add_argument('--verbose', action='store_true', help='Enable verbose server logs')
     
-    start_parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    
     args = parser.parse_args()
     
     # Call the start function if the `start` command is used
     if args.command == "start":
-        start_server(args.host, args.port, args.debug, args.weblog)
+        start_server(args.host, args.port, args.debug, args.verbose)

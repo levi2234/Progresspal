@@ -3,8 +3,9 @@
 ![Static Badge](https://img.shields.io/badge/Build_Status-Beta-purple)
 ![Static Badge](https://img.shields.io/badge/Python-3.8-green)
 ![Static Badge](https://img.shields.io/badge/Version-1.0_Beta-blue)
-![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
+
 
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
  </p>
@@ -105,7 +106,7 @@ The result of the above code can be seen in the ProgressPal server as such:
 ![gif](https://imgur.com/or1sGNA.gif)
 
 
-## Collaborating with ProgressPal
+## Collaborate using ProgressPal
 ProgressPal is designed to be a collaborative tool that allows users to monitor the progress of various scripts running on different devices and processes. Through this approach it is possible to monitor the progress of multiple scripts in real-time, making it ideal for collaborative projects and remote monitoring. To do this the logserver needs to be publically hosted in order to be accessed by people outside of the local network. This can be done by port forwarding the logserver or by hosting the logserver on a cloud service.
 
 After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
