@@ -1,21 +1,23 @@
 from setuptools import setup, find_packages
 
+# Read the contents of the requirements.txt file
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
+
 setup(
     name='ProgressPal',         # Replace with your project's name
-    version='0.0.1',                 # Version of your project
+    version='0.1',                 # Version of your project
     author='Levi van Es',               # Your name
     author_email='levi2234@hotmail.com',   # Your email address
-    description='A web tqdm alternative',  # Short description
+    description='A decentralized iterable, function and log tracker',  # Short description
     long_description=open('README.md').read(),  # Long description from README
     long_description_content_type='text/markdown',  # Content type of long description
-    url='TBA',  # URL to your project's repository
+    url='https://github.com/levi2234/Progresspal',  # URL to your project's repository
     packages=find_packages(where='src'),  # Automatically find packages in the src directory
     package_dir={'': 'src'},            # Source code is under src
     python_requires='>=3.10',            # Minimum Python version required
-    install_requires=[                   # List of dependencies
-        'pytest>=7.0',                  # Specify pytest as a dependency
-        # Add other dependencies here
-    ],
+    install_requires=required,         # Install the dependencies from requirements.txt
     extras_require={                    # Optional dependencies
         'dev': [
             'pytest-cov',               # Coverage for pytest
