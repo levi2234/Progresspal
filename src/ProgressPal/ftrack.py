@@ -26,8 +26,9 @@ async def update_function_progress(task_id, category, call_count, last_execution
             async with session.post(url, json=data) as response:
                 if response.status == 200:
                     return None
-    except:
-        pass
+    except aiohttp.ClientError as e:
+        print(f"Failed to update function progress: {e}")
+        
 class ftrack:
     def __init__(self, port=5000, host="127.0.0.1", taskid=None, category=0, web=True, command_line=False, tickrate=1, exec_hist=100, **kwargs):
         self.port = port

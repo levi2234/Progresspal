@@ -269,8 +269,6 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
     //set background to known css color variable
     document.getElementById(canvasId).style.backgroundColor = 'var(--background-color)';
     //get the css variables to reuse in the canvas
-    const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
-    const tilecontainerColor = getComputedStyle(document.documentElement).getPropertyValue('--projects-section');
     const textColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
     //convert mean type to float
@@ -349,8 +347,6 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
     // DRAW GAUSSIAN FUNCTION
     const x_min = mean - 4*sigma;
     const x_max = mean + 4*sigma;
-    const y_min = 0;
-    const y_max = maxGaussianValue ;
 
 
     function gaussian(x, mean, sigma) {

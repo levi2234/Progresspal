@@ -36,7 +36,7 @@ function loadFunctionTilesHeader() {
 
 //this function updates the stats in the tiles based on their I
 function updateFunctionTiles() {
-    // get the json progress data from the server
+    // get the JSON progress data from the server
     fetch('/function_status')
         .then(response => response.json())
         .then(data => {
@@ -48,45 +48,44 @@ function updateFunctionTiles() {
                 // Check if the tile is visible in the viewport
                 if (tile && isElementInViewport(tile)) {
 
-
-                    // convert seconds per iteration to iterations per second if necessary
+                    // Convert seconds per iteration to iterations per second if necessary
+                    const callsPerSecondElement = tile.querySelector('.calls_per_second_value');
+                    const callsPerSecondTextElement = tile.querySelector('.calls_per_second_text');
                     if (item.calls_per_second < 1) {
                         item.calls_per_second = 1 / item.calls_per_second;
-                        tile.querySelector('.calls_per_second_value').innerHTML = `${item.calls_per_second.toFixed(2)}`;
-                        tile.querySelector('.calls_per_second_text').innerHTML = "s/Call";
+                        callsPerSecondElement.textContent = item.calls_per_second.toFixed(2);
+                        callsPerSecondTextElement.textContent = "s/Call";
                     } else {
-                        tile.querySelector('.calls_per_second_value').innerHTML = `${item.calls_per_second.toFixed(2)} `;
-                        tile.querySelector('.calls_per_second_text').innerHTML = "Calls/s";
+                        callsPerSecondElement.textContent = item.calls_per_second.toFixed(2);
+                        callsPerSecondTextElement.textContent = "Calls/s";
                     }
 
-                    tile.querySelector('.call_count_value').innerHTML = `${item.call_count}`;
-                    tile.querySelector('.error_count_value').innerHTML = `${item.error_count}`;
+                    tile.querySelector('.call_count_value').textContent = `${item.call_count}`;
+                    tile.querySelector('.error_count_value').textContent = `${item.error_count}`;
 
+                    // Log overhead percentage
+                    const overheadPercentageElement = tile.querySelector('.overhead-percentage');
+                    overheadPercentageElement.textContent = item.overhead_percentage !== undefined 
+                        ? `${item.overhead_percentage}% OH` 
+                        : '- % OH';
 
-                    // log overhead percentage
-                    if (item.overhead_percentage !== undefined) {
-                        tile.querySelector('.overhead-percentage').innerHTML = `${item.overhead_percentage}% OH`;
-                    } else {
-                        tile.querySelector('.overhead-percentage').innerHTML = `- % OH`;
-                    }
-
-                    // plotGaussian(`gaussianCanvas-${key}`, mean, std, item.exec_hist[item.exec_hist.length - 1]);
+                    // Plot Gaussian using a safe plot function
                     plotExecutionTimeline(`gaussianCanvas-${key}`, item.exec_hist);
-                    
-                    // check if the error count is greater than 0 and change the color of the error count value
-                    if (item.error_count ===  1) {
+
+                    // Check if the error count is greater than 0 and change the color of the tile
+                    if (item.error_count === 1) {
                         tile.style.backgroundColor = 'orange';
-                    }
-                    else if (item.error_count > 1) {
+                    } else if (item.error_count > 1) {
                         tile.style.backgroundColor = 'red';
-                    }
-                    else {
+                    } else {
                         tile.style.backgroundColor = 'var(--tile-color)';
                     }
                 }
             });
-        });
+        })
+        .catch(error => console.error("Error updating function tiles:", error));
 }
+
 
 function loadFunctionTiles() {
     // use the json data to create tiles in the html under the class "project-boxes"
@@ -184,171 +183,6 @@ function trackerstats() {
         });
 }
 
-function plotGaussian(canvasId, mean, std, latest_execution_time) {
-    
-    //set background to known css color variable
-    document.getElementById(canvasId).style.backgroundColor = 'var(--background-color)';
-    //get the css variables to reuse in the canvas
-    const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
-    const tilecontainerColor = getComputedStyle(document.documentElement).getPropertyValue('--projects-section');
-    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
-    
-    
-
-    
-    //convert mean type to float
-    mean = parseFloat(mean);
-    std = parseFloat(std);
-
-
-    
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    //invert the y axis
-    if (!canvas.transformed) {
-        ctx.transform(1, 0, 0, -1, 0, canvas.height);
-        canvas.transformed = true;
-    }
-
-    //transfrom origin to the middle of the canvas  just once
-    const xaxis_offset = 0.2 * canvas.height;
-    const xaxis_offset_inv = 0.80 * canvas.height;
-    if (!canvas.translated) {
-        ctx.translate(0, xaxis_offset);
-        canvas.translated = true;
-    }
-    
-    const width = canvas.width;
-    const height = canvas.height;
-    const sigma = std
-    
-    // Calculate the maximum value of the Gaussian function
-    const maxGaussianValue = 1 / (sigma * Math.sqrt(2 * Math.PI));
-    
-    //clear the canvas
-    ctx.clearRect(0, - xaxis_offset, width, height);
-
-    // Draw X axis
-    ctx.beginPath();
-    ctx.moveTo(0,0);
-    ctx.lineTo(width, 0);
-    ctx.strokeStyle = textColor;
-    ctx.strokeopacity = 0.5;
-    ctx.stroke();
-
-    // Draw Y axis
-    ctx.beginPath();
-    ctx.moveTo(width / 2, 0);
-    ctx.lineTo(width / 2, height);
-    ctx.strokeStyle = textColor;
-    ctx.stroke();
-    
-    //draw gridlines x axis
-    for (let i = -5; i < 5; i++) {
-        ctx.beginPath();
-        ctx.moveTo(0, i * height / 5);
-        ctx.lineTo(width, i * height / 5);
-        ctx.strokeStyle = textColor;
-        ctx.globalAlpha = 0.2;
-        ctx.stroke();
-        ctx.globalAlpha = 1.0; // Reset opacity to default
-    }
-
-    //draw gridlines y axis
-    for (let i = 0; i < 8; i++) {
-        ctx.beginPath();
-        ctx.moveTo(i * width / 8, 0);
-        ctx.lineTo(i * width / 8, height);
-        ctx.strokeStyle = textColor;
-        ctx.globalAlpha = 0.2;
-        ctx.stroke();
-        ctx.globalAlpha = 1.0; // Reset opacity to default
-    }
-
-
-
-
-    // DRAW GAUSSIAN FUNCTION
-    const x_min = mean - 4*sigma;
-    const x_max = mean + 4*sigma;
-    const y_min = 0;
-    const y_max = maxGaussianValue ;
-
-
-    function gaussian(x, mean, sigma) {
-        return 1 / (sigma * Math.sqrt(2 * Math.PI)) * Math.exp(-Math.pow(x - mean, 2) / (2 * Math.pow(sigma, 2)));
-    }
-
-
-
-    //precalculate the gaussian values
-    const gaussianValues = [];
-    for (let x = x_min; x < x_max; x += 0.01 * sigma) {
-        gaussianValues.push(gaussian(x, mean, sigma));
-    }
-
-    const maxGaussian = Math.max(...gaussianValues);
-    const minGaussian = 0;
-
-
-
-
-    // Draw the Gaussian function with mean in the middle and x axis reaching 4 sigma in both directions
-
-
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    for (let i = 0; i < gaussianValues.length; i++) {
-        const x = i * width / gaussianValues.length;
-        const y = (gaussianValues[i] - minGaussian) / (maxGaussian - minGaussian) * (xaxis_offset_inv - 0.1 * height);
-        ctx.lineTo(x, y);
-    }
-
-    //fill the gaussian curve
-    ctx.fillStyle = 'rgba(79, 63, 240, 0.3)';
-    ctx.fill();
-
-    // identify wether the highest time unit from the gaussian is in seconds, minutes, hours or days from ns
-    let mean_stats = identify_largest_time_unit(mean);
-    let sigma_stats = identify_largest_time_unit(sigma);
-    
-    // Draw a vertical line at the latest execution time
-    if (latest_execution_time >= x_min && latest_execution_time <= x_max) {
-        ctx.beginPath();
-        const x = (latest_execution_time - x_min) / (x_max - x_min) * width;
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, height);
-        ctx.strokeStyle = 'red'; // Set the line color to red
-        ctx.setLineDash([5, 5]); // Set the line to be dashed
-        ctx.stroke();
-        ctx.setLineDash([]); // Reset the line dash to solid for future drawings
-    }
-
-    // Draw the mean and sigma values under the gaussian curve
-    const fontSize = Math.max(10, Math.min(20, canvas.width / 20));
-    ctx.font = `${fontSize}px Arial`;
-    ctx.fillStyle = textColor;
-    ctx.save();
-    ctx.scale(1, -1); // Flip the text back to normal
-    ctx.fillText(`μ: ${mean_stats.time.toFixed(2)} ${mean_stats.time_unit}`, 10, -90);
-    ctx.fillText(`σ: ${sigma_stats.time.toFixed(2)} ${sigma_stats.time_unit}`, 10, -70);
-
-    //draw the sigma text below the x axis at all sigma points
-
-    for (let i = -4; i < 5; i++) {
-        ctx.fillText(`${i}σ`, width / 2 + i * width / 8 - 10, 20);
-    }
-
-    ctx.restore();
-    ctx.stroke();
-    
-
-
-
-
-    
-}
 function plotExecutionTimeline(canvasId, executionDurations) {
     // Set up the canvas dimensions
     const canvas = document.getElementById(canvasId);
@@ -357,7 +191,6 @@ function plotExecutionTimeline(canvasId, executionDurations) {
     canvas.height = 100;
 
     // Get the CSS variables for colors
-    const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
     const textColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
     const ctx = canvas.getContext("2d");

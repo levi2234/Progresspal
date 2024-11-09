@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    
-    
-
 
     let is24HourFormat = true; // Initial format is 24-hour
 
@@ -64,19 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-function shutdown() {
-    fetch('/shutdown', { method: 'GET' })
-        .then(response => response.json())
-        .then(data => alert(data.message));
-}
-
-function shutdown() {
-    fetch('/shutdown', { method: 'GET' })
-        .then(response => response.json())
-        .then(data => alert(data.message));
-}
-
 function updateClock(is24HourFormat = true) {
     const clockElement = document.getElementById('clock');
     const now = new Date();
@@ -109,11 +93,6 @@ function changeResources(newStylesheet, newScript) {
         // Clear all stored intervals
         window.intervals.forEach(intervalId => clearInterval(intervalId));
         window.intervals = []; // Reset intervals array
-
-        // Remove any event listeners or globally defined functions
-        if (typeof cleanup === 'function') {
-            cleanup(); // Use a cleanup function if defined in the old script
-        }
     }
 
     // Terminate all active resources before changing scripts

@@ -11,29 +11,6 @@ def test_ltrack_yields_items():
     result = list(ltrack(iterable))
     assert result == iterable
 
-
-@patch('ProgressPal.ltrack.update_progress')
-def test_ltrack_updates_progress(mock_update_progress):
-    iterable = [1, 2, 3]
-    list(ltrack(iterable, tickrate=0))
-    assert mock_update_progress.called
-
-@patch('ProgressPal.ltrack.update_progress')
-def test_ltrack_handles_update_exception(mock_update_progress):
-    mock_update_progress.side_effect = Exception("Test exception")
-    iterable = [1, 2, 3]
-    try:
-        list(ltrack(iterable, tickrate=0))
-    except Exception:
-        pytest.fail("ltrack raised Exception unexpectedly!")
-
-def test_ltrack_yields_items():
-    iterable = [1, 2, 3, 4, 5]
-    result = list(ltrack(iterable))
-    assert result == iterable
-
-
-
 @patch('ProgressPal.ltrack.update_progress')
 def test_ltrack_updates_progress(mock_update_progress):
     iterable = [1, 2, 3]

@@ -1,6 +1,11 @@
 ![img](https://imgur.com/66SFDDo.png)
 
-<strong><h1 align="center">Beta</h1></strong>
+![Static Badge](https://img.shields.io/badge/Build_Status-Beta-purple)
+![Static Badge](https://img.shields.io/badge/Python-3.8-green)
+![Static Badge](https://img.shields.io/badge/Version-1.0_Beta-blue)
+![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
  </p>
 
@@ -20,20 +25,6 @@
 <!-- Include video from imgur -->
 ![gif](https://i.imgur.com/Wzb0fXt.gif)
 
-<p align="center">
-  <!-- <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg" alt="Gitter">
-  </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify">
-    <img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg">
-  </a> -->
-  <!-- <a href="https://saythanks.io/to/bullredeyes@gmail.com">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a> -->
-</p>
 
 
 ## Installation
@@ -61,7 +52,6 @@ python setup.py install
 ```bash
 pip install ProgressPal
 ```
-
 
 ## Usage
 
@@ -112,10 +102,6 @@ for i in range(10):
 ```
 
 The result of the above code can be seen in the ProgressPal server as such:
-<!-- <p align="center">
-  <img src="mdmedia/ProgresspalFtrack.gif" alt="ProgressPal Demonstration GIF" width="100%" style="vertical-align: middle;">
-</p> -->
-
 ![gif](https://imgur.com/or1sGNA.gif)
 
 
