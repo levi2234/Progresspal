@@ -11,7 +11,7 @@ setup(
     author='Levi van Es',               # Your name
     author_email='levi2234@hotmail.com',   # Your email address
     description='A decentralized iterable, function and log tracker',  # Short description
-    long_description=open('README.md').read(),  # Long description from README
+    long_description=open('Readme.md').read(),  # Long description from README
     long_description_content_type='text/markdown',  # Content type of long description
     url='https://github.com/levi2234/Progresspal',  # URL to your project's repository
     packages=find_packages(where='src'),  # Automatically find packages in the src directory
