@@ -90,8 +90,9 @@ class ltrack:
         try:
             asyncio.run(update_progress(self.taskid, self.iterable_type_origin, self.iteration, self.total, percentage, elapsed_time, time_remaining, iterations_per_second, execution_duration, start_time_human, self.track_overhead, host=self.host, port=self.port))
             self.next_update += self.tickrate
+            return None
         except Exception as e:
-            print(f"Failed to update progress: {e}")
+           return None
             
 
     def __iter__(self):
