@@ -73,7 +73,9 @@ def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
     
     
 def create_flask_app():
-    webapp = Flask(__name__)
+    template_folder = os.path.join(os.path.dirname(__file__), 'templates')
+    
+    webapp = Flask(__name__, template_folder=template_folder)
     progress_data = {}
     function_data = {}
     log_data = {}
