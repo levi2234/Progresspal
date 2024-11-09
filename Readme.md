@@ -1,12 +1,4 @@
-
-<p align="center">
-  <a>
-    <img src="src/ProgressPal/webapp/static/media/ProgressPalMD.png" alt="Markdownify" width="500" style="vertical-align: middle;">
-  </a>
-</p>
-
-
-
+![img](https://imgur.com/66SFDDo.png)
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
  </p>
 
@@ -24,11 +16,7 @@
 - **Search Functionality**: Search for specific functions and iterables in the log server.
 
 <!-- Include video from imgur -->
-<!-- <p align="center">
-  <img src="https://i.imgur.com/WKXsNdH.gif" alt="ProgressPal Demonstration GIF" width="100%" style="vertical-align: middle;">
-</p> -->
-
-![Video](https://i.imgur.com/WKXsNdH.gif)
+![gif](https://i.imgur.com/Wzb0fXt.gif)
 
 <p align="center">
   <!-- <a href="https://badge.fury.io/js/electron-markdownify">
@@ -104,9 +92,7 @@ for i in ltrack(range(100), total=100): # providing a total is required for gene
 
 The result of the above code can be seen in the ProgressPal server as such: 
 
-<p align="center">
-  <img src="mdmedia/Ltrackvideo.gif" alt="ProgressPal Demonstration GIF" width="100%" style="vertical-align: middle;">
-</p>
+![gif](https://imgur.com/HKb4OvQ.gif)
 
 
 ### Functions
@@ -124,9 +110,11 @@ for i in range(10):
 ```
 
 The result of the above code can be seen in the ProgressPal server as such:
-<p align="center">
+<!-- <p align="center">
   <img src="mdmedia/ProgresspalFtrack.gif" alt="ProgressPal Demonstration GIF" width="100%" style="vertical-align: middle;">
-</p>
+</p> -->
+
+![gif](https://imgur.com/or1sGNA.gif)
 
 
 ## Collaborating with ProgressPal
