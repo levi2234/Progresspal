@@ -17,7 +17,7 @@ setup(
     packages=find_packages(where='src'),  # Automatically find packages in the src directory
     package_dir={'': 'src'},            # Source code is under src
     python_requires='>=3.10',            # Minimum Python version required
-    install_requires=required,         # Install the dependencies from requirements.txt
+    install_requires=required,
     extras_require={                    # Optional dependencies
         'dev': [
             'pytest-cov',               # Coverage for pytest

@@ -6,7 +6,6 @@ import os
 import signal
 import argparse
 from flask import jsonify
-from collections import deque
 from webapp_online_check import webapp_online_check
 from waitress import serve
 
@@ -31,7 +30,7 @@ def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **
         print(f"Starting the DEBUG web server on http://{host}:{port}...")
         run_app(webapp, host, port, debug)
     else:
-        print(f"Starting the PRODUCTION web server on http://{host}:{port}...")
+        print(f"Starting the PRODUCTION server on http://{host}:{port}...")
         serve(webapp, host=host, port=port)
 
 def disable_logging():
@@ -73,9 +72,7 @@ def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
     
     
 def create_flask_app():
-    template_folder = os.path.join(os.path.dirname(__file__), 'templates')
-    
-    webapp = Flask(__name__, template_folder=template_folder)
+    webapp = Flask(__name__)
     progress_data = {}
     function_data = {}
     log_data = {}
