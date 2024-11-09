@@ -1,4 +1,6 @@
 ![img](https://imgur.com/66SFDDo.png)
+
+<strong><h1 align="center">Beta</h1></strong>
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
  </p>
 
