@@ -298,9 +298,6 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
     const height = canvas.height;
     const sigma = std
     
-    // Calculate the maximum value of the Gaussian function
-    const maxGaussianValue = 1 / (sigma * Math.sqrt(2 * Math.PI));
-    
     //clear the canvas
     ctx.clearRect(0, - xaxis_offset, width, height);
 
@@ -363,10 +360,6 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     const maxGaussian = Math.max(...gaussianValues);
     const minGaussian = 0;
-
-
-
-
     // Draw the Gaussian function with mean in the middle and x axis reaching 4 sigma in both directions
 
 

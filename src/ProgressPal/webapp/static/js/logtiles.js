@@ -68,7 +68,7 @@ function updateLogTiles() {
 
             // Update the latest timestamp
             if (newLogs.length > 0) {
-                latestTimestamp = newLogs[newLogs.length - 1].timestamp;
+                window.latestTimestamp = newLogs[newLogs.length - 1].timestamp;
             }
         });
 }
