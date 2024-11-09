@@ -1,6 +1,6 @@
 
 <p align="center">
-  <a href="src/ProgressPal/webapp/static/media/ProgressPalMD.png">
+  <a>
     <img src="src/ProgressPal/webapp/static/media/ProgressPalMD.png" alt="Markdownify" width="500" style="vertical-align: middle;">
   </a>
 </p>
@@ -17,11 +17,18 @@
 - **Decentralized Monitoring**: Monitor multiple Python scripts from any device with an internet connection.
 - **Collaborative Projects**: Collaborate and monitor the real-time progress of various scripts running on different devices and processes.
 - **Distributed Systems**: Track progress across distributed systems for seamless monitoring and remote collaboration.
-- **Function Tracking**: Track the call-count, execution time distribution, time between calls, error count, function file origin, and function name.
+- **Function Tracking**: Track the call-count, execution time distribution, execution history, time between calls, error count, function file origin, and function name.
 - **Iterable Tracking**: Track the progress of iterables and generators with a progress bar. Additionally, track the total number of iterations, current iteration, and percentage completion, time remaining, iteration execution time, and iteration rate.
 - **Log Server**: Start a log server to receive progress updates from Python scripts. The log server can be accessed from any device with an internet connection.
-- **Threading**: Track the progress of multiple threads and processes simultaneously.
+- **Threading support**: Track the progress of multiple threads and processes simultaneously.
 - **Search Functionality**: Search for specific functions and iterables in the log server.
+
+<!-- Include video from imgur -->
+<!-- <p align="center">
+  <img src="https://i.imgur.com/WKXsNdH.gif" alt="ProgressPal Demonstration GIF" width="100%" style="vertical-align: middle;">
+</p> -->
+
+![Video](https://i.imgur.com/WKXsNdH.gif)
 
 <p align="center">
   <!-- <a href="https://badge.fury.io/js/electron-markdownify">
