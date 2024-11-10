@@ -1,8 +1,7 @@
 from ProgressPal import ftrack
 import time
-import numpy as np  
 
-ip ="192.168.1.86"
+ip ="127.0.0.1"
 
 
 @ftrack(host=ip)

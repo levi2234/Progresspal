@@ -1,6 +1,6 @@
 from ProgressPal import Plog
 import time
-logger = Plog()
+logger = Plog(host = "127.0.0.1")
 
 for i in range(40):
     logger.LOG(f"Dit is een voorbeeldLOGbericht ")
