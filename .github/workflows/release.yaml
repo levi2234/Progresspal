@@ -107,6 +107,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           branch: version-bump-${{ needs.details.outputs.new_version }}
+          base: main  # or master, depending on your default branch
           title: "Bump version to ${{ needs.details.outputs.new_version }}"
           body: "This PR bumps the version to ${{ needs.details.outputs.new_version }}."
           labels: "version-bump"
@@ -180,7 +181,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           branch: version-bump-${{ needs.details.outputs.new_version }}
-          base: master  # or master, depending on your default branch
+          base: main  # or master, depending on your default branch
           title: "Bump version to ${{ needs.details.outputs.new_version }}"
           body: "This PR bumps the version to ${{ needs.details.outputs.new_version }}."
           labels: "version-bump"
