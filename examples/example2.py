@@ -2,25 +2,28 @@ from ProgressPal import ftrack
 import time
 import numpy as np  
 
-@ftrack()
+ip ="192.168.1.86"
+
+
+@ftrack(host=ip)
 def testfunction():
     print("Hello World")
     time.sleep(2)
     return True
 
-@ftrack()
+@ftrack(host=ip)
 def tetfunction2():
     print("Hello World")
     time.sleep(2)
     return True
 
-@ftrack()
+@ftrack(host=ip)
 def testfunction3():
     print("Hello World")
     time.sleep(2)
     return True
 
-@ftrack()
+@ftrack(host=ip)
 def testfunction4():
     print("Hello World")
     time.sleep(2)
@@ -28,7 +31,7 @@ def testfunction4():
 
 # function that throws an error once on its 3rd call
 call_count = 0
-@ftrack()
+@ftrack(host=ip)
 def testfunction5():
     global call_count
     
@@ -37,7 +40,7 @@ def testfunction5():
         raise ValueError("Error")
     call_count += 1
 
-@ftrack()
+@ftrack(host=ip)
 def testfunction6():
     try:
         testfunction5()

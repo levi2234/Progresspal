@@ -7,7 +7,7 @@ import random
 import itertools
 from collections import deque
 import pandas as pd
-ip = "127.0.0.1"
+ip = "192.168.1.86"
 
 def nested_loops_1():
     for j in ltrack(range(5), taskid="Thread1_Main", total=5, host=ip):

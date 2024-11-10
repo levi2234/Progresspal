@@ -62,6 +62,14 @@ The progresspal package reports the progress of iterables, functions, and log me
 ProgressPal start
 ```
 
+If this command does not work it is possible to start the log server by running the following code in a Python script.
+```python
+from ProgressPal.webapp.webapp import start_web_server
+
+start_web_server()
+```
+
+
 
 ### Iterables and generators
 Using ProgressPal is simple and might even feel familiar to those who have used tqdm and the logging module in Python. The following is a simple example of how to use ProgressPal to track the progress of a for loop.
