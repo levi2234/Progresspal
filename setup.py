@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='ProgressPal',         # Replace with your project's name
-    version='0.0.1',                 # Version of your project
+    version='0.0.8',                 # Version of your project
     author='Levi van Es',               # Your name
     author_email='levi2234@hotmail.com',   # Your email address
     description='A decentralized iterable, function and log tracker',  # Short description
