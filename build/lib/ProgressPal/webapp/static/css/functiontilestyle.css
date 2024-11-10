@@ -1,0 +1,494 @@
+
+/* Dynamically change the number of tiles for size of screen*/
+.project-boxes.jsGridView .tile-wrapper {
+    width: 25%; /*original 33.3% */
+  }
+  
+  @media screen and (max-width: 1900px) {
+    .project-boxes.jsGridView .tile-wrapper {
+      width: 33.3%;
+    }
+  }
+  
+  @media screen and (max-width: 1300px) {
+    .project-boxes.jsGridView .tile-wrapper {
+      width: 50%;
+    }
+  }
+  
+  .tile-wrapper {
+    padding: 10px;
+    transition: 0.2s;
+    overflow: visible;
+    }
+  
+    @media screen and (max-width: 520px) {
+      .project-boxes.jsGridView .tile-wrapper {
+        width: 50%;
+      }
+  
+      .project-boxes.jsGridView .tile-wrapper {
+        width: 100%;
+      }
+  
+    }
+  
+  .project-boxes.jsListView .function-tile{
+    display: flex;
+    border-radius: 10px;
+    position: relative;
+  }
+  .project-boxes.jsListView .function-tile> * {
+    margin-right: 24px;
+  }
+  
+  
+  
+  
+  /* Tile border color and transition */
+  .function-tile {
+    
+    --main-color-card: var(--tile-color);
+    border-radius: 30px;
+    padding: 13px;
+    background-color: var(--tile-color);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+                rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+                rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    overflow: visible;
+    z-index: 1;
+    transition: box-shadow 0.75s ease; /* Transition for smooth color change */
+  }
+  
+  .function-tile.jsListView{
+
+    display: flex;
+    
+  }
+  
+  
+  /* Additional box-shadow for border effect */
+  .function-tile.tile-completed {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+                rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+                rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, 
+                0 0 5px 2px var(--tile-completed-color); /* Border fade-out effect */
+  }
+  
+  .function-tile.tile-in-progress {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, 
+                rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, 
+                rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, 
+                0 0 10px 3px var(--tile-in-progress-color); /* Border fade-out effect */
+  }
+  /* -------------------------------------- */
+  
+  .project-boxes.jsListView .function-tile> * {
+    margin-right: 10px;
+  }
+  
+  .project-boxes.jsListView .function-tile-header {
+    order: 2;
+  }
+  
+  .project-boxes.jsListView .function-tile-header > span {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-size: 12px;
+  }
+  
+  .function-tile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    color: var(--main-color);
+  }
+  
+  .function-tile-header span {
+    opacity: 0.7;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  
+  .project-boxes.jsListView .function-tile-header > span {
+    font-size: 10px;
+  }
+  
+  .tile-text-color {
+    color: var(--main-color);
+  }
+  
+  
+  .project-boxes.jsListView .function-tile-content-header {
+    order: 1;
+    max-width: 120px;
+  }
+  
+  .project-boxes.jsListView .function-tile-content-header p {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  
+  }
+
+
+  .function-tile-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    min-height: auto;
+}
+
+.function-tile-content > div {
+    flex: 1;
+    text-align: center;
+    min-height: auto;
+}
+  
+  
+  
+  .function-tile-content-header {
+    display: flex;
+    justify-content: space-between;
+    height: auto; /* Adjusts height to the content */
+    padding: 0; /* Removes any default padding */
+    margin: 0; /* Removes any default margin */
+}
+.function-tile-content-header-left,
+.function-tile-content-header-right {
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+    max-width: 50%;
+    min-width: 50%;
+    margin-left: auto; 
+    margin-right: 0;
+}
+
+
+  
+  
+  .function-tile-content-header-left p {
+    margin: 0;
+    white-space: nowrap;        /* Prevents text from wrapping */
+    overflow: hidden;           /* Hides overflow text */
+    text-overflow: ellipsis;    /* Adds ellipsis (...) to overflow */
+    width: 100%;
+    transition: all 0.3s ease;  /* Smooth transition for hover effect */
+  }
+  
+  .function-tile-content-header-left p:hover {
+    white-space: normal;        /* Allows text to wrap */
+    overflow: visible;          /* Shows overflow text */
+    text-overflow: clip;        /* Removes ellipsis (...) */
+    word-break: break-all;
+  
+  }
+  
+  .project-boxes.jsListView .function-tile-content-header-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: unset;
+    min-width: unset;
+  }
+  
+  .function-tile-content-header-right {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    max-width: 40%;
+    min-width: 40%;
+  }
+
+  .function-tile-content-header-right p {
+    margin: 0;
+    white-space: nowrap;        /* Prevents text from wrapping */
+    overflow: hidden;           /* Hides overflow text */
+    text-overflow: ellipsis;    /* Adds ellipsis (...) to overflow */
+    width: 100%;
+    transition: all 0.3s ease;  /* Smooth transition for hover effect */
+  }
+  .function-type-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+  
+  .function-tile-content-header-center {
+    display: flex;
+    /* background-color: grey; */
+    margin-right: 30px;
+    margin-left: 8px;
+    width: 90%;
+  
+    visibility: visible;
+  }
+  
+  .function-tile-content-header-canvas {
+    position: relative;
+    align-self: center;
+    background-color: var(--projects-section);
+    border-color: var(--main-color-card);
+    margin-right: 8px;
+    border-radius: 10px;
+    transition-duration: 0.5s;
+    transition-behavior: ease;
+    width: 100%; /* Make the canvas fill its flexbox container in width */
+    height: 100px; /* Ensure the canvas inherits the flexbox height */
+    flex-shrink: 0;
+  }
+
+  .canvas-title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--main-color);
+  }
+  
+  .project-boxes.jsListView .function-tile-content-header-center {
+    visibility: hidden;
+  }
+  
+  .project-boxes.jsListView .function-tile-content-header-canvas {
+    visibility: hidden;
+  }
+  
+  .project-boxes.jsListView .function-type-icon {
+    width: 100%; /* Adjust width to match .tile-wrapper */
+    height: 100%; /* Adjust height to match .tile-wrapper */
+    margin-right: 4px;
+    position: absolute;
+    align-self: right;
+    right: 0; /* Align to the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+    overflow: hidden;
+    opacity: 0.3;
+    z-index: -1; /* Ensure it is above other elements */
+  }
+.project-boxes.jsListView .function-tile-content-header-right p{
+    align-self: right;
+}
+
+.function-tile-content-header-right p:hover {
+    align-self: right;
+    white-space: normal;        /* Allows text to wrap */
+    overflow: visible;          /* Shows overflow text */
+    text-overflow: clip;        /* Removes ellipsis (...) */
+    word-break: break-all;
+
+}
+  .function-tile-content-header-right .project-boxes.jsListView{
+    align-self: flex-end ;
+  
+  }
+
+
+  
+  .function-tile-content-header-text {
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 700;
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+    
+  }
+  
+  .function-tile-content-subheader{
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--main-color);
+    padding: 0; /* Removes any default padding */
+    margin: 0; /* Removes any default margin */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+  }
+  .function-tile-content-subheader-text,
+  .overhead-percentage {
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+  }
+
+/* Tile stats function value counters */
+.call_count {
+    display: flex;
+    align-items: baseline;
+}
+
+.call_count_value {
+    font-size: 3em; /* Large number */
+    margin-right: 0.2em; /* Small space between number and text */
+    min-height: auto;
+    
+}
+
+.call_count_text {
+    font-size: 1.2em; /* Smaller text */
+    min-height: auto;
+}
+
+.error_count {
+  display: flex;
+  align-items: baseline;
+  min-height: auto;
+}
+
+.error_count_value {
+  font-size: 3em; /* Large number */
+  margin-right: 0.2em; /* Small space between number and text */
+  min-height: auto;
+}
+
+.error_count_text {
+  font-size: 1.2em; /* Smaller text */
+  min-height: auto;
+}
+  
+
+.calls_per_second {
+  display: flex;
+  min-height: auto;
+  align-items: baseline;
+}
+
+.calls_per_second_value {
+  font-size: 3em; /* Large number */
+  margin-right: 0.2em; /* Small space between number and text */
+  min-height: auto;
+}
+
+.calls_per_second_text {
+  font-size: 1.2em; /* Smaller text */
+  min-height: auto;
+}
+  
+  .project-boxes.jsListView .function-tile-progress-wrapper {
+    order: 3;
+    flex: 1;
+  }
+  
+  
+  .function-tile-progress-header {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    margin: 0;
+  }
+  
+  .function-tile-progress-header {
+    font-size: 12px;
+  }
+  
+  .function-tile-progress-bar {
+    width: 100%;
+    height: 4px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    margin: 8px 0;
+  }
+  
+  
+  .function-tile-progress {
+    display: block;
+    height: 4px;
+    border-radius: 6px;
+    transition: width 0.2s ease;
+  }
+  
+  .function-tile-progress-percentage {
+    text-align: right;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+  
+  
+  .function-tile-footer {
+    /* display: flex;
+    justify-content: space-between; */
+
+    position: relative;
+  }
+  .function-tile-footer:after {
+    content: "";
+    position: absolute;
+    /* background-color: rgba(255, 255, 255, 0.6); */
+    width: calc(100% + 24px);
+    /* top: 4px; */
+    left: -12px;
+    height: 1px;
+  }
+  
+  
+  .time-left {
+    font-size: 8px;
+    padding: 6px 6px;
+    text-align: center;
+  }
+  .calls-per-second {
+    font-size: 8px;
+    padding: 6px 6px;
+    padding-top: 4px;
+    text-align: center;
+  }
+  
+  .project-boxes.jsListView .function-tile-footer {
+    order: 3;
+    padding-top: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  
+  
+  .tile-stats-box {
+    /* background-color: var(--tile-badge-background-color); */
+    font-size: 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    /* padding: 6px 16px; */
+    /* margin-bottom: 10px; */
+    font-weight: 700;
+    color: var(--tile-badge-text-color)
+  }
+  
+  .overhead-percentage {
+    margin-top: 5px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Add this to your CSS file */
+.tile-dropdown-arrow {
+    width: 100%;
+    height: 30px;
+    /*position in the center of the tile */
+    fill: var(--main-color);
+    stroke: var(--main-color);
+    margin: 0%;
+}
+
+/* rotate the arrow when the dropdown is open */
+.tile-dropdown-arrow .active svg {
+    transform: rotate(180deg);
+    
+    
+}
+

@@ -16,12 +16,20 @@ setup(
     url='https://github.com/levi2234/Progresspal',  # URL to your project's repository
     packages=find_packages(where='src'),  # Automatically find packages in the src directory
     package_dir={'': 'src'},            # Source code is under src
-    package_data={"" : ["*.txt", "*.json", 
-                         "*.html", "*.css",
-                         "*.js", "*.png",
-                         "*.ico", "*.jpg",
-                         "*.jpeg", "*.svg",
-                         "*.gif", "*.py"]}, # Include all files in the package
+    package_data={
+        "ProgressPal": [
+            "*.txt", "*.json", "*.html", "*.css", "*.js", 
+            "*.png", "*.ico", "*.jpg", "*.jpeg", "*.svg", 
+            "*.gif", "*.py",
+            "webapp/*",  # Include all files in the webapp directory
+            "webapp/static/*",  # Include all files in the static directory
+            "webapp/static/media/*",  # Include all files in the static directory
+            "webapp/static/js/*",  # Include all files in the static directory
+            "webapp/static/css/*",  # Include all files in the static directory
+            "webapp/templates/*",  # Include all files in the templates directory
+            ""
+        ],
+    }, # Include all files in the package
     python_requires='>=3.9',            # Minimum Python version required
     install_requires=required,
     extras_require={                    # Optional dependencies

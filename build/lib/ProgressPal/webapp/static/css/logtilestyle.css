@@ -1,0 +1,78 @@
+.log-tile > div {
+    color: var(--main-color);
+}
+
+.log-tile-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 4fr 2fr; /* Adjust the column sizes as needed */
+    gap: 10px; /* Adjust the gap between columns */
+    align-items: center; /* Align items vertically in the center */
+    padding: 2px; /* Add padding around the container */
+    border-bottom: 1px solid #ccc; /* Add a bottom border for separation */
+    overflow-y: auto; /* Make the container scrollable in the y-direction */
+
+}
+
+.log-tile-level,
+.log-tile-timestamp,
+.log-tile-message,
+.log-tile-filename-and-line {
+    padding: 0px; /* Add padding for better spacing */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.log-tile-level {
+    font-weight: bold; /* Make the level text bold */
+    /* center text in column */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.log-tile-timestamp {
+    color: #888; /* Change the color of the timestamp */
+}
+
+.log-tile-message {
+    color: var(--main-color); /* Change the color of the message */
+}
+
+.log-tile-filename-and-line {
+    color: #555; /* Change the color of the filename and line number */
+    font-style: italic; /* Make the filename and line number italic */
+}
+
+.LOG {
+    color: var(--main-color);
+}
+
+.ERROR {
+    color: red;
+}
+
+.WARN {
+    color: orange;
+}
+
+.INFO {
+    color: blue;
+}
+
+.DEBUG {
+    color: green;
+}
+
+.TRACE {
+    color: purple;
+}
+
+.CRITICAL {
+    color: red;
+}
+
+.WARNING {
+    color: orange;
+}
