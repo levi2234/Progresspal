@@ -11,7 +11,6 @@ on:
 env:
   PACKAGE_NAME: "ProgressPal"
   OWNER: "Levi van Es"
-  
 
 jobs:
   details:
@@ -39,7 +38,6 @@ jobs:
           else
             echo "No tag found"
             exit 1
-          fi
 
   check_pypi:
     needs: details
@@ -65,37 +63,36 @@ jobs:
             exit 1
           else
             echo "The new version $NEW_VERSION is greater than the latest version $LATEST_VERSION on PyPI."
-          fi
 
-   setup_and_build:
-      needs: [details, check_pypi]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-  
-        - name: Set up Python
-          uses: actions/setup-python@v4
-          with:
-            python-version: "3.12"
-  
-        - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-  
-        - name: Set project version
-          run: |
-            sed -i "s/version=.*/version='${{ needs.details.outputs.new_version }}',/" setup.py
-  
-        - name: Build source and wheel distribution
-          run: |
-            python setup.py sdist bdist_wheel
-  
-        - name: Upload artifacts
-          uses: actions/upload-artifact@v3
-          with:
-            name: dist
-            path: dist/
+  setup_and_build:
+    needs: [details, check_pypi]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Set project version
+        run: |
+          sed -i "s/version=.*/version='${{ needs.details.outputs.new_version }}',/" setup.py
+
+      - name: Build source and wheel distribution
+        run: |
+          python setup.py sdist bdist_wheel
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
 
   pypi_publish:
     name: Upload release to PyPI
