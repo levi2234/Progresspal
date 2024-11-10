@@ -49,7 +49,7 @@ pip install .
 python setup.py install
 ```
 
-### Pip Install (Coming Soon)
+### Pip Install 
 ```bash
 pip install ProgressPal
 ```
