@@ -7,8 +7,6 @@ from flask import jsonify
 from .webapp_online_check import webapp_online_check
 from waitress import serve
 
-
-
 def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **kwargs):
     # Check if the web app is already running
     print(f"Checking if the website is already running on http://{host}:{port}...")
