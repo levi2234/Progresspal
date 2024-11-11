@@ -51,6 +51,9 @@ function loadLogTilesHeader() {
     document.querySelector('.in-progress-tasks-section').style.display = 'none';
     document.querySelector('.completed-tasks-section').style.display = 'none';
     document.querySelector('.total-tasks-section').style.display = 'none';
+
+    document.querySelector('.export-logs-button').style.display = 'block';
+
    
 
     //force grid view
@@ -114,3 +117,26 @@ function loadLogTiles() {
 }
 
 
+// Functionality for the download logs button
+document.querySelector('.export-logs-button').addEventListener('click', async function() {
+    try {
+        const response = await fetch('/logs');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const formattedData = JSON.stringify(data, null, 2); // Format JSON data
+
+        const blob = new Blob([formattedData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'logs.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+});

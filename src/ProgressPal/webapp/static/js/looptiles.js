@@ -53,6 +53,9 @@ function loadLoopTilesHeader() {
     document.querySelector('.in-progress-tasks-section').style.display = 'block';
     document.querySelector('.completed-tasks-section').style.display = 'block';
     document.querySelector('.total-tasks-section').style.display = 'block';
+
+    document.querySelector('.export-logs-button').style.display = 'none';
+
     document.querySelector('.list-view').style.display = 'flex';
     document.querySelector('.grid-view').style.display = 'flex';
 
