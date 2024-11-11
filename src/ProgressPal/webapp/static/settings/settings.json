@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "General": {
+      "RefreshRate": 1000
+    },
+    "UI": {
+      "Default Theme": "dark"
+    },
+    "Functions": {
+      "Remove-On-Completion": true
+    },
+    "Iterables": {
+      "Remove-On-Completion": true
+    },
+    "Logs": {
+      "Remove-On-Completion": true
+    }
+  }
+}

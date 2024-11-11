@@ -27,6 +27,7 @@ setup(
             "webapp/static/js/*",  # Include all files in the static directory
             "webapp/static/css/*",  # Include all files in the static directory
             "webapp/templates/*",  # Include all files in the templates directory
+            "webapp/static/settings/*"
             ""
         ],
     }, # Include all files in the package

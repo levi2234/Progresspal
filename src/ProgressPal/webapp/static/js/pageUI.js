@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const resources = {"looptracker": {"stylesheet": "/static/css/looptilestyle.css", "script": "/static/js/looptiles.js"},
                        "functiontracker": {"stylesheet": "/static/css/functiontilestyle.css", "script": "/static/js/functiontiles.js"},
                        "logtracker": {"stylesheet": "/static/css/logtilestyle.css", "script": "/static/js/logtiles.js"},
-                       "settings": {"stylesheet": "/static/css/settingstilestyle.css", "script": "/static/js/settings.js"}};
+                       "settings": {"stylesheet": "/static/css/settingsstyle.css", "script": "/static/js/settings.js"}};
 
     //detect menu button press and change resources
     const menuButtons = document.querySelectorAll('.app-sidebar-link');
