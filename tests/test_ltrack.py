@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from ProgressPal.ltrack import ltrack
+from ProgressPal import ltrack
 import pandas as pd
 import numpy as np
 import threading

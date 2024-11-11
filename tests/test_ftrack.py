@@ -1,32 +1,32 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from ProgressPal.ftrack import ftrack
+from ProgressPal import ftrack
 import time
 import numpy as np
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 @ftrack()
-def testfunction():
+def function():
     print("Hello World")
     time.sleep(5)
     return True
 
 @ftrack()
-def testfunction_with_args(arg1, arg2):
+def function_with_args(arg1, arg2):
     return arg1 + arg2
 
 @ftrack()
-def testfunction_with_exception():
+def function_with_exception():
     raise ValueError("Test exception")
 
 def test_ftrack_wraps_function():
-    result = testfunction()
+    result = function()
     assert result == True
 
 def test_ftrack_handles_exceptions():
     with pytest.raises(ValueError, match="Test exception"):
-        testfunction_with_exception()
+        function_with_exception()
 
 def test_ftrack_with_different_return_values():
     @ftrack()
@@ -41,7 +41,7 @@ def test_ftrack_with_different_return_values():
     assert return_list() == [1, 2, 3]
 
 def test_ftrack_with_function_arguments():
-    result = testfunction_with_args(1, 2)
+    result = function_with_args(1, 2)
     assert result == 3
 
 def test_ftrack_with_numpy_array():

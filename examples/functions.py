@@ -47,14 +47,21 @@ def testfunction6():
         print(e)
         pass
     time.sleep(2)
+    
+@ftrack(host=ip)
+def testfunctionwithargs(a, b):
+    # print(a + b)
+    time.sleep(2)
+    return a , b
         
 
 
 for i in range(300):
-    testfunction()  
+    # testfunction()  
     # tetfunction2()
     # testfunction3()
-
-    testfunction6()
+    a,b = testfunctionwithargs(1, 2)
+    print(a,b)
+    # testfunction6()
     
     
