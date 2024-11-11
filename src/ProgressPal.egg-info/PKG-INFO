@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: ProgressPal
-Version: 0.1
+Version: 0.0.1
 Summary: A decentralized iterable, function and log tracker
 Home-page: https://github.com/levi2234/Progresspal
 Author: Levi van Es
@@ -64,7 +64,7 @@ pip install .
 python setup.py install
 ```
 
-### Pip Install (Coming Soon)
+### Pip Install 
 ```bash
 pip install ProgressPal
 ```

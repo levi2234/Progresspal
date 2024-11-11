@@ -59,8 +59,9 @@ function updateLogTiles() {
                     <div class="log-tile-container">
                         <div class="log-tile-level ${log.level}"><strong> [${log.level}]</strong> </div>
                         <div class="log-tile-timestamp"> ${log.timestamp} </div>
-                        <div class="log-tile-message"> ${log.message}</div>
                         <div class="log-tile-filename-and-line"> ${log.filename}:${log.lineno}</div>
+                        <div class="log-tile-message"> ${log.message}</div>
+                        
                     </div>
                 `;
                 logBox.prepend(tile); // Prepend the new log tile to the top

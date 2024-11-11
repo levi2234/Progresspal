@@ -4,9 +4,9 @@
 
 .log-tile-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 4fr 2fr; /* Adjust the column sizes as needed */
+    grid-template-columns: 1fr 2fr 2fr 7fr; /* Adjust the column sizes as needed */
     gap: 10px; /* Adjust the gap between columns */
-    align-items: center; /* Align items vertically in the center */
+    align-items: left; /* Align items vertically in the center */
     padding: 2px; /* Add padding around the container */
     border-bottom: 1px solid #ccc; /* Add a bottom border for separation */
     overflow-y: auto; /* Make the container scrollable in the y-direction */
@@ -23,13 +23,17 @@
     white-space: nowrap; /* Prevent text from wrapping */
 }
 
+.log-tile-level:hover,
+.log-tile-timestamp:hover,
+.log-tile-message:hover,
+.log-tile-filename-and-line:hover {
+    overflow: visible; /* Show overflow text */
+    text-overflow: clip; /* Remove ellipsis */
+    white-space: normal; /* Allow text to wrap */
+}
+
 .log-tile-level {
     font-weight: bold; /* Make the level text bold */
-    /* center text in column */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 
 .log-tile-timestamp {
@@ -41,7 +45,7 @@
 }
 
 .log-tile-filename-and-line {
-    color: #555; /* Change the color of the filename and line number */
+    color: #797979; /* Change the color of the filename and line number */
     font-style: italic; /* Make the filename and line number italic */
 }
 

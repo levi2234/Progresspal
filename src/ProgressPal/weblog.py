@@ -30,82 +30,96 @@ class Plog:
         self.host = host
         self.filename = os.path.basename(inspect.stack()[1].filename)
 
-    async def _LOG(self, message):
+    async def _LOG(self, message, lineno=None):
         level = "LOG"
         timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
         await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
 
     def LOG(self, message):
-        asyncio.run(self._LOG(message))
+        
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._LOG(message,lineno=lineno))
 
-    async def _DEBUG(self, message):
-        level = "DEBUG"
-        timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
-        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
 
-    def DEBUG(self, message):
-        asyncio.run(self._DEBUG(message))
-
-    async def _INFO(self, message):
-        level = "INFO"
-        timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
-        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
-    def INFO(self, message):
-        asyncio.run(self._INFO(message))
-
-    async def _WARNING(self, message):
-        level = "WARNING"
-        timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
-        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
-    def WARNING(self, message):
-        asyncio.run(self._WARNING(message))
-
-    async def _ERROR(self, message):
-        level = "ERROR"
-        timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
-        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
-    def ERROR(self, message):
-        asyncio.run(self._ERROR(message))
-
-    async def _CRITICAL(self, message):
+    async def _CRITICAL(self, message, lineno=None):
         level = "CRITICAL"
         timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
         await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
+        
     def CRITICAL(self, message):
-        asyncio.run(self._CRITICAL(message))
-
-    async def _EXCEPTION(self, message):
-        level = "EXCEPTION"
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._CRITICAL(message,lineno=lineno))
+        
+    async def _ERROR(self, message, lineno=None):
+        level = "ERROR"
         timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
         await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
-    def EXCEPTION(self, message):
-        asyncio.run(self._EXCEPTION(message))
-
-    async def _FATAL(self, message):
+        
+    def ERROR(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._ERROR(message,lineno=lineno))
+        
+    async def _WARNING(self, message, lineno=None):
+        level = "WARNING"
+        timestamp = time.ctime()
+        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
+        
+    def WARNING(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._WARNING(message,lineno=lineno))
+        
+    async def _INFO(self, message, lineno=None):
+        level = "INFO"
+        timestamp = time.ctime()
+        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
+        
+    def INFO(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._INFO(message,lineno=lineno))
+        
+    async def _DEBUG(self, message, lineno=None):
+        level = "DEBUG"
+        timestamp = time.ctime()
+        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
+        
+    def DEBUG(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._DEBUG(message,lineno=lineno))
+        
+    async def _CRITICAL(self, message, lineno=None):
+        level = "CRITICAL"
+        timestamp = time.ctime()
+        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
+        
+    def CRITICAL(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._CRITICAL(message,lineno=lineno))
+        
+    async def _FATAL(self, message, lineno=None):
         level = "FATAL"
         timestamp = time.ctime()
-        frame = inspect.currentframe().f_back
-        lineno = frame.f_lineno
         await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
-
+        
     def FATAL(self, message):
-        asyncio.run(self._FATAL(message))
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._FATAL(message,lineno=lineno))
+        
+    
+    async def _EXCEPTION(self, message, lineno=None):
+        level = "EXCEPTION"
+        timestamp = time.ctime()
+        await update_progress(message, level, timestamp, self.filename, lineno, self.host, self.port)
+        
+    def EXCEPTION(self, message):
+        frame = inspect.stack()[1]
+        lineno = frame.lineno
+        asyncio.run(self._EXCEPTION(message,lineno=lineno))
+    
