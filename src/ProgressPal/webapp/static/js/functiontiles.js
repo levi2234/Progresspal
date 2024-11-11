@@ -43,6 +43,8 @@ function initialize() {
     startSearchbar();
 };
 
+
+
 function loadFunctionTilesHeader() {
     document.querySelector('.pagetitle').innerHTML = 'Function Tracker';
     //populate the header with the correct elements
