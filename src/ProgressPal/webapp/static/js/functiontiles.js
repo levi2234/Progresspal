@@ -4,6 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
+// This function initializes the searchbar functionality
+function startSearchbar() {
+    console.log('startSearchbar FUNC');
+
+    const searchBox = document.getElementById('search-input');
+    console.log(searchBox);
+    if (searchBox) {
+        searchBox.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const tiles = document.querySelectorAll('.tile-wrapper');
+
+            tiles.forEach(tile => {
+                const content = tile.textContent.toLowerCase();
+                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
+                    tile.classList.remove('hidden');
+                } else {
+                    tile.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+};
+
+
 function initialize() {
     loadFunctionTilesHeader();
     //first clear the project-boxes div
@@ -331,25 +356,3 @@ function identify_largest_time_unit(ns) {
     };
 }
 
-// This function initializes the searchbar functionality
-function startSearchbar() {
-
-    const searchBox = document.getElementById('search-input');
-    console.log(searchBox);
-    if (searchBox) {
-        searchBox.addEventListener('input', function() {
-            const searchText = this.value.toLowerCase();
-            const tiles = document.querySelectorAll('.tile-wrapper');
-
-            tiles.forEach(tile => {
-                const content = tile.textContent.toLowerCase();
-                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
-                    tile.classList.remove('hidden');
-                } else {
-                    tile.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-};

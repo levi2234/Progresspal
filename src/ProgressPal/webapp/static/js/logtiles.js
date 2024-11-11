@@ -2,6 +2,34 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.project-boxes').innerHTML = '';
     initialize();
 });
+// This function initializes the searchbar functionality
+function startSearchbar() {
+    console.log('startSearchbar LOGS');
+
+    const searchBox = document.getElementById('search-input');
+    console.log('Search box:', searchBox);
+    if (searchBox) {
+        searchBox.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            console.log('Search text:', searchText);
+            const tiles = document.querySelectorAll('.log-tile-container');
+            console.log('Log tiles:', tiles);
+
+            tiles.forEach(tile => {
+                const content = tile.textContent.toLowerCase();
+                console.log('Tile content:', content);
+                if (!searchText || (content && content.includes(searchText))) {
+                    tile.classList.remove('hidden');
+                } else {
+                    tile.classList.add('hidden');
+                }
+            });
+        });
+    } else {
+        console.error('Search box not found');
+    }
+}
+
 
 function initialize() {
     //first clear the project-boxes div
@@ -86,25 +114,3 @@ function loadLogTiles() {
 }
 
 
-// This function initializes the searchbar functionality
-function startSearchbar() {
-
-    const searchBox = document.getElementById('search-input');
-    console.log(searchBox);
-    if (searchBox) {
-        searchBox.addEventListener('input', function() {
-            const searchText = this.value.toLowerCase();
-            const tiles = document.querySelectorAll('.log-tile-container');
-
-            tiles.forEach(tile => {
-                const content = tile.textContent.toLowerCase();
-                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
-                    tile.classList.remove('hidden');
-                } else {
-                    tile.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-};

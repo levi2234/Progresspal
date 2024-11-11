@@ -80,3 +80,7 @@
 .WARNING {
     color: orange;
 }
+
+.hidden {
+    display: none;
+}

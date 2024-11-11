@@ -2,6 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
 
+    // Listen for changes in the checkbox state
+// This function initializes the searchbar functionality
+function startSearchbar() {
+    console.log('startSearchbar LOOP');
+
+    const searchBox = document.getElementById('search-input');
+    console.log(searchBox);
+    if (searchBox) {
+        searchBox.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            const tiles = document.querySelectorAll('.tile-wrapper');
+
+            tiles.forEach(tile => {
+                const content = tile.textContent.toLowerCase();
+                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
+                    tile.classList.remove('hidden');
+                } else {
+                    tile.classList.add('hidden');
+                }
+            });
+        });
+    }
+
+};
+
 function initialize() {
 
     loadLoopTilesHeader();
@@ -415,27 +440,3 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     
 }
-
-    // Listen for changes in the checkbox state
-// This function initializes the searchbar functionality
-function startSearchbar() {
-
-    const searchBox = document.getElementById('search-input');
-    console.log(searchBox);
-    if (searchBox) {
-        searchBox.addEventListener('input', function() {
-            const searchText = this.value.toLowerCase();
-            const tiles = document.querySelectorAll('.tile-wrapper');
-
-            tiles.forEach(tile => {
-                const content = tile.textContent.toLowerCase();
-                if (!searchText || (content && content.toLowerCase().includes(searchText))) {
-                    tile.classList.remove('hidden');
-                } else {
-                    tile.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-};
