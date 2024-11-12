@@ -1,31 +1,31 @@
+// Wait for the DOM to be fully loaded before initializing
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
 
-// This function initializes the searchbar functionality
+// This function initializes the search bar functionality
 function startSearchbar() {
     // Implement search bar functionality if needed
 }
 
+// This function initializes the settings page
 function initialize() {
     loadSettingsHeader();
-    // First clear the project-boxes div
+    // Clear the project-boxes div
     document.querySelector('.project-boxes').innerHTML = '';
     loadSettings();
-    // Set intervals for updating settings if needed
-    // let loadSettingsInterval = setInterval(loadSettings, 1000);
-    // let updateSettingsInterval = setInterval(updateSettings, 100);
+    // Initialize an empty array for intervals
     window.intervals = [];
     startSearchbar();
 }
 
+// This function loads the settings header
 function loadSettingsHeader() {
     document.querySelector('.pagetitle').innerHTML = 'Settings';
-    // Populate the header with the correct elements
+    // Hide unnecessary sections
     document.querySelector('.in-progress-tasks-section').style.display = 'none';
     document.querySelector('.completed-tasks-section').style.display = 'none';
     document.querySelector('.total-tasks-section').style.display = 'none';
-
     document.querySelector('.export-logs-button').style.display = 'none';
 
     // Force grid view
@@ -36,8 +36,8 @@ function loadSettingsHeader() {
     document.querySelector('.project-boxes').classList.add('jsGridView');
 }
 
+// This function loads the settings from the server or local storage
 function loadSettings() {
-    // Load settings from the server or local storage
     fetch('/settings')
         .then(response => response.json())
         .then(data => {
@@ -63,7 +63,7 @@ function loadSettings() {
                             const fieldtext = settingData.fieldtext;
                             console.log('Setting:', setting, 'Value:', value, 'Type:', type, 'Fieldtext:', fieldtext);
                             
-                            
+                            // Render different input types based on the setting type
                             if (type === 'bool') {
                                 return `
                                     <div class="settings-item">
@@ -75,7 +75,7 @@ function loadSettings() {
                                 return `
                                     <div class="settings-item">
                                         <span class="settings-item-name" id="${setting}">${fieldtext}</span>
-                                        <select class="settings-item-value  select-input">
+                                        <select class="settings-item-value select-input">
                                             ${settingData.options.map(option => `
                                                 <option value="${option}" ${option === value ? 'selected' : ''}>${option}</option>
                                             `).join('')}
@@ -101,18 +101,19 @@ function loadSettings() {
         });
 }
 
+// This function detects changes in the settings inputs and updates the server
 function detectChanges() {
     // Select all checkbox inputs
     const checkboxes = document.querySelectorAll('input[type="checkbox"].settings-item-value');
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', (event) => {
-            // Open the json settings file and update the value of the checkbox
+            // Fetch the settings and update the value of the checkbox
             fetch('/settings')
                 .then(response => response.json())
                 .then(data => {
                     const category = checkbox.closest('.settings-category-tile').getAttribute('data-category');
                     const setting = checkbox.previousElementSibling.id;
-                    console.log('Category:', category, 'Setting:', setting, 'Value:', textInputs.value);
+                    console.log('Category:', category, 'Setting:', setting, 'Value:', checkbox.checked);
                     data.settings[category][setting].value = checkbox.checked;
                     // Save the updated settings to the server
                     fetch('/update_settings', {
@@ -125,19 +126,20 @@ function detectChanges() {
                 });
         });
     });
+
     // Select all text inputs
     const textInputs = document.querySelectorAll('.settings-item-value.text-input');
     textInputs.forEach(textInput => {
         textInput.addEventListener('input', (event) => {
-            // Open the json settings file and update the value of the text input
+            // Fetch the settings and update the value of the text input
             fetch('/settings')
                 .then(response => response.json())
                 .then(data => {
                     const category = textInput.closest('.settings-category-tile').getAttribute('data-category');
                     const setting = textInput.previousElementSibling.id;
-                    console.log('Category:', category, 'Setting:', setting, 'Value:', textInputs.value);
+                    console.log('Category:', category, 'Setting:', setting, 'Value:', textInput.value);
 
-                                    // Typecast the value to an integer
+                    // Typecast the value to an integer
                     const typedValue = parseInt(textInput.value, 10);
 
                     data.settings[category][setting].value = typedValue;
@@ -157,7 +159,7 @@ function detectChanges() {
     const selectInputs = document.querySelectorAll('.settings-item-value.select-input');
     selectInputs.forEach(selectInput => {
         selectInput.addEventListener('change', (event) => {
-            // Open the json settings file and update the value of the select input
+            // Fetch the settings and update the value of the select input
             fetch('/settings')
                 .then(response => response.json())
                 .then(data => {
@@ -177,7 +179,6 @@ function detectChanges() {
         });
     });
 }
-
 
 // Helper function to check if an element is in the viewport
 function isElementInViewport(el, margin = 700) {

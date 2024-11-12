@@ -56,9 +56,6 @@ function initialize() {
             RemoveOnCompletionInterval = setInterval(removeCompletedIterables, iterableTrackerRefetchInterval); 
             window.intervals.push(RemoveOnCompletionInterval);
         }
-    
-
-
     });
 
 
@@ -267,7 +264,6 @@ function removeCompletedIterables() {
     })
     
 }
-
 
 //this function updates the total tasks, active tasks and completed tasks
 function trackerstats() {

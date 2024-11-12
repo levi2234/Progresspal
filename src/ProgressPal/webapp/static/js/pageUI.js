@@ -1,20 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     // Load Settings
-     fetch('/settings')
+    fetch('/settings')
         .then(response => response.json())
         .then(data => {
             const settings = data.settings;
-    
+
             // GENERAL SETTINGS from json
             const UIsettings = settings.UI;
             const UIDefaultTheme = UIsettings.DefaultTheme.value; // Declare UIDefaultTheme with const
             console.log(UIDefaultTheme);
-    
+
             // Empty the classlist from the <html> element dynamically
             const htmlElement = document.documentElement;
             htmlElement.className = ''; // Clear all classes
-    
+
             // Optionally, you can add the default theme class if needed
             htmlElement.classList.add(UIDefaultTheme);
         })
@@ -22,33 +21,20 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching settings:', error);
         });
 
-
-    // var modeSwitch = document.querySelector('.mode-switch');
-  
-    // modeSwitch.addEventListener('click', function () {
-    //     if (document.documentElement.classList.contains('secondary')) {
-    //         document.documentElement.classList.remove('secondary');
-    //         document.documentElement.classList.add('primary');
-    //     } else {
-    //         document.documentElement.classList.remove('primary');
-    //         document.documentElement.classList.add('secondary');
-    //     }
-    //     modeSwitch.classList.toggle('active');
-    // });
-    
+    // Select the list view and grid view buttons
     var listView = document.querySelector('.list-view');
     var gridView = document.querySelector('.grid-view');
     var projectsList = document.querySelector('.project-boxes');
-    
 
-
+    // Add event listener for list view button
     listView.addEventListener('click', function () {
         gridView.classList.remove('active');
         listView.classList.add('active');
         projectsList.classList.remove('jsGridView');
         projectsList.classList.add('jsListView');
     });
-    
+
+    // Add event listener for grid view button
     gridView.addEventListener('click', function () {
         gridView.classList.add('active');
         listView.classList.remove('active');
@@ -56,41 +42,42 @@ document.addEventListener('DOMContentLoaded', function () {
         projectsList.classList.add('jsGridView');
     });
 
+    // Initialize clock format to 24-hour
+    let is24HourFormat = true;
 
-
-    let is24HourFormat = true; // Initial format is 24-hour
-
+    // Select the clock element and add click event listener to toggle format
     const clockElement = document.getElementById('clock');
     clockElement.addEventListener('click', function () {
         is24HourFormat = !is24HourFormat; // Toggle format
         updateClock(is24HourFormat); // Update clock immediately
     });
 
+    // Update the clock every second
     setInterval(() => updateClock(is24HourFormat), 1000);
     updateClock(is24HourFormat); // Initial call to display clock immediately
 
-    const resources = {"looptracker": {"stylesheet": "/static/css/looptilestyle.css", "script": "/static/js/looptiles.js"},
-                       "functiontracker": {"stylesheet": "/static/css/functiontilestyle.css", "script": "/static/js/functiontiles.js"},
-                       "logtracker": {"stylesheet": "/static/css/logtilestyle.css", "script": "/static/js/logtiles.js"},
-                       "settings": {"stylesheet": "/static/css/settingsstyle.css", "script": "/static/js/settings.js"}};
+    // Define resources for different trackers
+    const resources = {
+        "looptracker": { "stylesheet": "/static/css/looptilestyle.css", "script": "/static/js/looptiles.js" },
+        "functiontracker": { "stylesheet": "/static/css/functiontilestyle.css", "script": "/static/js/functiontiles.js" },
+        "logtracker": { "stylesheet": "/static/css/logtilestyle.css", "script": "/static/js/logtiles.js" },
+        "settings": { "stylesheet": "/static/css/settingsstyle.css", "script": "/static/js/settings.js" }
+    };
 
-    //detect menu button press and change resources
+    // Detect menu button press and change resources
     const menuButtons = document.querySelectorAll('.app-sidebar-link');
     menuButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const resourceKey = button.dataset.resource;
             changeResources(resources[resourceKey].stylesheet, resources[resourceKey].script);
-            //set the active class
+            // Set the active class
             menuButtons.forEach(menuButton => menuButton.classList.remove('active'));
             button.classList.add('active');
-
-            
-            
         });
     });
 });
 
-
+// Function to update the clock display
 function updateClock(is24HourFormat = true) {
     const clockElement = document.getElementById('clock');
     const now = new Date();
@@ -108,11 +95,8 @@ function updateClock(is24HourFormat = true) {
     clockElement.textContent = `${hours}:${minutes}:${seconds} ${period}`;
 }
 
-
-// This handles the changing of resources (CSS and JS) when a menu button is clicked
-// This function changes resources (CSS and JS) when a menu button is clicked
+// Function to change resources (CSS and JS) when a menu button is clicked
 function changeResources(newStylesheet, newScript) {
-
     // Initialize window.intervals if it doesn't exist
     if (!window.intervals) {
         window.intervals = [];
@@ -146,7 +130,7 @@ function changeResources(newStylesheet, newScript) {
     newScriptElement.id = 'tilejavascriptlink';
 
     // After loading, initialize new script intervals
-    newScriptElement.onload = function() {
+    newScriptElement.onload = function () {
         if (typeof initialize === 'function') {
             initialize(); // Run the new script’s initialization
         }
@@ -154,8 +138,3 @@ function changeResources(newStylesheet, newScript) {
 
     document.head.appendChild(newScriptElement);
 }
-
-
-
-
-
