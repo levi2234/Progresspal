@@ -28,20 +28,46 @@ function startSearchbar() {
 };
 
 function initialize() {
+    //LOAD SETTINGS
+    
+    fetch('/settings').then(response => response.json()).then(data => {
+        const settings = data.settings;
 
-    loadLoopTilesHeader();
-    //first clear the project-boxes div
-    window.intervals = []; // or simply use var intervals = [];
+        //GENERAL SETTINGS from json
+        const iterableSettings = settings.Iterables;
+        iterableTrackerRefetchInterval = iterableSettings.RefetchInterval.value;
+        iterableTrackerupdateRate = iterableSettings.Tickrate.value;
+        iterableTrackerRemoveOnCompletion = iterableSettings.RemoveOnCompletion.value;
+        
 
-    document.querySelector('.project-boxes').innerHTML = '';
-
-    //set the title of the page
+        // SET INTERVALS
+        console.log('iterableTrackerRefetchInterval:', iterableTrackerRefetchInterval);
+        // Set intervals after settings are loaded
+        window.intervals = []; 
+        let loadtilesinterval = setInterval(loadLoopTiles, iterableTrackerRefetchInterval);
+        let updatetilesinterval = setInterval(updateLoopTiles, iterableTrackerupdateRate);
+        let trackerstatsinterval = setInterval(trackerstats, iterableTrackerupdateRate);
+    
+        window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+    
+        // Remove completed tiles if the setting is enabled
+        if (Boolean(iterableTrackerRemoveOnCompletion)) {
+            console.log('RemoveOnCompletionInterval LOOP');
+            RemoveOnCompletionInterval = setInterval(removeCompletedIterables, iterableTrackerRefetchInterval); 
+            window.intervals.push(RemoveOnCompletionInterval);
+        }
     
 
-    let loadtilesinterval = setInterval(loadLoopTiles, 1000);
-    let updatetilesinterval = setInterval(updateLoopTiles, 100);
-    let trackerstatsinterval = setInterval(trackerstats, 100);
-    window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+
+    });
+
+
+    //INITIALIZE PAGE ELEMENTS
+    loadLoopTilesHeader();
+    document.querySelector('.project-boxes').innerHTML = '';
+
+
+    //Start searchbar activation
     startSearchbar();
 };
 
@@ -162,6 +188,16 @@ function loadLoopTiles() {
         .then(data => {
             
             const projectsList = document.querySelector('.project-boxes'); // get the project-boxes div
+            const existingTiles = projectsList.querySelectorAll('.loop-tile');
+            const dataKeys = new Set(Object.keys(data));
+
+            // Remove tiles that do not exist in the fetched data
+            existingTiles.forEach(tile => {
+                const tileId = tile.getAttribute('ID');
+                if (!dataKeys.has(tileId)) {
+                    tile.parentElement.parentElement.removeChild(tile.parentElement);
+                }
+            });
 
             // loop through the data and create a tile for each item
             Object.keys(data).forEach(key => {
@@ -180,8 +216,6 @@ function loadLoopTiles() {
                 
                 const tile = document.createElement('div');
 
-
-
                 tile.classList.add('tile-wrapper');
                 tile.innerHTML = `
                     <div class="loop-tile" ID="${key}">
@@ -190,12 +224,12 @@ function loadLoopTiles() {
                             <div class="loop-tile-content-header-left">
                                 <p class="loop-tile-content-header-text tile-text-color">${key}</p>
                                 <p class="loop-tile-content-subheader-text tile-text-color ">Category: ${item.category}</p>
-                                <div class="overhead-percentage tile-badge" ">
+                                <div class="overhead-percentage tile-badge">
                                 -% Overhead
                                 </div>
                             </div>
                             <div class="loop-tile-content-header-center">
-                                <canvas class="loop-tile-content-header-canvas " id = "gaussianCanvas-${key}"></canvas>
+                                <canvas class="loop-tile-content-header-canvas" id="gaussianCanvas-${key}"></canvas>
                             </div>
                             <div class="loop-tile-content-header-right">
                                 <!-- <span class = "tile-text-color">${item.start_time}</span> -->
@@ -209,10 +243,10 @@ function loadLoopTiles() {
                             <p class="loop-tile-progress-percentage tile-text-color ">${item.iteration}/${item.total} (${(item.iteration / item.total * 100).toFixed(2)}%)</p>
                         </div>
                         <div class="loop-tile-footer">
-                            <div class="time-left tile-badge" ">
+                            <div class="time-left tile-badge">
                                 ${days}d ${hours}h ${minutes}m ${seconds}s Left
                             </div>
-                            <div class="iterations-per-second tile-badge" ">
+                            <div class="iterations-per-second tile-badge">
                                 It/s: ${item.iterations_per_second}
                             </div>
                         </div>
@@ -223,6 +257,17 @@ function loadLoopTiles() {
             
         });
 }
+
+function removeCompletedIterables() {
+    fetch('/remove_completed_iterables', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    
+}
+
 
 //this function updates the total tasks, active tasks and completed tasks
 function trackerstats() {
@@ -436,10 +481,4 @@ function plotGaussian(canvasId, mean, std, latest_execution_time) {
 
     ctx.restore();
     ctx.stroke();
-    
-
-
-
-
-    
 }

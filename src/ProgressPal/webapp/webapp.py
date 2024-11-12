@@ -29,7 +29,7 @@ def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **
         run_app(webapp, host, port, debug)
     else:
         print(f"Starting the PRODUCTION server on http://{host}:{port}...")
-        serve(webapp, host=host, port=port)
+        serve(webapp, host=host, port=port, threads=4)
 
 def disable_logging():
     log = logging.getLogger('werkzeug')
@@ -127,6 +127,17 @@ def create_flask_app():
             return jsonify({"status": "success"}), 200
         else:
             return jsonify({"status": "error", "message": "Invalid data"}), 400
+        
+        
+
+    @webapp.route('/remove_completed_iterables', methods=['POST'])
+    def remove_completed_iterables():
+        # Remove completed iterables from the progress_data dictionary
+        completed_iterables = [task_id for task_id in progress_data if progress_data[task_id]["progress"] >= 100]
+        for task_id in completed_iterables:
+            del progress_data[task_id]
+        return jsonify({"status": "success", "removed": completed_iterables})
+        
 
     @webapp.route('/progress', methods=['GET'])
     def get_progress():
@@ -227,6 +238,18 @@ def create_flask_app():
             with open(settingspath, "w") as f:
                 json.dump(data, f)
             return jsonify({"status": "success"}), 200
+        except (IOError, json.JSONDecodeError) as e:
+            return jsonify({"status": "error", "message": str(e)}), 500
+        
+    @webapp.route("/settings", methods=['GET'])
+    def get_settings():
+        # get path to current directory
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        settingspath = os.path.join(current_dir, "static/settings/settings.json")
+        try:
+            with open(settingspath, "r") as f:
+                data = json.load(f)
+            return jsonify(data)
         except (IOError, json.JSONDecodeError) as e:
             return jsonify({"status": "error", "message": str(e)}), 500
 

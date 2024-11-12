@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
     
-    
 });
 
 // This function initializes the searchbar functionality
@@ -30,16 +29,31 @@ function startSearchbar() {
 
 
 function initialize() {
+
+    //LOAD SETTINGS
+    fetch('/settings').then(response => response.json()).then(data => {
+        const settings = data.settings;
+
+        //GENERAL SETTINGS from json
+        const functionSettings = settings.Functions;
+        FunctionTrackerRefetchInterval = functionSettings.RefetchInterval.value;
+        FunctionTrackerupdateRate = functionSettings.Tickrate.value;
+
+        //SETTING INTERVALS
+        window.intervals = []; 
+        let loadtilesinterval = setInterval(loadFunctionTiles, FunctionTrackerRefetchInterval);
+        let updatetilesinterval = setInterval(updateFunctionTiles, FunctionTrackerupdateRate);
+        let trackerstatsinterval = setInterval(trackerstats, FunctionTrackerupdateRate);
+        window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+
+
+    });
+
+    // INTIALIZE PAGE ELEMENTS
     loadFunctionTilesHeader();
-    //first clear the project-boxes div
-    
-    window.intervals = []; // or simply use var intervals = [];
     document.querySelector('.project-boxes').innerHTML = '';
 
-    let loadtilesinterval = setInterval(loadFunctionTiles, 1000);
-    let updatetilesinterval = setInterval(updateFunctionTiles, 100);
-    let trackerstatsinterval = setInterval(trackerstats, 100);
-    window.intervals = [loadtilesinterval, updatetilesinterval, trackerstatsinterval];
+    //LOAD SEARCHBAR
     startSearchbar();
 };
 

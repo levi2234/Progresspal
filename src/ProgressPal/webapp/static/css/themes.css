@@ -1,0 +1,99 @@
+
+.light:root {
+    --app-container: #f3f6fd;
+    --main-color: #1f1c2e;
+    --secondary-color: #4A4A4A;
+    --link-color: #1f1c2e;
+    --link-color-hover: #c3cff4;
+    --link-color-active: #fff;
+    --link-color-active-bg: #1f1c2e;
+    --projects-section:rgba(165, 165, 165, 0.6);
+    --message-box-hover: #fafcff;
+    --message-box-border: #e9ebf0;
+    --more-list-bg: #fff;
+    --more-list-bg-hover: #f6fbff;
+    --more-list-shadow: rgba(209, 209, 209, 0.4);
+    --button-bg: #1f1c24;
+    --search-area-bg: #fff;
+    --star: #1ff1c2e;
+    --tile-color:  #f3f6fd;
+    --tile-in-progress-color: rgba(194, 242, 172, 0.5);
+    --tile-completed-color: rgba(50, 169, 217, 0.5);
+    --tile-badge-background-color: rgba(165, 165, 165, 0.6);
+    --tile-badge-text-color: #0D0D0D;
+    
+    
+    
+  }
+  
+  .dark:root {
+   
+    --app-container: #111827;
+    --main-color: #fff;
+    --secondary-color: rgba(255,255,255,.8);
+    --projects-section: #1f2937;
+    --link-color: rgba(255,255,255,.8);
+    --link-color-hover: rgba(195, 207, 244, 0.1);
+    --link-color-active-bg: rgba(195, 207, 244, 0.2);
+    --button-bg: #1f2937;
+    --search-area-bg: #1f2937;
+    --message-box-hover: #243244;
+    --message-box-border: rgba(255,255,255,.1);
+    --star: #ffd92c;
+    --light-font: rgba(255,255,255,.8);
+    --more-list-bg: #2f3142;
+    --more-list-bg-hover: rgba(195, 207, 244, 0.1);
+    --more-list-shadow: rgba(195, 207, 244, 0.1);
+    --message-btn: rgba(195, 207, 244, 0.1);
+    --tile-color: #111827;
+    --tile-badge-background-color: var(--projects-section);
+    --tile-badge-text-color: var(--main-color);
+  }
+  
+
+.navy:root{
+    --app-container: #0d1b2a; /* Darker navy */
+    --main-color: #e0e8f9; /* Soft light blue */
+    --secondary-color: rgba(224, 232, 249, 0.8); /* Softer secondary light blue */
+    --projects-section: #1b263b; /* Muted navy */
+    --link-color: rgba(224, 232, 249, 0.8); /* Same as secondary color for consistency */
+    --link-color-hover: rgba(173, 186, 204, 0.1); /* Lighter hover color */
+    --link-color-active-bg: rgba(173, 186, 204, 0.2); /* Slightly stronger active color */
+    --button-bg: #1b263b; /* Same as projects section for consistency */
+    --search-area-bg: #1b263b; /* Consistent with projects-section */
+    --message-box-hover: #243447; /* Darker blue-gray */
+    --message-box-border: rgba(224, 232, 249, 0.1); /* Lightened for contrast */
+    --star: #ffc857; /* Slightly brighter gold */
+    --light-font: rgba(224, 232, 249, 0.8); /* Matches main color family */
+    --more-list-bg: #3c415c; /* Deep blue-gray */
+    --more-list-bg-hover: rgba(173, 186, 204, 0.1); /* Softer hover effect */
+    --more-list-shadow: rgba(173, 186, 204, 0.1); /* Matches hover color for subtle shadow */
+    --message-btn: rgba(173, 186, 204, 0.1); /* Consistent muted color */
+    --tile-color: #0d1b2a; /* Matches app container */
+    --tile-badge-background-color: var(--projects-section); /* Consistent badge background */
+    --tile-badge-text-color: var(--main-color); /* Maintains text contrast */
+}
+
+.autumn:root{
+    --app-container: #2e1b0f; /* Dark, earthy brown */
+    --main-color: #fef7f1; /* Soft, warm cream */
+    --secondary-color: rgba(254, 247, 241, 0.8); /* Softer, translucent cream */
+    --projects-section: #523524; /* Warm, deep brown */
+    --link-color: rgba(254, 247, 241, 0.8); /* Light cream to match secondary color */
+    --link-color-hover: rgba(255, 186, 131, 0.1); /* Soft orange-tan */
+    --link-color-active-bg: rgba(255, 186, 131, 0.2); /* Slightly stronger for active state */
+    --button-bg: #523524; /* Matches projects section */
+    --search-area-bg: #523524; /* Consistent with button background */
+    --message-box-hover: #704b32; /* Rich, warm brown */
+    --message-box-border: rgba(254, 247, 241, 0.1); /* Light cream for border */
+    --star: #ffa936; /* Vibrant pumpkin orange */
+    --light-font: rgba(254, 247, 241, 0.8); /* Consistent with main text */
+    --more-list-bg: #4a3020; /* Darker warm brown */
+    --more-list-bg-hover: rgba(255, 186, 131, 0.1); /* Soft orange-tan for hover */
+    --more-list-shadow: rgba(255, 186, 131, 0.1); /* Shadow matches hover color */
+    --message-btn: rgba(255, 186, 131, 0.1); /* Consistent muted orange */
+    --tile-color: #2e1b0f; /* Matches app container for coherence */
+    --tile-badge-background-color: var(--projects-section); /* Uses projects section color */
+    --tile-badge-text-color: var(--main-color); /* Ensures readable badge text */
+  
+}

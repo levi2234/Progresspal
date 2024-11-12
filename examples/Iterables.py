@@ -43,8 +43,6 @@ def nested_loops_4():
                 time.sleep(random.uniform(0.1, 0.5))
 
 
-
-
 if __name__ == "__main__":
     # Create threads
     thread1 = Thread(target=nested_loops_1)

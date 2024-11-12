@@ -115,11 +115,11 @@ input[type="checkbox"] {
 
 .text-input {
     background-color: var(--projects-section);
-    max-width: 190px;
-    height: 40px;
+    max-width: 200px;
+    height: 3em;
     padding: 10px;
-    border: 2px solid var(--main-color);
-    border-radius: 5px;
+    border: 1px solid var(--projects-section);
+    border-radius: .25em;
     width: auto;
     min-width: 10ch; /* Adjust this value as needed */
 }
@@ -130,4 +130,51 @@ input[type="checkbox"] {
     box-shadow: -3px -3px 15px var(--tile-in-progress-color);
     transition: .1s;
     transition-property: box-shadow;
+}
+
+/* Code for select dropdown menus */
+.select-input {
+    /* Reset Select */
+    appearance: none;
+    outline: 10px red;
+    border: 0;
+    box-shadow: none;
+    /* Personalize */
+    padding: 0 1em;
+    color: var(--main-color);
+    background-color: var(--projects-section);
+    background-image: none;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    width: 200px;
+    height: 3em;
+    border-radius: .25em;
+    overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Remove IE arrow */
+.select-input::-ms-expand {
+    display: none;
+}
+
+/* Arrow */
+.select-input::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%; /* Center vertically */
+    right: 1em; /* Adjust right padding */
+    transform: translateY(-50%); /* Center vertically */
+    color: var(--main-color); /* Ensure the arrow is visible */
+    background-color: transparent; /* Make background transparent */
+    transition: .25s all ease;
+    pointer-events: none;
+    z-index: 1; /* Ensure the arrow is on top */
+}
+
+/* Transition */
+.select-input:hover::after {
+    color: #f39c12;
 }

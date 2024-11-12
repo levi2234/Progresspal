@@ -1,8 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Load Settings
+     fetch('/settings')
+        .then(response => response.json())
+        .then(data => {
+            const settings = data.settings;
+    
+            // GENERAL SETTINGS from json
+            const UIsettings = settings.UI;
+            const UIDefaultTheme = UIsettings.DefaultTheme.value; // Declare UIDefaultTheme with const
+            console.log(UIDefaultTheme);
+    
+            // Empty the classlist from the <html> element dynamically
+            const htmlElement = document.documentElement;
+            htmlElement.className = ''; // Clear all classes
+    
+            // Optionally, you can add the default theme class if needed
+            htmlElement.classList.add(UIDefaultTheme);
+        })
+        .catch(error => {
+            console.error('Error fetching settings:', error);
+        });
+
+
     var modeSwitch = document.querySelector('.mode-switch');
   
-    modeSwitch.addEventListener('click', function () {                     
-        document.documentElement.classList.toggle('dark');
+    modeSwitch.addEventListener('click', function () {
+        if (document.documentElement.classList.contains('secondary')) {
+            document.documentElement.classList.remove('secondary');
+            document.documentElement.classList.add('primary');
+        } else {
+            document.documentElement.classList.remove('primary');
+            document.documentElement.classList.add('secondary');
+        }
         modeSwitch.classList.toggle('active');
     });
     
