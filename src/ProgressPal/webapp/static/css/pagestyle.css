@@ -355,10 +355,6 @@ button, a {
   margin-right: 10px;
 }
 
-.mode-switch.active .moon {
-  fill: var(--main-color);
-}
-
 
 @media screen and (max-width: 980px) {
 

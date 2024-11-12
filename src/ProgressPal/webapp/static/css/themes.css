@@ -97,3 +97,29 @@
     --tile-badge-text-color: var(--main-color); /* Ensures readable badge text */
   
 }
+
+
+.spring:root {
+    --app-container: #f0f8f5; /* Soft mint green */
+    --main-color: #333; /* Dark gray for good contrast */
+    --secondary-color: rgba(51, 51, 51, 0.8); /* Muted dark gray */
+    --projects-section: #d8f3dc; /* Light, fresh green */
+    --link-color: rgba(51, 51, 51, 0.8); /* Dark gray to match main color */
+    --link-color-hover: rgba(145, 225, 200, 0.1); /* Soft minty green */
+    --link-color-active-bg: rgba(145, 225, 200, 0.2); /* Slightly stronger green for active */
+    --button-bg: #d8f3dc; /* Matches projects section */
+    --search-area-bg: #d8f3dc; /* Consistent with button background */
+    --message-box-hover: #b7e4c7; /* Gentle leafy green */
+    --message-box-border: rgba(51, 51, 51, 0.1); /* Light border for subtle contrast */
+    --star: #ffd166; /* Soft, warm yellow */
+    --light-font: rgba(51, 51, 51, 0.8); /* Matches main color family */
+    --more-list-bg: #a0c4b1; /* Muted soft green */
+    --more-list-bg-hover: rgba(145, 225, 200, 0.1); /* Soft mint green for hover */
+    --more-list-shadow: rgba(145, 225, 200, 0.1); /* Matches hover color for shadow */
+    --message-btn: rgba(145, 225, 200, 0.1); /* Soft green for message button */
+    --tile-color: #f0f8f5; /* Matches app container for cohesion */
+    --tile-badge-background-color: var(--projects-section); /* Consistent badge background */
+    --tile-badge-text-color: var(--main-color); /* High contrast for readability */
+  
+
+}
