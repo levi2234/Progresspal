@@ -55,10 +55,11 @@
 }
 
 .settings-item-name {
-    font-size: 16px;
+    font-size: 20px;
     color: var(--secondary-color);
     flex: 1;
     max-width: 200px;
+    text-align: left;
 }
 
 .settings-item-value {
@@ -66,4 +67,67 @@
     color: var(--main-color);
     margin-left: 20px; /* Adjust this value as needed */
     text-align: left;
+}
+
+.text-input {
+    background-color: var(--tile-color);
+
+}
+
+/* Code for the Checkbox */
+input[type="checkbox"] {
+    position: relative;
+    width: 50px;
+    height: 30px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: red;
+    outline: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    box-shadow: inset 0 0 5px rgb(0 0 0 / 50%);
+  }
+  
+  input[type="checkbox"]::before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--main-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+  }
+  
+  input[type="checkbox"]:checked::before {
+    transform: translateX(100%);
+    background: var(--main-color);
+  }
+  
+  input[type="checkbox"]:checked {
+    background: #00ed64;
+  }
+  
+
+  /* Code for the Textbox */
+
+
+.text-input {
+    background-color: var(--projects-section);
+    max-width: 190px;
+    height: 40px;
+    padding: 10px;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    width: auto;
+    min-width: 10ch; /* Adjust this value as needed */
+}
+
+.text-input:focus {
+    background-color: var(--projects-section);
+    outline-color: var(--tile-in-progress-color);
+    box-shadow: -3px -3px 15px var(--tile-in-progress-color);
+    transition: .1s;
+    transition-property: box-shadow;
 }

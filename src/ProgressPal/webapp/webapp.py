@@ -2,6 +2,7 @@ from flask import Flask, render_template ,request, Response
 import logging
 import sys
 import os
+import json
 import signal
 from flask import jsonify
 from .webapp_online_check import webapp_online_check
@@ -215,4 +216,19 @@ def create_flask_app():
         return jsonify({"status": "success"}), 200
     
     
+    @webapp.route("/update_settings", methods=['POST'])
+    def update_settings():
+        data = request.json
+        # get path to current directory
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        settingspath = os.path.join(current_dir, "static/settings/settings.json")
+
+        try:
+            with open(settingspath, "w") as f:
+                json.dump(data, f)
+            return jsonify({"status": "success"}), 200
+        except (IOError, json.JSONDecodeError) as e:
+            return jsonify({"status": "error", "message": str(e)}), 500
+
+                
     return webapp

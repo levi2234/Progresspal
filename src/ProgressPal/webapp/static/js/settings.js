@@ -55,71 +55,94 @@ function loadSettings() {
                         <h1>${category}</h1>
                     </div>
                     <div class="settings-category-content">
-                        ${Object.keys(categoryData).map(setting => `
-                            <div class="settings-item">
-                                <span class="settings-item-name">${setting}</span>
-                                <span class="settings-item-value ${setting}">${categoryData[setting]}</span>
-                            </div>
-                        `).join('')}
+                        ${Object.keys(categoryData).map(setting => {
+                            const value = categoryData[setting];
+                            if (typeof value === 'boolean') {
+                                return `
+                                    <div class="settings-item">
+                                        <span class="settings-item-name">${setting}</span>
+                                        <input type="checkbox" class="settings-item-value ${setting} checkbox" ${value ? 'checked' : ''}>
+                                    </div>
+                                `;
+                            } else {
+                                return `
+                                    <div class="settings-item">
+                                        <span class="settings-item-name">${setting}</span>
+                                        <input type="text" class="settings-item-value ${setting} text-input" value="${value}">
+                                    </div>
+                                `;
+                            }
+                        }).join('')}
                     </div>
                 `;
                 settingsBox.appendChild(categoryTile);
             });
+
+            // Call the function to start detecting changes after settings are loaded
+            detectChanges();
         });
 }
 
-function updateSettings() {
-    // Fetch the latest settings data from the local file
-    fetch('/static/settings/settings.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Loop through the settings data and update the corresponding tiles
-            Object.keys(data.settings).forEach(category => {
-                const categoryData = data.settings[category];
-                const categoryTiles = document.querySelectorAll('.settings-category-tile h3');
-                const categoryTile = Array.from(categoryTiles).find(tile => tile.textContent.trim() === category)?.closest('.settings-category-tile');
-                if (categoryTile) {
-                    const categoryContent = categoryTile.querySelector('.settings-category-content');
-                    Object.keys(categoryData).forEach(setting => {
-                        const settingItems = categoryContent.querySelectorAll('.settings-item .settings-item-name');
-                        const settingItem = Array.from(settingItems).find(item => item.textContent.trim() === setting)?.closest('.settings-item');
-                        if (settingItem) {
-                            const settingValue = settingItem.querySelector('.settings-item-value');
-                            if (settingValue.innerHTML !== categoryData[setting]) {
-                                settingValue.innerHTML = categoryData[setting];
-                            }
-                        }
+// Helper function to check if an element is in the viewport
+function isElementInViewport(el, margin = 700) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 - margin &&
+        rect.left >= 0 - margin &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + margin &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) + margin
+    );
+}
+
+// Check setting updates
+function detectChanges() {
+    // Select all checkbox inputs
+    const checkboxes = document.querySelectorAll('input[type="checkbox"].settings-item-value');
+    console.log('Checkboxes:', checkboxes);
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            // Open the json settings file and update the value of the checkbox
+            fetch('/static/settings/settings.json')
+                .then(response => response.json())
+                .then(data => {
+                    const category = checkbox.parentElement.parentElement.parentElement.querySelector('.settings-category-header h1').innerHTML;
+                    const setting = checkbox.previousElementSibling.innerHTML;
+                    data.settings[category][setting] = checkbox.checked;
+                    console.log('Updated settings:', data.settings);
+                    // Save the updated settings to the server
+                    fetch('/update_settings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
                     });
-                }
-            });
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+                });
         });
-}
-// Helper function to check if an element is in the viewport
-function isElementInViewport(el, margin = 700) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 - margin &&
-        rect.left >= 0 - margin &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + margin &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) + margin
-    );
-}
+    });
 
-// Helper function to check if an element is in the viewport
-function isElementInViewport(el, margin = 700) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 - margin &&
-        rect.left >= 0 - margin &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + margin &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) + margin
-    );
+    // Select all text inputs
+    const textInputs = document.querySelectorAll('.settings-item-value.text-input');
+    textInputs.forEach(textInput => {
+        textInput.addEventListener('input', (event) => {
+            console.log(`Text input ${event.target.classList[1]} changed to ${event.target.value}`);
+            // Open the json settings file and update the value of the text input
+            fetch('/static/settings/settings.json')
+                .then(response => response.json())
+                .then(data => {
+                    const category = textInput.parentElement.parentElement.parentElement.querySelector('.settings-category-header h1').innerHTML;
+                    const setting = textInput.previousElementSibling.innerHTML;
+                    data.settings[category][setting] = textInput.value;
+                    console.log('Updated settings:', data.settings);
+                    // Save the updated settings to the server
+                    fetch('/update_settings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+                });
+        });
+    });
 }
