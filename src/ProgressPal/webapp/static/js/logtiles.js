@@ -95,6 +95,21 @@ function updateLogTiles() {
                 logBox.innerHTML = '';
             }
 
+            // // Add placeholder if there are no logs
+            // if (Object.keys(data).length === 0) {
+            //     const placeholder = document.createElement('div');
+            //     placeholder.className = 'placeholder';
+            
+            //     // Link an svg to the placeholder
+            //     placeholder.innerHTML = `
+            //         <img src="/static/media/menuicons/iterables.svg" alt="No Iterables Logged" class="placeholder-image">
+            //         <p class="placeholder-text">No iterables to display</p>
+            //     `;
+            //     // Append the placeholder to the logBox
+            //     logBox.appendChild(placeholder);
+            //     return;
+            // }
+
             // Filter logs to only include new logs
             const newLogs = data.logs.filter(log => !window.latestTimestamp || new Date(log.timestamp) > new Date(window.latestTimestamp));
 
@@ -120,7 +135,6 @@ function updateLogTiles() {
             }
         });
 }
-
 // This function loads the log tiles container
 function loadLogTiles() {
     // Clear the content of the project boxes container

@@ -10,5 +10,4 @@ for i in range(40):
     logger.INFO(f"Dit is een voorbeeld INFO bericht ")
     logger.DEBUG(f"Dit is een voorbeeld DEBUG bericht ")
 
-    
     time.sleep(1)

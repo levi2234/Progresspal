@@ -492,3 +492,38 @@
     
 }
 
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: var(--main-color);
+  font-size: 16px;
+}
+
+.placeholder-image {
+  width: 50%;
+  height: 50%;
+  
+}
+
+.placeholder-image img {
+  width: 50%;
+  height: 50%;
+
+}
+
+.placeholder-image img svg {
+  fill: black;
+  color: black;
+}
+
+
+.placeholder-text {
+  font-size: 34px;
+  stroke: var(--main-color);
+  font-weight: 20;
+}
