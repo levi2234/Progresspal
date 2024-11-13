@@ -121,7 +121,8 @@ function updateLogTiles() {
             }
 
             // Filter logs to only include new logs
-            const newLogs = data.logs && data.logs.length > 0 ? data.logs.filter(log => !window.latestTimestamp || new Date(log.timestamp) > new Date(window.latestTimestamp)) : [];
+            const newLogs = data.logs.filter(log => !window.latestTimestamp || new Date(log.timestamp) > new Date(window.latestTimestamp));
+
             // Loop through the new logs array and create a tile for each log entry
             newLogs.forEach(log => {
                 const tile = document.createElement('div');
@@ -154,6 +155,27 @@ function loadLogTiles() {
     logBox.classList.add('log-box');
     logBox.id = 'log-box';
     projectBoxes.appendChild(logBox);
+
+    //load all the log tiles
+    fetch('/logs')
+        .then(response => response.json())
+        .then(data => {
+            const logs = data.logs.reverse();
+            logs.forEach(log => {
+                const tile = document.createElement('div');
+                tile.classList.add('log-tile');
+                tile.innerHTML = `
+                    <div class="log-tile-container">
+                        <div class="log-tile-level ${log.level}"><strong> [${log.level}]</strong> </div>
+                        <div class="log-tile-timestamp"> ${log.timestamp} </div>
+                        <div class="log-tile-filename-and-line"> ${log.filename}:${log.lineno}</div>
+                        <div class="log-tile-message"> ${log.message}</div>
+                    </div>
+                `;
+                logBox.appendChild(tile);
+            });
+        });
+    
 }
 
 // Functionality for the download logs button
