@@ -372,11 +372,13 @@
 .placeholder-image {
   width: 50%;
   height: 50%;
+  filter: drop-shadow(9px 15px 6px rgb(0 0 0 / 0.4));
 }
 
 .placeholder-image svg {
-
   stroke-width: 0px;
+  text-shadow: 10px;
+  filter: drop-shadow(3px 5px 2px rgba(255, 255, 255, ));
 }
 
 .placeholder-text {
