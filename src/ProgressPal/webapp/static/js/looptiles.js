@@ -197,8 +197,8 @@ function loadLoopTiles() {
                 }
             });
 
-            // Clear existing tiles
-                projectsList.innerHTML = '';
+            // // Clear existing tiles
+            //     projectsList.innerHTML = '';
 
             // Check if there are no items in the data else display a placeholder
             if (Object.keys(data).length === 0) {
