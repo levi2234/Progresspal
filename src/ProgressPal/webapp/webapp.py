@@ -4,6 +4,7 @@ import sys
 import os
 import json
 import signal
+from flask_cors import CORS
 from flask import jsonify
 from .webapp_online_check import webapp_online_check
 from waitress import serve
@@ -71,6 +72,7 @@ def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
     
 def create_flask_app():
     webapp = Flask(__name__)
+    CORS(webapp)
     progress_data = {}
     function_data = {}
     log_data = {}
