@@ -4,12 +4,12 @@ import sys
 import os
 import json
 import signal
-from flask_cors import CORS
+from flask_lt import run_with_lt
 from flask import jsonify
 from .webapp_online_check import webapp_online_check
 from waitress import serve
 
-def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **kwargs):
+def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, localtunnel=False ,**kwargs):
     # Check if the web app is already running
     print(f"Checking if the website is already running on http://{host}:{port}...")
     if webapp_online_check(f"http://{host}:{port}"):
@@ -23,6 +23,8 @@ def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **
 
     # Create the Flask application
     webapp = create_flask_app()
+
+
 
     # Start the Flask app
     if debug:
@@ -72,7 +74,7 @@ def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
     
 def create_flask_app():
     webapp = Flask(__name__)
-    CORS(webapp)
+    run_with_lt(webapp)
     progress_data = {}
     function_data = {}
     log_data = {}

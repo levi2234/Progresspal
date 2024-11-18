@@ -8,13 +8,14 @@ import itertools
 from collections import deque
 import pandas as pd
 ip = "127.0.0.1"
+port = 5000 
 
 def nested_loops_1():
-    for j in ltrack(range(5), taskid="Thread1_Main", total=5, host=ip):
+    for j in ltrack(range(5), taskid="Thread1_Main", total=5, host=ip, port=port):
         time.sleep(random.uniform(0.1, 0.5))
-        for i in ltrack(itertools.cycle([1, 2, 3, 4, 5]), taskid="Thread1_Secondary", total=5, host=ip):
+        for i in ltrack(itertools.cycle([1, 2, 3, 4, 5]), taskid="Thread1_Secondary", total=5, host=ip, port=port):
             time.sleep(random.uniform(0.1, 0.5))
-            for k in ltrack(np.arange(0, 5, 0.5), taskid="Thread1_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip):
+            for k in ltrack(np.arange(0, 5, 0.5), taskid="Thread1_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip, port=port):
                 time.sleep(random.uniform(3, 5))
 
 def nested_loops_2():
@@ -27,19 +28,19 @@ def nested_loops_2():
 
 def nested_loops_3():
     df = pd.DataFrame({'A': range(5)})
-    for j in ltrack(df['A'], taskid="Process1_Main", total=len(df['A']), host=ip):
+    for j in ltrack(df['A'], taskid="Process1_Main", total=len(df['A']), host=ip, port=port):
         time.sleep(random.uniform(0.1, 0.5))
         for i in ltrack(itertools.repeat(1, 5), taskid="Process1_Secondary", total=5, host=ip):
             time.sleep(random.uniform(0.1, 0.5))
-            for k in ltrack(np.arange(0, 5, 0.5), taskid="Process1_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip):
+            for k in ltrack(np.arange(0, 5, 0.5), taskid="Process1_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip, port=port):
                 time.sleep(random.uniform(0.1, 0.5))
 
 def nested_loops_4():
     for j in ltrack(range(5), taskid="Process2_Main", total=5, host=ip):
         time.sleep(random.uniform(0.1, 0.5))
-        for i in ltrack(itertools.chain([1, 2], [3, 4, 5]), taskid="Process2_Secondary", total=5, host=ip):
+        for i in ltrack(itertools.chain([1, 2], [3, 4, 5]), taskid="Process2_Secondary", total=5, host=ip, port=port):
             time.sleep(random.uniform(0.1, 0.5))
-            for k in ltrack(np.arange(0, 5, 0.5), taskid="Process2_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip):
+            for k in ltrack(np.arange(0, 5, 0.5), taskid="Process2_Tertiary", total=len(np.arange(0, 5, 0.5)), host=ip, port=port):
                 time.sleep(random.uniform(0.1, 0.5))
 
 
