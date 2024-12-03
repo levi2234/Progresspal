@@ -60,8 +60,11 @@ for i in range(300):
     # testfunction()  
     # tetfunction2()
     # testfunction3()
+    starttime = time.time()
     a,b = testfunctionwithargs(1, 2)
     print(a,b)
+    endtime = time.time()
+    print(endtime - starttime)
     # testfunction6()
     
     

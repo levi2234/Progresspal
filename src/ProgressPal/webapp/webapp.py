@@ -9,7 +9,7 @@ from flask import jsonify
 from .webapp_online_check import webapp_online_check
 from waitress import serve
 
-def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, localtunnel=False ,**kwargs):
+def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False,**kwargs):
     # Check if the web app is already running
     print(f"Checking if the website is already running on http://{host}:{port}...")
     if webapp_online_check(f"http://{host}:{port}"):
@@ -45,9 +45,8 @@ def shutdown_server():
     # Sends a signal to the current process to terminate it
     os.kill(os.getpid(), signal.SIGINT)
 
-def run_app(webapp, host, port, debug):
-    webapp.run(host=host, port=port, debug=debug, use_reloader=False)
-    
+def run_app(webapp, host, port, debug, ssl_context=None):
+    webapp.run(host=host, port=port, debug=debug, use_reloader=False, ssl_context=ssl_context)
     
 def calculate_mean_std_execution_time(exec_time_stats, new_exec_time):
     n = exec_time_stats["n"]

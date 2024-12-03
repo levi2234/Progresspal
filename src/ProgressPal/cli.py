@@ -17,7 +17,7 @@ def CLI():
     parser.add_argument('--verbose', type=bool, default=True, help='Enable web log')
     parser.add_argument('--lt_subdomain', type=str, default=None, help='Localtunnel subdomain')
     
-    parser.add_argument('--localtunnel', action='store_true', help='Enable localtunnel tunneling')
+    # parser.add_argument('--localtunnel', action='store_true', help='Enable localtunnel tunneling')
     
     start_parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
@@ -25,4 +25,4 @@ def CLI():
     
     # Call the start function if the `start` command is used
     if args.command == "start":
-        start_web_server(args.host, args.port, args.debug, args.verbose, args.localtunnel)
+        start_web_server(args.host, args.port, args.debug, args.verbose)

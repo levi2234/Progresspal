@@ -5,7 +5,7 @@ import os
 import inspect
 
 async def update_progress(message, level, timestamp, filename, lineno, host="127.0.0.1", port=5000):
-    url = f"https://{host}:{port}/update_logs"
+    url = f"http://{host}:{port}/update_logs"
     data = { 
         "message": message,
         "level": level,
