@@ -39,6 +39,8 @@ async def update_progress(task_id, category, iteration, total, percentage, elaps
         async with session.post(url, json=data) as response:
             if response.status == 200:
                 return None
+            
+    
 class ltrack:
     def __init__(self, iterable, port=5000, host="127.0.0.1", taskid=None, total=None, debug=False, weblog=False, web=True, tickrate=1):
         """
@@ -70,16 +72,17 @@ class ltrack:
         self.last_call = time.perf_counter_ns()
         self.iteration = 0
 
-    def _update_progress(self, execution_duration):
+    async def _update_progress(self, execution_duration): 
         """
-        Updates the progress of the current task.
-        This method calculates the elapsed time, iterations per second, time remaining,
-        start time in human-readable format, and percentage of completion. It then
-        sends this progress information to an external service using asyncio.
+        Updates the progress of the task being tracked.
+        This method calculates the elapsed time, iterations per second, time remaining, 
+        and percentage of completion. It then updates the progress by either creating 
+        a coroutine task if the event loop is running or running the coroutine synchronously 
+        if the event loop is not running.
         Args:
-            execution_duration (float): The duration of the current execution cycle.
+            execution_duration (float): The duration of the current execution step.
         Raises:
-            Exception: If there is an error while updating the progress, it is caught and passed.
+            RuntimeError: If there is an issue with the event loop.
         """
         elapsed_time = time.time() - self.start_time
         iterations_per_second = self.iteration / elapsed_time if elapsed_time > 0 else float('inf')
@@ -88,11 +91,31 @@ class ltrack:
         percentage = round((self.iteration / self.total * 100), 2) if self.total > 0 else 0
 
         try:
-            asyncio.run(update_progress(self.taskid, self.iterable_type_origin, self.iteration, self.total, percentage, elapsed_time, time_remaining, iterations_per_second, execution_duration, start_time_human, self.track_overhead, host=self.host, port=self.port))
-            self.next_update += self.tickrate
-            return None
-        except Exception as e:
-           return None
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)  # Set the new event loop as the current event loop if there is an issue with the current event loop (e.g., it is closed or when we get an expected RuntimeError such as running it in a thread)
+        
+        if loop.is_running():
+            # If the event loop is already running, create a task in order to run the update function in the background
+            asyncio.run_coroutine_threadsafe(
+                update_progress(
+                    self.taskid, self.iterable_type_origin, self.iteration, self.total, percentage, elapsed_time, 
+                    time_remaining, iterations_per_second, execution_duration, start_time_human, self.track_overhead, 
+                    host=self.host, port=self.port
+                ), loop
+            )
+        else:
+            # If the event loop is not running, run it synchronously
+            loop.run_until_complete(
+                update_progress(
+                    self.taskid, self.iterable_type_origin, self.iteration, self.total, percentage, elapsed_time, 
+                    time_remaining, iterations_per_second, execution_duration, start_time_human, self.track_overhead, 
+                    host=self.host, port=self.port
+                )
+            )
+        self.next_update += self.tickrate
+
             
 
     def __iter__(self):
@@ -123,8 +146,27 @@ class ltrack:
 
             # If using web, update progress at defined intervals
             if self.web and time.time() >= self.next_update:
-                self._update_progress(execution_duration)
-
+                
+                starttime = time.time()
+                
+                
+                #SETUP EVENT LOOP AND RUN THE UPDATE FUNCTION 
+                try:
+                    loop = asyncio.get_event_loop()
+                except RuntimeError:
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop) # Set the new event loop as the current event loop if there is an issue with the current event loop (e.g., it is closed or when we get an expected RuntimeError such as running it in a thread)
+                
+                
+                # ADD THE UPDATE FUNCTION TO THE EVENT LOOP
+                if loop.is_running(): # If the event loop is already running, create a task in order to run the update function in the background
+                    asyncio.create_task(self._update_progress(execution_duration)) # Run the update function in the background 
+                    
+                else: # If the event loop is not running, run it synchronously
+                    loop.run_until_complete(self._update_progress(execution_duration)) # Run the update function synchronously
+                
+                    # self._update_progress(execution_duration)
+                print("Time taken to update progress", time.time() - starttime)
             # Calculate tracking overhead after yielding
             end_time_loop = time.perf_counter_ns()
             self.track_overhead = end_time_loop - end_time_loop_item
@@ -133,10 +175,3 @@ class ltrack:
         except StopIteration:
             raise StopIteration
 
-# Example usage:
-# for item in ProgressTracker(your_iterable):
-#     # process item
-
-
-        
-        # print(f"Yield: {end_time_loop - start_time_loop} Functionality:  {end_time_loop2 - end_time_loop}") # Debugging extra time taken for each iteration

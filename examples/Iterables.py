@@ -53,7 +53,7 @@ if __name__ == "__main__":
     process1 = Process(target=nested_loops_3)
     process2 = Process(target=nested_loops_4)
 
-    # Start threads
+    # # Start threads
     thread1.start()
     thread2.start()
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     process1.start()
     process2.start()
 
-    # Wait for threads to complete
+    # # Wait for threads to complete
     thread1.join()
     thread2.join()
 

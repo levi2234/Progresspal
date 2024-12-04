@@ -39,13 +39,11 @@ async def update_function_progress(task_id, category, call_count, last_execution
         "calls_per_second": calls_per_second
     }
     try: 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=data) as response:
+        async with aiohttp.ClientSession() as session:  # Create a new session for each request
+            async with session.post(url, json=data) as response: # Send a POST request to the server
                 if response.status == 200:
-                    # print(f"Update successful for {function_name} in {time.time() - starttime} seconds")
                     return None
     except aiohttp.ClientError as e:
-        # print(f"Failed to update function progress for {function_name} in {time.time() - starttime} seconds")
         return None
         
 class ftrack:
@@ -121,16 +119,17 @@ class ftrack:
                 self.exec_hist.append(execution_duration)
             if self.web and self.call_count % self.tickrate == 0:
                 self.latest_call = execution_duration
+                
                 # Schedule the update function as a background task
+                
+                
                 loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    asyncio.create_task(self.run_update(func))
-                else:
-                    loop.run_until_complete(self.run_update(func))
+                if loop.is_running(): # If the event loop is already running, create a task in order to run the update function in the background
+                    asyncio.create_task(self.run_update(func)) # Run the update function in the background 
+                else: # If the event loop is not running, run it synchronously
+                    loop.run_until_complete(self.run_update(func)) # Run the update function synchronously
             return result
         return wrapper
-
-
 
     async def run_update(self, func):
             asyncio.create_task( update_function_progress(
