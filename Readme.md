@@ -13,7 +13,7 @@
  <!-- Key features -->
 ## Key Features
 
-- **Progress Tracking**: Track the progress of Python iterables, functions, and log messages in real-time.
+- **Progress Tracking**: Track the progress of Python iterables, functions, and log messages in real-time (0.5 - 2 ms overhead).
 - **Decentralized Monitoring**: Monitor multiple Python scripts from any device with an internet connection.
 - **Collaborative Projects**: Collaborate and monitor the real-time progress of various scripts running on different devices and processes.
 - **Distributed Systems**: Track progress across distributed systems for seamless monitoring and remote collaboration.
@@ -115,7 +115,12 @@ The result of the above code can be seen in the ProgressPal server as such:
 
 
 ## Collaborate using ProgressPal
+
+
 ProgressPal is designed to be a collaborative tool that allows users to monitor the progress of various scripts running on different devices and processes. Through this approach it is possible to monitor the progress of multiple scripts in real-time, making it ideal for collaborative projects and remote monitoring. To do this the logserver needs to be publically hosted in order to be accessed by people outside of the local network. This can be done by port forwarding the logserver or by hosting the logserver on a cloud service.
+
+A free and easy way to host the logserver is through the built in vscode dev tunnels which can be accessed as such:
+![gif](https://imgur.com/L0LT4fu.gif)
 
 After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
 
