@@ -119,13 +119,13 @@ The result of the above code can be seen in the ProgressPal server as such:
 
 ProgressPal is designed to be a collaborative tool that allows users to monitor the progress of various scripts running on different devices and processes. Through this approach it is possible to monitor the progress of multiple scripts in real-time, making it ideal for collaborative projects and remote monitoring. To do this the logserver needs to be publically hosted in order to be accessed by people outside of the local network. This can be done by port forwarding the logserver or by hosting the logserver on a cloud service.
 
-A free and easy way to host the logserver is through the built in vscode dev tunnels which can be accessed as such:
+A free and easy way to host the logserver is through the built in vscode port forwarding which can be accessed as such:
 ![gif](https://imgur.com/L0LT4fu.gif)
 
 After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
 
 ```python
-from ProgressPal import ftrack, ltrack, plog
+from ProgressPal import ftrack, ltrack, Plog
 
 # FTRACK
 @ftrack(host = 'yourhost', port = 'yourport')             # Decorator to track the progress of the function
@@ -137,7 +137,7 @@ for i in ltrack([1,2,3,4], host ='yourhost', port ='yourport'):
     time.sleep(0.1)
 
 # PLOG
-logger = plog(host = 'yourhost', port = 'yourport')
+logger = Plog(host = 'yourhost', port = 'yourport')
 logger.info('This is a test message')
 
 ```
