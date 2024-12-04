@@ -7,6 +7,7 @@ import random
 import itertools
 from collections import deque
 import pandas as pd
+from concurrent.futures import ThreadPoolExecutor
 ip = "127.0.0.1"
 port = 5000 
 
@@ -68,3 +69,10 @@ if __name__ == "__main__":
     # Wait for processes to complete
     process1.join()
     process2.join()
+    
+    #threadpool tests
+    # with ThreadPoolExecutor(max_workers=2) as executor:
+    #     executor.submit(nested_loops_1)
+    #     executor.submit(nested_loops_2)
+    #     executor.submit(nested_loops_3)
+    #     executor.submit(nested_loops_4)
