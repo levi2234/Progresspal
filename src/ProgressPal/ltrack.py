@@ -39,6 +39,7 @@ async def update_progress(task_id, category, iteration, total, percentage, elaps
         async with session.post(url, json=data) as response:
             if response.status == 200:
                 return None
+        await session.close()
             
     
 class ltrack:
