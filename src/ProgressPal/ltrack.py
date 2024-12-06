@@ -27,7 +27,7 @@ def update_progress_http(task_id, category, iteration, total, percentage, elapse
         response = requests.post(url, json=data)
         response.raise_for_status()  # Raise an error for HTTP errors
     except requests.RequestException as e:
-        print(f"Failed to update progress: {e}")
+        pass
 
 class ltrack:
     def __init__(self, iterable, port=5000, host="127.0.0.1", taskid=None, total=None, debug=False, 
@@ -88,9 +88,7 @@ class ltrack:
             self.last_call = end_time_loop_item
 
             if self.web and time.time() >= self.next_update:
-                starttime = time.time()
                 self._update_progress(execution_duration)
-                print(f"Update progress took {time.time() - starttime} seconds")
                 self.next_update += self.tickrate
 
             end_time_loop = time.perf_counter_ns()
