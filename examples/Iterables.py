@@ -51,48 +51,50 @@ def nested_loops_4():
 
 
 if __name__ == "__main__":
-    # # Create threads
-    # thread1 = Thread(target=nested_loops_1)
-    # thread2 = Thread(target=nested_loops_2)
-
-    # # Create processes
-    # process1 = Process(target=nested_loops_3)
-    # process2 = Process(target=nested_loops_4)
-
-    # # # Start threads
-    # thread1.start()
-    # thread2.start()
-
-    # # Start processes
-    # process1.start()
-    # process2.start()
-
-    # # # Wait for threads to complete
-    # thread1.join()
-    # thread2.join()
-
-    # # Wait for processes to complete
-    # process1.join()
-    # process2.join()
     
-    #ThreadPoolExecutor tests
-    # with ThreadPoolExecutor(max_workers=2) as executor:
-    #     executor.submit(nested_loops_1)
-    #     executor.submit(nested_loops_2)
-    #     executor.submit(nested_loops_3)
-    #     executor.submit(nested_loops_4)
+    # BASIC USAGE ITERABLES
+    for i in ltrack([1,3,4,5,6,7,8,9,10], taskid="Basic Usage Iterable"):
+        print(i)
+    
+    # BASIC USAGE GENERATOR
+    for i in ltrack(range(300),total=300, taskid="Basic Usage Generator"):
+        print(i)
+    
+    
+    # THREADING EXAMPLE
+    thread1 = Thread(target=nested_loops_1)
+    thread2 = Thread(target=nested_loops_2)
+    thread1.start()
+    thread2.start()
+    thread1.join()
+    thread2.join()
+
+
+    # PROCESS EXAMPLE
+    process1 = Process(target=nested_loops_3)
+    process2 = Process(target=nested_loops_4)
+    process1.start()
+    process2.start()
+    process1.join()
+    process2.join()
+    
+    # ThreadPoolExecutor EXAMPLE 
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        executor.submit(nested_loops_1)
+        executor.submit(nested_loops_2)
+        executor.submit(nested_loops_3)
+        executor.submit(nested_loops_4)
         
-    #JOBLIB tests
-    # Parallel(n_jobs=2)([
-    #     delayed(nested_loops_1)(),
-    #     delayed(nested_loops_2)(),
-    #     delayed(nested_loops_3)(),
-    #     delayed(nested_loops_4)()
-    # ])
+    #JOBLIB EXAMPLE
+    Parallel(n_jobs=2)([
+        delayed(nested_loops_1)(),
+        delayed(nested_loops_2)(),
+        delayed(nested_loops_3)(),
+        delayed(nested_loops_4)()
+    ])
     
+    #JOBLIB EXAMPLE 2
     def wait_three_seconds(x):
         time.sleep(3)
         return x
-    
-    # Use the tracked iterable in Parallel
     result = Parallel(n_jobs=5)((delayed(wait_three_seconds)(i) for i in ltrack(range(100), total=100, taskid="Joblib Test")))

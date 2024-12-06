@@ -54,8 +54,6 @@ if __name__ == '__main__':
     with ThreadPoolExecutor(max_workers=5) as executor:
         executor.map(logtest, range(10))
     
-    
-    
     #PROCESS EXAMPLE
     from multiprocessing import Process
     processes = []
