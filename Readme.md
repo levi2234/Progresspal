@@ -10,6 +10,21 @@
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
  </p>
 
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Key Features](#key-features)
+- [Operational Status](#operational-status)
+- [Installation](#installation)
+  - [Pip Install (Stable version)](#pip-install-stable-version)
+  - [Clone (Development version)](#clone-development-version)
+- [Usage](#usage)
+  - [Log server](#log-server)
+  - [Iterables and generators](#iterables-and-generators)
+  - [Functions](#functions)
+  - [Collaborate using ProgressPal](#collaborate-using-progresspal)
+  - [License](#license)
+
+
  <!-- Key features -->
 # Key Features
 
