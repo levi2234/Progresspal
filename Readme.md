@@ -2,7 +2,7 @@
 
 ![Static Badge](https://img.shields.io/badge/Build_Status-Beta-purple)
 ![Static Badge](https://img.shields.io/badge/Python-3.8-green)
-![Static Badge](https://img.shields.io/badge/Version-1.0_Beta-blue)
+![Static Badge](https://badge.fury.io/py/ProgressPal.svg)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
 
@@ -11,7 +11,7 @@
  </p>
 
  <!-- Key features -->
-## Key Features
+# Key Features
 
 - **Progress Tracking**: Track the progress of Python iterables, functions, and log messages in real-time (0.5 - 2 ms overhead).
 - **Decentralized Monitoring**: Monitor multiple Python scripts from any device with an internet connection.
@@ -26,11 +26,25 @@
 <!-- Include video from imgur -->
 ![gif](https://i.imgur.com/Wzb0fXt.gif)
 
+# Operational Status
+
+|   | Function Tracking  | Iterable Tracking  | Logging  |
+|---|---| ---| ---|
+| Joblib  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |  ![Static Badge](https://img.shields.io/badge/Working-green)   |
+| MultiProcessing Process |  ![Static Badge](https://img.shields.io/badge/Not_crashing-orange)  | ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   |
+| Threading  |  ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |
+| Concurrent ThreadPool |  ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   |   ![Static Badge](https://img.shields.io/badge/Working-green)   |
+| Concurrent ProcessPool  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |
+
+# Installation
 
 
-## Installation
+## Pip Install (Stable version)
+```bash
+pip install ProgressPal
+```
 
-### Clone
+## Clone (Development version)
 Navigate to your desired installation directory and clone the repository using the following command:
 
 ```bash
@@ -39,24 +53,19 @@ git clone https://github.com/levi2234/Progresspal
 
 Navigate to the installation directory and use either a pip install or python setup.py install to install the package.
 
-#### Pip Install
+**Pip method**
 ```bash
 pip install .
 ```
 
-#### Python Setup
+**Setup.py method**
 ```bash
 python setup.py install
 ```
 
-### Pip Install 
-```bash
-pip install ProgressPal
-```
+# Usage
 
-## Usage
-
-### Log server
+## Log server
 The progresspal package reports the progress of iterables, functions, and log messages to a log server. The log server can be started by running the following command in the terminal (by default can be found on http://127.0.0.1:5000).
 ```bash
 ProgressPal start
@@ -71,9 +80,11 @@ start_web_server()
 
 
 
-### Iterables and generators
+## Iterables and generators
 Using ProgressPal is simple and might even feel familiar to those who have used tqdm and the logging module in Python. The following is a simple example of how to use ProgressPal to track the progress of a for loop.
 
+
+**BASIC USAGE**
 ```python
 from ProgressPal import ltrack
 import time
@@ -95,24 +106,102 @@ The result of the above code can be seen in the ProgressPal server as such:
 
 ![gif](https://imgur.com/HKb4OvQ.gif)
 
+**PARRALEL, THREADING, JOBLIB USAGE**
+Using loops in Parallel, threading, or joblib can be done easily. However, it is important to efficently name the tasks in order to track them properly. If the *taskid* is not provided all parallel processes will report to the same task. This will result in improper tracking. Therefore when tracking loops ran in parallel it is important to provide a unique taskid for each loop. Below is an example of how to track loops in parallel and an example of how to track loops in parallel using threading and joblib.
 
-### Functions
-ProgressPal can also be used to track the execution functions . The following is an example of how to use ProgressPal to track the progress of a function
+```python
+from ProgressPal import ltrack
+
+#example function
+def testfunction(id):
+    for i in ltrack(range(100), taskid = f"Loop {id}"):
+        time.sleep(1)
+
+#THREADING
+from threading import Thread
+threads = []
+for i in ltrack(range(10), total=10, taskid="Tracking progress of Threading Threads"):
+    thread = Thread(target=testfunction, args=(i,))
+    threads.append(thread)
+    thread.start()
+
+# CONCURRENT
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(max_workers=5) as executor:
+    for i in ltrack(range(10), total=10, taskid="Tracking progress of concurrent threads"): 
+        executor.submit(testfunction, i)
+
+# JOBLIB
+from joblib import Parallel, delayed
+Parallel(n_jobs=5)(delayed(testfunction)(i) for i in ltrack(range(10), total=10, taskid="Tracking progress of Joblib jobs"))
+
+
+```
+## Functions
+ProgressPal can also be used to track the execution functions . The following is an example of how to use ProgressPal to track the progress of a function. There are two methods. One is to use the decorator and the other is to use the function itself. Both have their own use cases and can be used interchangeably. The decorator is useful when you want to track the overall progress of a function. If you want to track the progress of a function in a loop or in a parallel process, it is better to use the function itself. This way you can give each function a unique taskid and track the unique progress of that instance of the function.  Below is an example of how to use both methods.
+
+**BASIC USAGE**
+```python
+from ProgressPal import ftrack
+
+
+#DECORATOR usage - METHOD 1
+@ftrack()            
+def test_function_decorator():
+    time.sleep(1)
+
+for i in range(10):
+    test_function_decorator()  
+
+#FUNCTION usage - METHOD 2
+def test_function_inline():
+    time.sleep(1)
+
+u = ftrack(test_function_inline, taskid = "Inline function tracking u")
+v = ftrack(test_function_inline, taskid = "Inline function tracking v")
+
+for i in range(10):
+    u()
+    v()  
+
+```
+
+The result of the above code (Method 1) can be seen in the ProgressPal server as such:
+![gif](https://imgur.com/or1sGNA.gif)
+
+
+**PARRALEL, THREADING, JOBLIB USAGE**
 
 ```python
 from ProgressPal import ftrack
 
-@ftrack()             # Decorator to track the progress of the function     
-def test_function():
-    time.sleep(1)
+#THREADING
+@ftrack(host=ip, taskid="test4")
+def testfunctionwithargs(a, b):
+    print(a + b)
+    time.sleep(2)
+    return a , b
 
-for i in range(10):
-    test_function()  
+from threading import Thread
+threads = []
+for i in range(5):
+    thread = Thread(target=testfunctionwithargs, args=(1, 2))
+    threads.append(thread)
+    thread.start()    
+    
+for thread in threads:
+    thread.join()
+
+#CONCURRENT
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(max_workers=5) as executor:
+    for i in range(300):
+        executor.submit(testfunctionwithargs, 1, 2)
+
+"""
+For more Parallel, Joblib and Threading examples please refer to the examples folder in the ProgressPal repository.
+"""
 ```
-
-The result of the above code can be seen in the ProgressPal server as such:
-![gif](https://imgur.com/or1sGNA.gif)
-
 
 ## Collaborate using ProgressPal
 
