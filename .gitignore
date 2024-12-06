@@ -3,3 +3,4 @@
 .vscode/
 __pycache__/
 *.py[cod]
+src/ProgressPal/webapp/static/settings/settings.json
