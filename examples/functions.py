@@ -3,35 +3,16 @@ import time
 
 ip ="127.0.0.1"
 
-
-@ftrack(host=ip)
+# SETUP EXAMPLE FUNCTIONS
+@ftrack(host=ip, taskid="test2")
 def testfunction():
     print("Hello World")
     time.sleep(2)
     return True
 
-@ftrack(host=ip)
-def tetfunction2():
-    print("Hello World")
-    time.sleep(2)
-    return True
-
-@ftrack(host=ip)
-def testfunction3():
-    print("Hello World")
-    time.sleep(2)
-    return True
-
-@ftrack(host=ip)
-def testfunction4():
-    print("Hello World")
-    time.sleep(2)
-    return True
-
-# function that throws an error once on its 3rd call
 call_count = 0
 @ftrack(host=ip)
-def testfunction5():
+def raiseexeption():
     global call_count
     
     if call_count % 2 == 0:
@@ -40,31 +21,81 @@ def testfunction5():
     call_count += 1
 
 @ftrack(host=ip)
-def testfunction6():
+def handleexeption():
     try:
-        testfunction5()
+        raiseexeption()
     except Exception as e:
         print(e)
         pass
     time.sleep(2)
     
-@ftrack(host=ip)
+@ftrack(host=ip, taskid="test4")
 def testfunctionwithargs(a, b):
-    # print(a + b)
+    print(a + b)
     time.sleep(2)
     return a , b
+
+def ParallelTest(id):
+    function = ftrack(testfunction, host=ip, taskid=f"Joblib Iteration: {id}")
+    for i in range(20):
+        function()
+        
+if __name__ == "__main__":
+    
+    #EXAMPLES
+    
+    # basic usage (use as a decorator) - WORKING
+    for i in range(300):
+        testfunction()
+        
+    # Basic usage (call the function) - WORKING
+    u = ftrack(testfunctionwithargs,host=ip, taskid="Test1")
+    g = ftrack(testfunctionwithargs,host=ip, taskid="Test2")
+    for i in range(300):
+        a,b = u(1,2)
+        m, n = g(1,2)
+
+
+    #JobLib test - WORKING
+    from joblib import Parallel, delayed
+    Parallel(n_jobs=5)(delayed(ParallelTest)(i) for i in range(300))
+
+    #Threading example - WORKING
+    from threading import Thread
+    threads = []
+    for i in range(5):
+        thread = Thread(target=testfunctionwithargs, args=(1, 2))
+        threads.append(thread)
+        thread.start()    
+        
+    for thread in threads:
+        thread.join()
+        
+    #Concurrent futures example (WORKING)
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        for i in range(300):
+            executor.submit(testfunction)
+        
+    # #Process example - NOT CRASHING BUT NOT WORKING
+    from multiprocessing import Process
+    processes = []
+    for i in range(20):
+        p = Process(target=testfunction)
+        p.start()
+        processes.append(p)
+    for p in processes:
+        p.join()
+        
+    #errror handling - WORKING
+    for i in range(200):
+        handleexeption()
         
 
 
-for i in range(300):
-    # testfunction()  
-    # tetfunction2()
-    # testfunction3()
-    starttime = time.time()
-    a,b = testfunctionwithargs(1, 2)
-    print(a,b)
-    endtime = time.time()
-    print(endtime - starttime)
-    # testfunction6()
+
+
+
+
     
     
