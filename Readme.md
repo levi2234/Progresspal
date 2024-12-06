@@ -45,6 +45,7 @@
 
 |   | Function Tracking  | Iterable Tracking  | Logging  |
 |---|---| ---| ---|
+| Default usage | ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |
 | Joblib  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |  ![Static Badge](https://img.shields.io/badge/Working-green)   |
 | MultiProcessing Process |  ![Static Badge](https://img.shields.io/badge/Not_crashing-orange)  | ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   |
 | Threading  |  ![Static Badge](https://img.shields.io/badge/Working-green)  | ![Static Badge](https://img.shields.io/badge/Working-green)   | ![Static Badge](https://img.shields.io/badge/Working-green)   |
