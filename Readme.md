@@ -21,8 +21,9 @@
   - [Log server](#log-server)
   - [Iterables and generators](#iterables-and-generators)
   - [Functions](#functions)
-  - [Collaborate using ProgressPal](#collaborate-using-progresspal)
-  - [License](#license)
+  - [Logging](#logging)
+- [Collaborate using ProgressPal](#collaborate-using-progresspal)
+- [License](#license)
 
 
  <!-- Key features -->
@@ -123,6 +124,7 @@ The result of the above code can be seen in the ProgressPal server as such:
 ![gif](https://imgur.com/HKb4OvQ.gif)
 
 **PARRALEL, THREADING, JOBLIB USAGE**
+
 Using loops in Parallel, threading, or joblib can be done easily. However, it is important to efficently name the tasks in order to track them properly. If the *taskid* is not provided all parallel processes will report to the same task. This will result in improper tracking. Therefore when tracking loops ran in parallel it is important to provide a unique taskid for each loop. Below is an example of how to track loops in parallel and an example of how to track loops in parallel using threading and joblib.
 
 ```python
@@ -219,12 +221,68 @@ For more Parallel, Joblib and Threading examples please refer to the examples fo
 """
 ```
 
-## Collaborate using ProgressPal
+## Logging
+ProgressPal can also be used to log messages. The syntax is very similarly modelled after the known tqdm syntax and therefore might feel familiar. 
+
+**BASIC USAGE**
+```python
+from ProgressPal import Plog
+logger = Plog()
+
+    for i in range(40):
+        logger.INFO(f"Example INFO Log")
+        logger.DEBUG(f"Example DEBUG Log")
+        logger.LOG(f"Example LOG Log")
+        logger.CRITICAL(f"Example CRITICAL Log")
+        logger.ERROR(f"Example ERROR Log")
+        logger.WARNING(f"Example WARNING Log")
+        time.sleep(1)
+```
+
+**PARRALEL, THREADING, JOBLIB USAGE**
+```python
+    def logtest(id= 0):
+        
+        #BASIC USAGE
+        logger = Plog() 
+        #Logging instance needs to be initialized in each parrallel process. There is no passing Plog objects between Concurrent processes.
+        
+        for i in range(40):
+            logger.INFO(f"Example INFO log {id}") 
+            logger.DEBUG(f"Example DEBUG log {id} ")
+            logger.LOG(f"Example LOG log {id}")
+            logger.CRITICAL(f"Example CRITICAL log {id}")
+            logger.ERROR(f"Example log {id}")
+            logger.WARNING(f"Example WARNING log {id}")
+            time.sleep(1)
+
+    # #JOBLIB EXAMPLE
+    Parallel(n_jobs=5)(delayed(logtest)() for i in range(10))
+
+    # #THREADING EXAMPLE
+    from threading import Thread
+    threads = []
+    for i in range(10):
+        thread = Thread(target=logtest, args=(i,))
+        threads.append(thread)
+        thread.start()
+        
+    for thread in threads:
+        thread.join()
+        
+    #CONCURRENT FUTURES EXAMPLE
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(logtest, range(10))
+
+```` 
+
+# Collaborate using ProgressPal
 
 
 ProgressPal is designed to be a collaborative tool that allows users to monitor the progress of various scripts running on different devices and processes. Through this approach it is possible to monitor the progress of multiple scripts in real-time, making it ideal for collaborative projects and remote monitoring. To do this the logserver needs to be publically hosted in order to be accessed by people outside of the local network. This can be done by port forwarding the logserver or by hosting the logserver on a cloud service.
 
-A free and easy way to host the logserver is through the built in vscode port forwarding which can be accessed as such:
+A free and easy way to host the logserver is through the built in vscode dev tunnel port forwarding which can be accessed as such:
 ![gif](https://imgur.com/L0LT4fu.gif)
 
 After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
@@ -246,8 +304,5 @@ logger = Plog(host = 'yourhost', port = 'yourport')
 logger.info('This is a test message')
 
 ```
-
-
-## License
-
+# License
 MIT
