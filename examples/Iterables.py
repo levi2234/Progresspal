@@ -52,7 +52,7 @@ def nested_loops_4():
 
 if __name__ == "__main__":
     
-    for i in ltrack(range(300), total=300, taskid="Basic Usage Generator"):
+    for i in ltrack(range(100), total=100, taskid="Basic Usage Generator"):
         time.sleep(0.1)
     
     # BASIC USAGE ITERABLES
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         print(i)
     
     # BASIC USAGE GENERATOR
-    for i in ltrack(range(300),total=300, taskid="Basic Usage Generator"):
+    for i in ltrack(range(100),total=100, taskid="Basic Usage Generator"):
         print(i)
     
     
