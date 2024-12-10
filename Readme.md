@@ -3,7 +3,7 @@
 ![Static Badge](https://img.shields.io/badge/Python-3.8-green)
 ![Static Badge](https://badge.fury.io/py/ProgressPal.svg)
 ![Static Badge](https://img.shields.io/pypi/dm/ProgressPal)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) -->
 ![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
 
 
