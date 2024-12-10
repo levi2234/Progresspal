@@ -7,6 +7,7 @@ import threading
 import requests
 import pickle
 
+
 def update_function_progress(task_id, category, call_count, last_execution_time, function_name, exec_hist, error_count, filename, calls_per_second, host, port):
     """
     Updates the progress of a function by sending a POST request to a specified server.
@@ -125,6 +126,7 @@ class ftrack:
             Args:
                 func (function): The function whose progress is being updated.
             """
+            # This is the process ID
             with self.lock:
                 update_function_progress(
                     task_id=self.taskid or func.__name__,
