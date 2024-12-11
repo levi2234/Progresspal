@@ -6,6 +6,7 @@ import inspect
 import threading
 import requests
 import pickle
+import re
 
 
 def update_function_progress(task_id, category, call_count, last_execution_time, function_name, exec_hist, error_count, filename, calls_per_second, host, port):
@@ -28,7 +29,13 @@ def update_function_progress(task_id, category, call_count, last_execution_time,
     Returns:
     None: If the request is successful or if an exception occurs.
     """
-    url = f"http://{host}:{port}/update_function_status"
+    
+    #regex to check if host is a public website or local host and construct the url accordingly
+    regex = re.compile(r"^(http|https)://www.|^(http|https)://") 
+    if regex.match(host):
+        url = f"{host}/update_function_status"
+    else:
+        url = f"http://{host}:{port}/update_function_status"
     
     data = {
         "task_id": task_id,

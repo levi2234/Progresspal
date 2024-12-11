@@ -2,6 +2,7 @@ import time
 import threading
 import requests
 import numpy as np
+import re
 
 def update_progress_http(task_id, category, iteration, total, percentage, elapsed_time, time_remaining, 
                          iterations_per_second, execution_duration, start_time, track_overhead, 
@@ -9,7 +10,14 @@ def update_progress_http(task_id, category, iteration, total, percentage, elapse
     """
     Thread-safe function to send progress updates via HTTP POST.
     """
-    url = f"http://{host}:{port}/update_progress"
+    
+    #regex to check if host is a public website or local host and construct the url accordingly
+    regex = re.compile(r"^(http|https)://www.|^(http|https)://") 
+    if regex.match(host):
+        url = f"{host}/update_progress"
+    else:
+        url = f"http://{host}:{port}/update_progress"
+        
     data = {
         "task_id": task_id,
         "category": category,
@@ -23,11 +31,12 @@ def update_progress_http(task_id, category, iteration, total, percentage, elapse
         "execution_duration": execution_duration,
         "track_overhead": track_overhead
     }
-    try:
+    try: 
         response = requests.post(url, json=data)
-        response.raise_for_status()  # Raise an error for HTTP errors
+        if response.status_code == 200:
+            return None
     except requests.RequestException as e:
-        pass
+        return None
 
 class ltrack:
     def __init__(self, iterable, port=5000, host="127.0.0.1", taskid=None, total=None, debug=False, 

@@ -3,9 +3,18 @@ import time
 import os
 import inspect
 import threading
+import re
 
 def update_progress(message, level, timestamp, filename, lineno, host="127.0.0.1", port=5000):
-    url = f"http://{host}:{port}/update_logs"
+    
+    #regex to check if host is a public website or local host and construct the url accordingly
+    regex = re.compile(r"^(http|https)://www.|^(http|https)://") 
+    if regex.match(host):
+        print("host is a public website")
+        url = f"{host}/update_logs"
+    else:
+        url = f"http://{host}:{port}/update_logs"
+        
     data = { 
         "message": message,
         "level": level,
