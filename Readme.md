@@ -3,8 +3,8 @@
 ![Static Badge](https://img.shields.io/badge/Python-3.8-green)
 ![Static Badge](https://badge.fury.io/py/ProgressPal.svg)
 ![Static Badge](https://img.shields.io/pypi/dm/ProgressPal)
-<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) -->
 ![Static Badge](https://img.shields.io/badge/Licence-MIT-blue)
+<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9400e86d39bf4affb749f38aab25e9d7)](https://app.codacy.com/gh/levi2234/Progresspal/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) -->
 
 
 <p align="Left"> This project provides an easy-to-use tool for tracking the progress of Python iterables, functions, and log messages to an independent log server. It allows users to monitor multiple Python scripts from any device with an internet connection. With this decentralized approach, users can collaborate and monitor the real-time progress of various scripts running on different devices and processes. This tool enables seamless tracking across distributed systems, making it ideal for collaborative projects and remote monitoring.
@@ -22,7 +22,7 @@
   - [Iterables and generators](#iterables-and-generators)
   - [Functions](#functions)
   - [Logging](#logging)
-- [Collaborate using ProgressPal](#collaborate-using-progresspal)
+- [Collaborate using ProgressPal + External Access](#collaborate-using-progresspal--external-access)
 - [License](#license)
 
 
@@ -222,7 +222,7 @@ For more Parallel, Joblib and Threading examples please refer to the examples fo
 ```
 
 ## Logging
-ProgressPal can also be used to log messages. The syntax is very similarly modelled after the known tqdm syntax and therefore might feel familiar. 
+ProgressPal can also be used to log messages. The syntax is very similarly modelled after the known logging module syntax and therefore might feel familiar. 
 
 **BASIC USAGE**
 ```python
@@ -241,57 +241,61 @@ logger = Plog()
 
 **PARRALEL, THREADING, JOBLIB USAGE**
 ```python
-    def logtest(id= 0):
-        
-        #BASIC USAGE
-        logger = Plog() 
-        #Logging instance needs to be initialized in each parrallel process. There is no passing Plog objects between Concurrent processes.
-        
-        for i in range(40):
-            logger.INFO(f"Example INFO log {id}") 
-            logger.DEBUG(f"Example DEBUG log {id} ")
-            logger.LOG(f"Example LOG log {id}")
-            logger.CRITICAL(f"Example CRITICAL log {id}")
-            logger.ERROR(f"Example log {id}")
-            logger.WARNING(f"Example WARNING log {id}")
-            time.sleep(1)
+def logtest(id= 0):
+    
+    #BASIC USAGE
+    logger = Plog() 
+    #Logging instance needs to be initialized in each parrallel process. There is no passing Plog objects between Concurrent processes.
+    
+    for i in range(40):
+        logger.INFO(f"Example INFO log {id}") 
+        logger.DEBUG(f"Example DEBUG log {id} ")
+        logger.LOG(f"Example LOG log {id}")
+        logger.CRITICAL(f"Example CRITICAL log {id}")
+        logger.ERROR(f"Example log {id}")
+        logger.WARNING(f"Example WARNING log {id}")
+        time.sleep(1)
 
-    # #JOBLIB EXAMPLE
-    Parallel(n_jobs=5)(delayed(logtest)() for i in range(10))
+# #JOBLIB EXAMPLE
+Parallel(n_jobs=5)(delayed(logtest)() for i in range(10))
 
-    # #THREADING EXAMPLE
-    from threading import Thread
-    threads = []
-    for i in range(10):
-        thread = Thread(target=logtest, args=(i,))
-        threads.append(thread)
-        thread.start()
-        
-    for thread in threads:
-        thread.join()
-        
-    #CONCURRENT FUTURES EXAMPLE
-    from concurrent.futures import ThreadPoolExecutor
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        executor.map(logtest, range(10))
+# #THREADING EXAMPLE
+from threading import Thread
+threads = []
+for i in range(10):
+    thread = Thread(target=logtest, args=(i,))
+    threads.append(thread)
+    thread.start()
+    
+for thread in threads:
+    thread.join()
+    
+#CONCURRENT FUTURES EXAMPLE
+from concurrent.futures import ThreadPoolExecutor
+with ThreadPoolExecutor(max_workers=5) as executor:
+    executor.map(logtest, range(10))
 
 ```` 
 
-# Collaborate using ProgressPal
-
+# Collaborate using ProgressPal + External Access
 
 ProgressPal is designed to be a collaborative tool that allows users to monitor the progress of various scripts running on different devices and processes. Through this approach it is possible to monitor the progress of multiple scripts in real-time, making it ideal for collaborative projects and remote monitoring. To do this the logserver needs to be publically hosted in order to be accessed by people outside of the local network. This can be done by port forwarding the logserver or by hosting the logserver on a cloud service.
 
 A free and easy way to host the logserver is through the built in vscode dev tunnel port forwarding which can be accessed as such:
-![gif](https://imgur.com/L0LT4fu.gif)
+![gif](https://imgur.com/Ji5Q2RI.gif)
 
-After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
+After the logserver is publically hosted other users can access the logserver by redirecting their progresspal to the publically hosted logserver url.  This can be done by including the following arguments in ftrack ltrack and Plog functions:
 
 ```python
 from ProgressPal import ftrack, ltrack, Plog
 
 # FTRACK
-@ftrack(host = 'yourhost', port = 'yourport')             # Decorator to track the progress of the function
+
+# EXAMPLE DEVTUNNEL URL 
+vscode_dev_tunnel_url = "https://randomchars-port.euw.devtunnels.ms/"
+
+
+@ftrack(host = 'yourhost', port = 'yourport')  
 def test_function():
     time.sleep(1)
 
