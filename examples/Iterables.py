@@ -1,15 +1,16 @@
-import time
-import numpy as np
-from threading import Thread
-from multiprocessing import Process
-from ProgressPal import ltrack
-import random
 import itertools
+import random
+import time
 from collections import deque
-import pandas as pd
 from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Process
+from threading import Thread
+
+import numpy as np
+import pandas as pd
 from joblib import Parallel, delayed
 
+from ProgressPal import ltrack
 
 ip = "127.0.0.1"
 port = 5000

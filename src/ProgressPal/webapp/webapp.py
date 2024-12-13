@@ -1,13 +1,14 @@
-from flask import Flask, render_template, request
-import logging
-import sys
-import os
 import json
+import logging
+import os
 import signal
+import sys
+
+from flask import Flask, jsonify, render_template, request
 from flask_lt import run_with_lt
-from flask import jsonify
-from .webapp_online_check import webapp_online_check
 from waitress import serve
+
+from .webapp_online_check import webapp_online_check
 
 
 def start_web_server(host="127.0.0.1", port=5000, debug=False, verbose=False, **kwargs):
@@ -229,12 +230,13 @@ def create_flask_app():
 
     @webapp.route("/clear_progress", methods=["POST"])
     def clear_progress():
-        progress_data = {}
+        nonlocal progress_data
+        progress_data.clear()
         return jsonify({"status": "success"}), 200
 
     @webapp.route("/clear_function_status", methods=["POST"])
     def clear_function_status():
-        function_data = {}
+        function_data.clear()
         return jsonify({"status": "success"}), 200
 
     @webapp.route("/update_settings", methods=["POST"])
