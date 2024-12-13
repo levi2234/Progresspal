@@ -291,20 +291,20 @@ from ProgressPal import ftrack, ltrack, Plog
 
 # FTRACK
 
-# EXAMPLE DEVTUNNEL URL 
+# EXAMPLE DEVTUNNEL PORT FORWARDED URL 
 vscode_dev_tunnel_url = "https://randomchars-port.euw.devtunnels.ms/"
 
 
-@ftrack(host = 'yourhost', port = 'yourport')  
+@ftrack(host = 'yourhost')  
 def test_function():
     time.sleep(1)
 
 # LTRACK
-for i in ltrack([1,2,3,4], host ='yourhost', port ='yourport'): 
+for i in ltrack([1,2,3,4], host ='yourhost'): 
     time.sleep(0.1)
 
 # PLOG
-logger = Plog(host = 'yourhost', port = 'yourport')
+logger = Plog(host = 'yourhost')
 logger.info('This is a test message')
 
 ```

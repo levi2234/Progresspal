@@ -2,7 +2,6 @@ from ProgressPal import ftrack , ltrack , Plog
 import time
 import threading
 import numpy as np  
-import asyncio
 # This demo shows a wide impolementation of frack, ltrack and Plog
 # in various environments such as threading, normal use and a variation 
 # of iterable types
@@ -73,5 +72,5 @@ def show_ftrack_usage():
     ftracktestfunctcombined()
     
 
-# show_ftrack_usage()
+show_ftrack_usage()
 show_ltrack_usage()

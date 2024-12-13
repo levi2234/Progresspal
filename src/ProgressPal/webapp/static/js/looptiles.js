@@ -151,6 +151,8 @@ function updateLoopTiles() {
                     if (item.progress === 100) {
                         tile.classList.add('tile-completed');
                         tile.classList.remove('tile-in-progress');
+                        
+
                     } else {
                         tile.classList.add('tile-in-progress');
                         tile.classList.remove('tile-completed');

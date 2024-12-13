@@ -52,6 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
         updateClock(is24HourFormat); // Update clock immediately
     });
 
+    //hamburger menu toggle
+    document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    document.querySelector('.app-sidebar').classList.toggle('active');
+    document.querySelector('.app-icon').classList.toggle('active');
+  });
+
+
     // Update the clock every second
     setInterval(() => updateClock(is24HourFormat), 1000);
     updateClock(is24HourFormat); // Initial call to display clock immediately
@@ -94,6 +101,7 @@ function updateClock(is24HourFormat = true) {
     hours = hours.toString().padStart(2, '0');
     clockElement.textContent = `${hours}:${minutes}:${seconds} ${period}`;
 }
+
 
 // Function to change resources (CSS and JS) when a menu button is clicked
 function changeResources(newStylesheet, newScript) {
