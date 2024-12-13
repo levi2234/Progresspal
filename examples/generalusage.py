@@ -1,17 +1,18 @@
-from ProgressPal import ftrack , ltrack , Plog
+from ProgressPal import ftrack, ltrack
 import time
 import threading
-import numpy as np  
+import numpy as np
 # This demo shows a wide impolementation of frack, ltrack and Plog
-# in various environments such as threading, normal use and a variation 
+# in various environments such as threading, normal use and a variation
 # of iterable types
+
 
 def show_ltrack_usage():
     # ltrack usage with multiple iterable types
 
     lists = [1, 2, 3]
     tuples = (4, 5, 6)
-    dicts = {7: 'a', 8: 'b', 9: 'c'}
+    dicts = {7: "a", 8: "b", 9: "c"}
     genrator = (x for x in range(10, 13))
 
     def print_list():
@@ -28,7 +29,7 @@ def show_ltrack_usage():
             print(i)
 
     def print_generator():
-        for i in ltrack(genrator, total= 3):
+        for i in ltrack(genrator, total=3):
             print(i)
 
     # Create threads
@@ -48,29 +49,27 @@ def show_ltrack_usage():
     thread2.join()
     thread3.join()
     thread4.join()
-    
+
+
 def show_ftrack_usage():
-    
     @ftrack
     def ftracktestfunct():
         time.wait(np.random.randint(1, 5))
-        
-        
+
     @ftrack
     async def ftracktestfunct2():
         time.wait(np.random.randint(1, 5))
-        #throw a random error every 5th time
+        # throw a random error every 5th time
         if np.random.randint(1, 5) == 5:
-            raise ValueError('Random Error')
-        
+            raise ValueError("Random Error")
+
     def ftracktestfunctcombined():
         for i in range(100):
             ftracktestfunct()
             ftracktestfunct2()
-        
-    
+
     ftracktestfunctcombined()
-    
+
 
 show_ftrack_usage()
 show_ltrack_usage()

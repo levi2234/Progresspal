@@ -5,7 +5,7 @@ def webapp_online_check(url, log = False):
         response = requests.get(url)
         if response.status_code == 200:
             if log:
-                print(f"Website is running with (code 200).")
+                print("Website is running with (code 200).")
             return True
         else:
             if log:

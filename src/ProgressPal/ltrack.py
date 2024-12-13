@@ -4,20 +4,33 @@ import requests
 import numpy as np
 import re
 
-def update_progress_http(task_id, category, iteration, total, percentage, elapsed_time, time_remaining, 
-                         iterations_per_second, execution_duration, start_time, track_overhead, 
-                         host="127.0.0.1", port=5000):
+
+def update_progress_http(
+    task_id,
+    category,
+    iteration,
+    total,
+    percentage,
+    elapsed_time,
+    time_remaining,
+    iterations_per_second,
+    execution_duration,
+    start_time,
+    track_overhead,
+    host="127.0.0.1",
+    port=5000,
+):
     """
     Thread-safe function to send progress updates via HTTP POST.
     """
-    
-    #regex to check if host is a public website or local host and construct the url accordingly
-    regex = re.compile(r"^(http|https)://www.|^(http|https)://") 
+
+    # regex to check if host is a public website or local host and construct the url accordingly
+    regex = re.compile(r"^(http|https)://www.|^(http|https)://")
     if regex.match(host):
         url = f"{host}/update_progress"
     else:
         url = f"http://{host}:{port}/update_progress"
-        
+
     data = {
         "task_id": task_id,
         "category": category,
@@ -29,23 +42,38 @@ def update_progress_http(task_id, category, iteration, total, percentage, elapse
         "iterations_per_second": iterations_per_second,
         "start_time": start_time,
         "execution_duration": execution_duration,
-        "track_overhead": track_overhead
+        "track_overhead": track_overhead,
     }
-    try: 
+    try:
         response = requests.post(url, json=data)
         if response.status_code == 200:
             return None
-    except requests.RequestException as e:
+    except requests.RequestException:
         return None
 
+
 class ltrack:
-    def __init__(self, iterable, port=5000, host="127.0.0.1", taskid=None, total=None, debug=False, 
-                 weblog=False, web=True, tickrate=1):
+    def __init__(
+        self,
+        iterable,
+        port=5000,
+        host="127.0.0.1",
+        taskid=None,
+        total=None,
+        debug=False,
+        weblog=False,
+        web=True,
+        tickrate=1,
+    ):
         self.iterable = iter(iterable)
         self.port = port
         self.host = host
         self.taskid = taskid if taskid is not None else np.random.randint(10000)
-        self.total = total if total is not None else (len(iterable) if hasattr(iterable, '__len__') else None)
+        self.total = (
+            total
+            if total is not None
+            else (len(iterable) if hasattr(iterable, "__len__") else None)
+        )
         if self.total is None:
             raise ValueError("Total length must be provided for generator functions")
         self.debug = debug
@@ -66,20 +94,38 @@ class ltrack:
         """
         with self.lock:
             elapsed_time = time.time() - self.start_time
-            iterations_per_second = self.iteration / elapsed_time if elapsed_time > 0 else float('inf')
-            time_remaining = (self.total - self.iteration) / iterations_per_second if iterations_per_second > 0 else 0
+            iterations_per_second = (
+                self.iteration / elapsed_time if elapsed_time > 0 else float("inf")
+            )
+            time_remaining = (
+                (self.total - self.iteration) / iterations_per_second
+                if iterations_per_second > 0
+                else 0
+            )
             start_time_human = time.ctime(self.start_time)
-            percentage = round((self.iteration / self.total * 100), 2) if self.total > 0 else 0
+            percentage = (
+                round((self.iteration / self.total * 100), 2) if self.total > 0 else 0
+            )
 
         # Send the update using a thread-safe HTTP client
         threading.Thread(
             target=update_progress_http,
             args=(
-                self.taskid, self.iterable_type_origin, self.iteration, self.total, percentage, elapsed_time, 
-                time_remaining, iterations_per_second, execution_duration, start_time_human, self.track_overhead, 
-                self.host, self.port
+                self.taskid,
+                self.iterable_type_origin,
+                self.iteration,
+                self.total,
+                percentage,
+                elapsed_time,
+                time_remaining,
+                iterations_per_second,
+                execution_duration,
+                start_time_human,
+                self.track_overhead,
+                self.host,
+                self.port,
             ),
-            daemon=True
+            daemon=True,
         ).start()
 
     def __iter__(self):
@@ -87,7 +133,6 @@ class ltrack:
 
     def __next__(self):
         try:
-            start_time_loop = time.perf_counter_ns()
             item = next(self.iterable)
             end_time_loop_item = time.perf_counter_ns()
 
