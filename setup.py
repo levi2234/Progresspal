@@ -41,7 +41,7 @@ setup(
             "webapp/static/settings/*" "",
         ],
     },  # Include all files in the package
-    python_requires=">=3.9 3.10",  # Minimum Python version required
+    python_requires=">=3.9",  # Minimum Python version required
     install_requires=required,
     extras_require={  # Optional dependencies
         "dev": [
