@@ -1,1 +1,24 @@
-{"settings": {"General": {"RefreshRate": 1000}, "UI": {"Default-Theme": "dark"}, "Functions": {"Max-Functions": 100}, "Iterables": {"Remove-On-Completion": true, "Max-Iterables": 100}, "Logs": {"Max-Logs": 500}, "Notifications": {"Enable": true, "Sound": "chime"}}}
+{
+  "settings": {
+    "General": {
+      "RefreshRate": 1000
+    },
+    "UI": {
+      "Default-Theme": "dark"
+    },
+    "Functions": {
+      "Max-Functions": 100
+    },
+    "Iterables": {
+      "Remove-On-Completion": true,
+      "Max-Iterables": 100
+    },
+    "Logs": {
+      "Max-Logs": 500
+    },
+    "Notifications": {
+      "Enable": true,
+      "Sound": "chime"
+    }
+  }
+}

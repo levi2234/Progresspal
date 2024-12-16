@@ -203,7 +203,7 @@ function loadLoopTiles() {
             //     projectsList.innerHTML = '';
 
             // Check if there are no items in the data else display a placeholder
-            if (Object.keys(data).length === 0) {
+            if (Object.keys(data).length === 0 && projectsList.children.length === 0) {
                 const placeholder = document.createElement('div');
                 placeholder.className = 'placeholder';
             

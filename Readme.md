@@ -13,6 +13,7 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Key Features](#key-features)
+- [Release history](#release-history)
 - [Operational Status](#operational-status)
 - [Installation](#installation)
   - [Pip Install (Stable version)](#pip-install-stable-version)
@@ -41,6 +42,18 @@
 
 <!-- Include video from imgur -->
 ![gif](https://i.imgur.com/Wzb0fXt.gif)
+
+# Release history
+
+| Version | Release Date | Description |
+| --- | --- | --- |
+| 0.0.7 | 11-Dec-2024 | Improved support for vscode dev port forwarding |
+| 0.0.6 | 06-Dec-2024 |  |
+| 0.0.5 | 06-Dec-2024 |  |
+| 0.0.4 | 04-Dec-2024 |  |
+| 0.0.3 | 12-Nov-2024 | Minor bug fixes |
+| 0.0.2 | 11-Nov-2024 | |
+| 0.0.1 | 10-Nov-2024 | Initial release |
 
 # Operational Status
 
